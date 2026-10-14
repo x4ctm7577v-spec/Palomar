@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#CFE4F5" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0D1622" media="(prefers-color-scheme: dark)">
-<meta name="description" content="Mi Palomar: pedigree, carreras, capturas, cría y comunidad para palomeros.">
+<meta name="description" content="Aletazo: pedigree, carreras, capturas, cría y comunidad para palomeros.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Mi Palomar">
+<meta name="apple-mobile-web-app-title" content="Aletazo">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Mi Palomar</title>
+<title>Aletazo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
@@ -475,7 +475,7 @@ body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
   <div class="wrap">
     <div class="brand">
       <svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z"/><circle cx="45.5" cy="18" r="1.8" fill="var(--bg)"/></svg>
-      <h1>Mi <span>Palomar</span></h1>
+      <h1>Aletazo</h1>
       <button class="btn sm" id="acctBtn" aria-label="Mi cuenta"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
       <button class="btn sm" id="helpBtn" data-act="tour" aria-label="Cómo funciona la app">? <span class="hl">Cómo funciona</span></button>
     </div>
@@ -500,7 +500,7 @@ body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
 <div id="login" class="login" hidden>
   <div class="lcard" role="dialog" aria-modal="true" aria-labelledby="lg-title">
     <div class="lhead"><span class="llogo"><svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z"/></svg></span>
-      <h2 id="lg-title">Mi Palomar</h2><p>Entra para guardar tu palomar en la nube y usar el mercado y el foro.</p></div>
+      <h2 id="lg-title">Aletazo</h2><p>La libreta de pedigree del palomero. Entra para guardar tu palomar en la nube y usar el mercado y el foro.</p></div>
     <div class="lseg"><button type="button" data-lmode="entrar" aria-pressed="true">Entrar</button><button type="button" data-lmode="crear" aria-pressed="false">Crear cuenta</button></div>
     <form id="lg-form" autocomplete="on">
       <label id="lg-name-row" hidden>Tu nombre o el de tu palomar<input id="lg-name" autocomplete="nickname" placeholder="Ej: Palomar Elite"></label>
@@ -1309,7 +1309,7 @@ async function pedigreeImage(id){
   });
   const p = perfil(uid);
   x.fillStyle = C.muted; x.font = `500 22px ${BODY}`;
-  x.fillText(fitText(x, p.palomar ? `${p.palomar}${p.telefono ? " · " + p.telefono : ""}${p.ciudad ? " · " + p.ciudad : ""}` : "Mi Palomar", 760), 48, 1305);
+  x.fillText(fitText(x, p.palomar ? `${p.palomar}${p.telefono ? " · " + p.telefono : ""}${p.ciudad ? " · " + p.ciudad : ""}` : "Aletazo", 760), 48, 1305);
   x.textAlign = "right"; x.fillText(new Date().toLocaleDateString("es"), W_ - 48, 1305); x.textAlign = "left";
   return new Promise(res => c.toBlob(bl => res({blob:bl, url:c.toDataURL("image/png")}), "image/png"));
 }
@@ -1689,9 +1689,9 @@ function toast(msg){ $("#toast-root").innerHTML = `<div class="toast" role="stat
 const TOUR_KEY = "palomar.tour.v1";
 const TOUR = [
   {splash:true},
-  {vid:"completo", vlabel:"Video: así se usa la app", noart:false, h:"Bienvenido a Mi Palomar", p:"Es la libreta del palomero en el teléfono. Anotas tus palomas y la app hace lo demás.",
+  {vid:"completo", vlabel:"Video: así se usa la app", noart:false, h:"Bienvenido a Aletazo", p:"Es la libreta del palomero en el teléfono. Anotas tus palomas y la app hace lo demás.",
    l:["Pedigree solo","Carreras y capturas","Cría, vacunas y ranking","Compra, venta y foro"],
-   art:`<div style="text-align:center"><div style="width:84px;height:84px;margin:0 auto;color:var(--accent)">${PIGEON}</div><div class="nmb" style="font-size:30px;margin-top:6px">MI <span style="color:var(--sheen)">PALOMAR</span></div></div>`},
+   art:`<div style="text-align:center"><div style="width:84px;height:84px;margin:0 auto;color:var(--accent)">${PIGEON}</div><div class="nmb" style="font-size:30px;margin-top:6px">ALETAZO</div></div>`},
   {vid:"agregar", h:"Agrega tus palomas", p:"Toca “Agregar paloma”. Pon la anilla y escoge el padre y la madre. Con eso la app arma sola el pedigree.",
    l:["Empieza por los padres, después los pichones"],
    art:`<div class="mped"><div class="demo" style="grid-row:span 2;border-left:4px solid var(--accent)"><div class="lbl">Pichón</div><div class="nmb">Tormenta</div></div><div class="demo" style="border-left:4px solid var(--accent)"><b>Papá: Relámpago</b><div class="meta" style="font-size:11px">1º de 102 en Ocala</div></div><div class="demo" style="border-left:4px solid var(--sheen)"><b>Mamá: La Negra</b></div></div>`},
@@ -1709,16 +1709,16 @@ function openTour(i){
   const t = TOUR[tourI];
   if (t.splash){
     const shot = (Object.values(S.birds).find(b => b.foto) || {}).foto || "fotos/moro.jpg";
-    $("#tour-root").innerHTML = `<div class="scrim" style="z-index:40"><div class="tour" role="dialog" aria-modal="true" aria-label="Bienvenido a Mi Palomar">
+    $("#tour-root").innerHTML = `<div class="scrim" style="z-index:40"><div class="tour" role="dialog" aria-modal="true" aria-label="Bienvenido a Aletazo">
       <div class="splash"><div class="stage"><div class="bigpig">${PIGEON}</div><div class="shot"><img src="${esc(shot)}" alt=""></div><span class="band ring">FL-2026-0118</span></div>
-        <h2>Mi Palomar</h2><p>La libreta del palomero, en tu teléfono.</p></div>
+        <h2>Aletazo</h2><p>La libreta de pedigree del palomero.</p></div>
       <div class="nav"><div class="dots">${TOUR.map((_,k) => `<i class="${k===tourI?"on":""}"></i>`).join("")}</div>
         <button class="btn" data-act="tourEnd" data-v="skip">Saltar</button>
         <button class="pillbtn light" style="flex:0 0 auto;min-width:0" data-act="tourNext"><span class="pc">${PIGEON}</span>Empezar</button></div></div></div>`;
     const b = $("#tour-root .pillbtn"); if (b) b.focus({preventScroll:true});
     return;
   }
-  $("#tour-root").innerHTML = `<div class="scrim" style="z-index:40"><div class="tour" role="dialog" aria-modal="true" aria-label="Cómo funciona Mi Palomar">
+  $("#tour-root").innerHTML = `<div class="scrim" style="z-index:40"><div class="tour" role="dialog" aria-modal="true" aria-label="Cómo funciona Aletazo">
     ${t.vid ? "" : `<div class="art">${t.art}</div>`}
     <div class="txt"><div class="step">${tourI === 1 ? "Cómo funciona" : t.last ? "Empecemos" : `Paso ${tourI - 1} de ${TOUR.length - 3}`}</div><h2>${t.h}</h2><p>${t.p}</p>${t.l ? `<ul>${t.l.map(x => `<li>${x}</li>`).join("")}</ul>` : ""}</div>
     ${t.vid ? `<div class="vid"><div class="lbl">${t.vlabel || "Mira cómo se hace"}</div><div class="phone"><video poster="videos/${t.vid}.jpg" autoplay muted loop playsinline preload="auto" aria-label="Video: ${esc(t.h)}"><source src="videos/${t.vid}.mp4" type="video/mp4"><source src="videos/${t.vid}.webm" type="video/webm"></video></div></div>` : ""}
