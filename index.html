@@ -1,0 +1,1809 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#CDE5DE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1916" media="(prefers-color-scheme: dark)">
+<meta name="description" content="Mi Palomar: pedigree, carreras, capturas, cría y comunidad para palomeros.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Mi Palomar">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Mi Palomar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: app shell — sticky top bar with three views (Palomar, Pedigree, Parentesco); pedigree as a 4-generation bracket */
+/* Layout: soft "cielo de palomar" — sage-mint ground with scattered pigeon silhouettes, rounded white sheets, black pill actions, floating bottom nav */
+:root{
+  --bg:#CDE5DE; --bg-2:#E3F1ED; --surface:#FFFFFF; --surface-2:#EEF6F3; --ink:#0F1513; --muted:#53635E; --line:#D2E2DC;
+  --pill:#0F1513; --on-pill:#FFFFFF; --warm:#F3B53F;
+  --accent:#0E7A68; --accent-ink:#FFFFFF; --sheen:#7A44B5; --band:#F3B53F; --band-ink:#2A1E05;
+  --alu-1:#F7F9FB; --alu-2:#C9D2D9; --alu-edge:#97A3AE; --alu-ink:#141B22;
+  --ok:#2C7A4B; --warn:#A8561B; --danger:#B3261E;
+  --slate:#0F1513; --slate-2:#1B2421; --on-slate:#FFFFFF; --on-slate-muted:#B7C6C1; --pri:#0F1513;
+  --neck:linear-gradient(90deg,#13A58B 0%,#2C83B9 48%,#7B44B8 100%);
+  --deco:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='300' viewBox='0 0 260 300'%3E%3Cg fill='%230F1513' fill-opacity='.06'%3E%3Cg transform='translate(20 30) scale(.55) rotate(-12 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Cg transform='translate(170 120) scale(.42) rotate(14 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Cg transform='translate(60 220) scale(.32) rotate(-4 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Ccircle cx='200' cy='40' r='5'/%3E%3Ccircle cx='120' cy='170' r='3'/%3E%3Ccircle cx='230' cy='250' r='4'/%3E%3C/g%3E%3C/svg%3E");
+  --f-display:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-body:"Outfit",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --r:22px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1916; --bg-2:#13211E; --surface:#18241F; --surface-2:#121D19; --ink:#EAF4F0; --muted:#9FB3AD; --line:#253530;
+  --pill:#EAF4F0; --on-pill:#0F1513; --warm:#E9A92F;
+  --accent:#3CC8AE; --accent-ink:#04211B; --sheen:#BE92EA; --band:#F2B23A; --band-ink:#2A1E05;
+  --alu-1:#DCE2E9; --alu-2:#9CA8B6; --alu-edge:#6F7C8C; --alu-ink:#111820;
+  --ok:#6BCB8F; --warn:#F0A267; --danger:#F2877F;
+  --slate:#EAF4F0; --slate-2:#D5E3DE; --on-slate:#0F1513; --on-slate-muted:#40514B; --pri:#EAF4F0;
+  --deco:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='300' viewBox='0 0 260 300'%3E%3Cg fill='%23EAF4F0' fill-opacity='.05'%3E%3Cg transform='translate(20 30) scale(.55) rotate(-12 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Cg transform='translate(170 120) scale(.42) rotate(14 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Cg transform='translate(60 220) scale(.32) rotate(-4 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Ccircle cx='200' cy='40' r='5'/%3E%3Ccircle cx='120' cy='170' r='3'/%3E%3Ccircle cx='230' cy='250' r='4'/%3E%3C/g%3E%3C/svg%3E"); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1916; --bg-2:#13211E; --surface:#18241F; --surface-2:#121D19; --ink:#EAF4F0; --muted:#9FB3AD; --line:#253530;
+  --pill:#EAF4F0; --on-pill:#0F1513; --warm:#E9A92F;
+  --accent:#3CC8AE; --accent-ink:#04211B; --sheen:#BE92EA; --band:#F2B23A; --band-ink:#2A1E05;
+  --alu-1:#DCE2E9; --alu-2:#9CA8B6; --alu-edge:#6F7C8C; --alu-ink:#111820;
+  --ok:#6BCB8F; --warn:#F0A267; --danger:#F2877F;
+  --slate:#EAF4F0; --slate-2:#D5E3DE; --on-slate:#0F1513; --on-slate-muted:#40514B; --pri:#EAF4F0;
+  --deco:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='300' viewBox='0 0 260 300'%3E%3Cg fill='%23EAF4F0' fill-opacity='.05'%3E%3Cg transform='translate(20 30) scale(.55) rotate(-12 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Cg transform='translate(170 120) scale(.42) rotate(14 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Cg transform='translate(60 220) scale(.32) rotate(-4 32 32)'%3E%3Cpath d='M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z'/%3E%3C/g%3E%3Ccircle cx='200' cy='40' r='5'/%3E%3Ccircle cx='120' cy='170' r='3'/%3E%3Ccircle cx='230' cy='250' r='4'/%3E%3C/g%3E%3C/svg%3E"); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;letter-spacing:.01em;margin:0;text-wrap:balance;line-height:1.1}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:16px}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding-block:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto}
+.brand svg{width:34px;height:34px;color:var(--accent)}
+.brand h1{font-size:28px;text-transform:uppercase;letter-spacing:.04em}
+.brand h1 span{color:var(--sheen)}
+.tabs{display:flex;gap:4px;max-width:100%;overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px}
+.tabs button{white-space:nowrap;border:0;background:none;padding:7px 14px;border-radius:999px;cursor:pointer;font-weight:600;color:var(--muted)}
+.tabs button[aria-current="true"]{background:var(--accent);color:var(--accent-ink)}
+main{padding-block:18px 60px}
+.notice{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 14px;border-radius:var(--r);border:1px dashed var(--sheen);background:var(--surface);margin-bottom:16px;font-size:14px}
+.notice b{color:var(--sheen)}
+.notice.plain{border-style:solid;border-color:var(--line);color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--surface);padding:9px 16px;min-height:42px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.sm{padding:6px 12px;min-height:36px;font-size:14px}
+.btn.danger{color:var(--danger)}
+.btn.danger.armed{background:var(--danger);color:var(--surface);border-color:var(--danger)}
+.btn:focus-visible,.tabs button:focus-visible,.card:focus-visible,.pbox:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--sheen);outline-offset:2px}
+.search{flex:1 1 220px;min-width:0;font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer;font-weight:500}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:14px}
+.card{display:grid;grid-template-columns:72px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px;cursor:pointer;text-align:left;width:100%}
+.card:hover{border-color:var(--accent)}
+.thumb{width:72px;height:72px;border-radius:8px;background:var(--surface-2);display:grid;place-items:center;overflow:hidden;color:var(--muted)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb svg{width:44px;height:44px}
+.card .nm{font-family:var(--f-display);font-size:21px;font-weight:600;line-height:1.1;display:flex;gap:6px;align-items:baseline}
+.sx{font-family:var(--f-body);font-size:13px;font-weight:700}
+.sx.M{color:var(--accent)} .sx.H{color:var(--sheen)}
+.band{display:inline-block;font-family:var(--f-mono);font-size:12px;font-weight:600;background:var(--band);color:var(--band-ink);padding:1px 7px;border-radius:999px;letter-spacing:.02em;white-space:nowrap}
+.meta{color:var(--muted);font-size:13px;min-width:0}
+.stats{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:12.5px;margin-top:4px;color:var(--muted)}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:999px;border:1px solid currentColor;text-transform:uppercase;letter-spacing:.05em}
+.pill.lo{color:var(--ok)} .pill.mid{color:var(--warn)} .pill.hi{color:var(--danger)} .pill.mut{color:var(--muted)}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:var(--r);padding:28px;text-align:center;color:var(--muted)}
+.empty h3{color:var(--ink);font-size:24px;margin-bottom:6px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.sec-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:22px 0 10px}
+.sec-h h2{font-size:24px}
+.lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+/* Ficha */
+.fhead{display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:start}
+.fhead .thumb{width:140px;height:140px}
+.fhead .thumb svg{width:80px;height:80px}
+.fhead h2{font-size:40px}
+.kv{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px 18px;margin-top:12px}
+.kv div{min-width:0}
+.kv .v{font-weight:600;overflow-wrap:anywhere}
+.subtabs{display:flex;gap:18px;border-bottom:1px solid var(--line);margin-top:20px;overflow-x:auto}
+.subtabs button{border:0;background:none;padding:10px 2px;cursor:pointer;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+.subtabs button[aria-current="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.fam{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.mini{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;cursor:pointer;text-align:left;width:100%}
+.mini:hover{border-color:var(--accent)}
+.mini .nm{font-weight:700}
+.mini.none{cursor:default;color:var(--muted)}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{display:grid;grid-template-columns:1fr auto;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.item .t{font-weight:600}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;background:var(--surface-2)}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+tr:last-child td{border-bottom:0}
+.pos1{color:var(--band);font-weight:700}
+/* Pedigree */
+.pedwrap{overflow-x:auto;padding:4px 2px 10px}
+.ped{display:grid;grid-template-columns:repeat(4,minmax(175px,1fr));grid-template-rows:repeat(8,auto);gap:6px 22px;min-width:780px}
+.pbox{position:relative;align-self:center;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;padding:8px 10px;cursor:pointer;text-align:left;width:100%}
+.pbox.M{border-left-color:var(--accent)} .pbox.H{border-left-color:var(--sheen)}
+.pbox.root{border-width:2px 2px 2px 6px}
+.pbox.unk{cursor:default;border-style:dashed;color:var(--muted);background:var(--surface-2)}
+.pbox::before{content:"";position:absolute;left:-23px;top:50%;width:22px;border-top:1px solid var(--line)}
+.pbox.root::before{display:none}
+.pbox .rel{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.pbox .nm{font-family:var(--f-display);font-size:19px;font-weight:600;line-height:1.1}
+.pbox .res{font-size:12px;color:var(--muted);margin-top:3px}
+.dup{position:absolute;top:6px;right:8px;width:20px;height:20px;border-radius:50%;background:var(--danger);color:var(--surface);font-size:11px;font-weight:700;display:grid;place-items:center}
+/* Parentesco */
+.relgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.result{margin-top:16px}
+.result h3{font-size:30px}
+.big{font-family:var(--f-display);font-size:44px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.meter{height:10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden;margin-top:8px}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--sheen))}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+/* Modal */
+.scrim{position:fixed;inset:0;background:rgba(10,14,20,.55);z-index:20;display:grid;place-items:center;padding:16px}
+.modal{background:var(--surface);border-radius:14px;border:1px solid var(--line);width:min(620px,100%);max-height:calc(100% - 20px);overflow:auto;padding:18px}
+.modal h2{font-size:28px;margin-bottom:12px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form .full{grid-column:1/-1}
+.form label{display:flex;flex-direction:column;gap:5px;font-size:14px;font-weight:600;color:var(--muted);min-width:0}
+.form input,.form select,.form textarea{font-size:16px;padding:11px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font-weight:500;color:var(--ink);min-width:0;width:100%}
+.form textarea{min-height:70px;resize:vertical}
+.hint{font-size:12.5px;color:var(--muted);font-weight:400}
+.mfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:600;z-index:30;max-width:calc(100% - 32px)}
+/* Navegación de abajo y atajos */
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--surface);border-top:1px solid var(--line);display:none;grid-template-columns:repeat(5,1fr);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+.bnav button{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:600;color:var(--muted);background:none;border:0;padding:4px 0;cursor:pointer;min-width:0}
+.bnav svg{width:26px;height:26px}
+.bnav button[aria-current="true"]{color:var(--accent)}
+.bnav button[aria-current="true"] svg{stroke-width:2.4}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.qa button{display:flex;flex-direction:column;align-items:flex-start;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;text-align:left;min-width:0}
+.qa button:hover{border-color:var(--accent)}
+.qa button.main{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.qa .ic{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--surface-2);color:var(--accent)}
+.qa .main .ic{background:rgba(255,255,255,.18);color:var(--accent-ink)}
+.qa .ic svg{width:24px;height:24px}
+.qa b{font-size:16px;line-height:1.2}
+.qa small{font-size:12.5px;opacity:.8;line-height:1.3}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.seg label{flex-direction:row!important;align-items:center;justify-content:center;gap:6px!important;border:1px solid var(--line);border-radius:10px;padding:12px 6px;cursor:pointer;color:var(--ink)!important;font-size:15px!important;background:var(--surface-2)}
+.seg input{position:absolute;opacity:0;pointer-events:none;width:1px!important}
+.seg label:has(input:checked){border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--surface));font-weight:700}
+.seg label:has(input:focus-visible){outline:2px solid var(--sheen)}
+details.more{grid-column:1/-1;border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+details.more summary{cursor:pointer;font-weight:700;color:var(--accent)}
+details.more .form{margin-top:12px}
+.picklist{display:flex;flex-direction:column;gap:6px;max-height:55vh;overflow:auto;margin-top:10px}
+.picklist button{display:flex;gap:10px;align-items:center;text-align:left;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer}
+.picklist button:hover{border-color:var(--accent)}
+.explain{font-size:14px;color:var(--muted);background:var(--surface-2);border-radius:8px;padding:8px 10px;margin-top:8px}
+@media (max-width:720px){
+  .bnav{display:grid}
+  .top .tabs{display:none}
+  main{padding-bottom:110px}
+  .qa{grid-template-columns:1fr 1fr}
+  .tablero .nums{grid-template-columns:repeat(3,1fr);row-gap:12px}
+  .tablero .n{font-size:34px}
+  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
+}
+/* Tutorial */
+.tour{background:var(--surface);border-radius:18px;border:1px solid var(--line);width:min(520px,100%);max-height:calc(100% - 20px);overflow:auto;display:flex;flex-direction:column}
+.tour .art{background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--surface-2)),color-mix(in srgb,var(--sheen) 14%,var(--surface-2)));padding:22px;display:grid;place-items:center;min-height:190px}
+.tour .txt{padding:18px 22px 6px}
+.tour .step{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sheen)}
+.tour h2{font-size:34px;margin:4px 0 8px}
+.tour p{margin:0 0 8px;color:var(--muted);font-size:15.5px}
+.tour ul{margin:4px 0 8px;padding-left:20px;color:var(--ink)}
+.tour li{margin-bottom:4px}
+.tour .vid{display:flex;flex-direction:column;align-items:center;gap:8px;padding:4px 22px 0}
+.tour .phone{width:auto;height:min(46vh,420px);max-width:100%;aspect-ratio:390/740;border:7px solid var(--ink);border-radius:26px;overflow:hidden;background:var(--surface-2);box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.tour .phone video{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-height:740px){.tour .phone{height:38vh}}
+.tour .nav{display:flex;align-items:center;gap:10px;padding:14px 22px 18px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;margin-right:auto}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--accent);width:22px;border-radius:4px}
+.art .demo{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;box-shadow:0 6px 18px rgba(0,0,0,.08);min-width:0}
+.art .mped{display:grid;grid-template-columns:auto auto;gap:8px 16px;align-items:center}
+.art .mped .demo{padding:6px 10px;font-size:13px}
+.art .nmb{font-family:var(--f-display);font-weight:700;font-size:20px;line-height:1.1}
+#helpBtn{margin-left:4px}
+@media (max-width:640px){#helpBtn{padding:4px 8px;font-size:12px}.tour h2{font-size:28px}}
+/* Cría, salud, ranking */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:10px}
+.steps div{font-size:11.5px;color:var(--muted);border-top:4px solid var(--line);padding-top:4px;min-width:0}
+.steps div.done{border-top-color:var(--accent);color:var(--ink)}
+.steps div.now{border-top-color:var(--band);color:var(--ink);font-weight:700}
+.steps b{display:block;font-variant-numeric:tabular-nums}
+.agenda{display:flex;flex-direction:column;gap:6px}
+.ag{display:grid;grid-template-columns:86px 1fr;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 12px}
+.ag .d{font-family:var(--f-display);font-size:20px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ag.late{border-color:var(--danger)} .ag.late .d{color:var(--danger)}
+.ag.today{border-color:var(--band)}
+.nest{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;min-width:0}
+.rank td:first-child{font-family:var(--f-display);font-size:20px;font-weight:700;color:var(--muted)}
+.rank tr:nth-child(1) td:first-child{color:var(--band)}
+.rank a,.linkbtn{color:var(--ink);font-weight:600;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+/* Mercado y foro */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-top:14px}
+.ad{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ad .ph{aspect-ratio:4/3;max-width:100%;background:var(--surface-2);display:grid;place-items:center;color:var(--muted)}
+.ad .ph img{width:100%;height:100%;object-fit:cover}
+.ad .ph svg{width:70px;height:70px}
+.ad .bd{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ad .price{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1}
+.ad.sold{opacity:.6}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 8px;border-radius:4px;background:var(--ink);color:var(--bg)}
+.tag.Compro{background:var(--sheen);color:var(--surface)} .tag.Cambio{background:var(--accent);color:var(--accent-ink)}
+.ped-txt{font-size:12.5px;background:var(--surface-2);border-radius:6px;padding:6px 8px;color:var(--muted)}
+.contact{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-family:var(--f-mono);font-size:13px}
+.post{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px;cursor:pointer;text-align:left;width:100%;display:block}
+.post:hover{border-color:var(--accent)}
+.post h3{font-size:22px}
+.who{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.who img{width:24px;height:24px;border-radius:50%}
+.reply{border-left:3px solid var(--line);padding:6px 0 6px 12px}
+.body-txt{white-space:pre-wrap;overflow-wrap:anywhere}
+.compose{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.compose textarea{min-height:80px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);resize:vertical;width:100%}
+@media (max-width:640px){
+  .brand h1{font-size:23px}
+  .tabs{width:100%;flex-wrap:wrap;border-radius:14px} .tabs button{flex:1 0 auto;padding:7px 10px}
+  .fhead{grid-template-columns:96px 1fr;gap:12px}
+  .fhead .thumb{width:96px;height:96px}
+  .fhead h2{font-size:30px}
+  .form,.relgrid,.twocol{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:no-preference){.card,.pbox,.mini{transition:border-color .15s}}
+
+/* ===== Identidad "cielo de palomar" ===== */
+body{background:var(--bg) var(--deco);background-attachment:fixed}
+h1,h2,h3{font-weight:800;letter-spacing:-.01em}
+.top{background:transparent;border:0;position:sticky;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.top .wrap{padding-block:14px}
+.brand{gap:10px;min-width:0;flex:1}
+.brand svg{width:40px;height:40px;padding:8px;border-radius:50%;background:var(--pill);color:var(--on-pill)}
+.brand h1{font-size:24px;font-weight:800;letter-spacing:-.01em;text-transform:none;white-space:nowrap}
+.brand h1 span{color:var(--ink)}
+#helpBtn{margin-left:auto;min-width:44px;min-height:44px;border-radius:50%;padding:0;background:var(--surface);border:0;font-size:18px;font-weight:800;box-shadow:0 4px 14px -6px rgba(15,21,19,.25)}
+#helpBtn .hl{display:none}
+.tabs{background:var(--surface);border:0;box-shadow:0 6px 20px -12px rgba(15,21,19,.35)}
+.tabs button{color:var(--muted);font-weight:700}
+.tabs button[aria-current="true"]{background:var(--pill);color:var(--on-pill)}
+.btn{border-radius:999px;border:0;background:var(--surface);box-shadow:0 4px 14px -8px rgba(15,21,19,.28);font-weight:700}
+.btn:hover{box-shadow:0 0 0 2px var(--ink)}
+.btn.pri{background:var(--pill);color:var(--on-pill);box-shadow:none}
+.btn.pri:hover{box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--pill)}
+.btn.danger{color:var(--danger)}
+.notice{border:0;background:var(--surface);border-radius:20px;box-shadow:0 6px 20px -14px rgba(15,21,19,.4)}
+.notice b{color:var(--ink)}
+.search{border:0;border-radius:999px;padding-inline:18px;background:var(--surface);box-shadow:0 4px 14px -10px rgba(15,21,19,.3)}
+.chip{border:0;background:var(--surface);padding:10px 18px;font-weight:600;font-size:15px;box-shadow:0 4px 14px -10px rgba(15,21,19,.3)}
+.chip[aria-pressed="true"]{background:var(--pill);color:var(--on-pill)}
+.band{font-family:var(--f-mono);font-weight:700;font-size:12px;letter-spacing:.03em;color:var(--alu-ink);background:linear-gradient(180deg,var(--alu-1) 0%,var(--alu-2) 52%,var(--alu-1) 100%);border:1px solid var(--alu-edge);border-radius:999px;padding:1px 8px 1px 13px;position:relative}
+.band::before{content:"";position:absolute;left:4px;top:4px;bottom:4px;width:4px;border-radius:2px;background:var(--band)}
+/* saludo y tablero */
+.hello{margin:4px 0 14px}
+.hello h2{font-size:34px;line-height:1.05}
+.hello p{margin:4px 0 0;color:var(--muted);font-size:16px}
+.tablero{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:16px}
+.tablero > div{background:var(--surface);border-radius:18px;padding:10px 12px;box-shadow:0 6px 18px -14px rgba(15,21,19,.4);min-width:0}
+.tablero .n{font-size:28px;font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.tablero .l{font-size:12px;color:var(--muted);font-weight:600}
+/* atajos */
+.qa button{border:0;border-radius:24px;box-shadow:0 8px 22px -16px rgba(15,21,19,.45);padding:16px}
+.qa button:hover{box-shadow:0 0 0 2px var(--ink)}
+.qa button.main{background:var(--pill);color:var(--on-pill)}
+.qa .ic{width:44px;height:44px;border-radius:50%;background:var(--pill);color:var(--on-pill)}
+.qa .main .ic{background:var(--surface);color:var(--ink)}
+.qa b{font-size:18px;font-weight:800}
+/* tarjetas de paloma (estilo ficha) */
+.grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:8px;border:0;border-radius:26px;padding:10px 10px 14px;background:var(--surface);box-shadow:0 10px 26px -18px rgba(15,21,19,.5)}
+.card:hover{box-shadow:0 0 0 2px var(--ink)}
+.card .thumb{width:100%;height:auto;aspect-ratio:1/1;max-width:100%;border-radius:20px;background:var(--surface-2);position:relative;box-shadow:none}
+.card .thumb svg{width:46%;height:46%;color:var(--muted);opacity:.6}
+.card.M .thumb,.card.H .thumb{box-shadow:none}
+.card .nm{font-size:20px;font-weight:800;padding-inline:4px}
+.card > div:last-child{padding-inline:4px}
+.card .stats{gap:4px 8px}
+.sexdot{position:absolute;right:10px;top:10px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:17px;background:var(--surface);box-shadow:0 4px 10px -4px rgba(0,0,0,.3)}
+.sexdot.M{color:var(--accent)} .sexdot.H{color:var(--sheen)}
+/* ficha */
+.fhero{position:relative;background:transparent;padding:6px 0 0;display:grid;place-items:center;min-height:300px}
+.fhero .circ{position:absolute;top:0;width:46px;height:46px;border-radius:50%;background:var(--surface);border:0;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px -6px rgba(15,21,19,.3);font-size:20px;font-weight:800;color:var(--ink)}
+.fhero .circ svg{width:22px;height:22px}
+.fhero .circ.l{left:0} .fhero .circ.r{right:0}
+.pcard{position:relative;width:min(260px,70vw);aspect-ratio:1/1;margin:26px auto 0}
+.pcard::before{content:"";position:absolute;inset:0;border-radius:34px;background:var(--warm);transform:rotate(8deg) translate(8px,4px)}
+.pcard .ph{position:absolute;inset:0;border-radius:34px;overflow:hidden;transform:rotate(-4deg);background:var(--surface-2);display:grid;place-items:center;box-shadow:0 18px 36px -18px rgba(0,0,0,.5);color:var(--muted)}
+.pcard .ph img{width:100%;height:100%;object-fit:cover}
+.pcard .ph svg{width:55%;height:55%;opacity:.5}
+.sheet{background:var(--surface);border-radius:34px;padding:22px 18px 18px;margin-top:-6px;box-shadow:0 -6px 30px -20px rgba(15,21,19,.4)}
+.sheet .who-l{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.sheet h2.name{font-size:38px;line-height:1.05;margin:6px 0 2px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.tile{background:var(--surface-2);border-radius:20px;padding:12px;min-width:0}
+.tile .tl{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--muted);font-size:14px}
+.tile .tl i{width:30px;height:30px;border-radius:50%;background:var(--surface);display:grid;place-items:center;font-style:normal}
+.tile .tl svg{width:16px;height:16px}
+.tile .tv{font-size:26px;font-weight:800;margin-top:6px;line-height:1.1;overflow-wrap:anywhere}
+.tile .tv small{font-size:14px;font-weight:600;color:var(--muted)}
+.about{background:var(--surface-2);border-radius:20px;padding:14px 16px;margin-top:10px}
+.about h3{font-size:18px;margin-bottom:4px}
+.about p{margin:0;color:var(--muted)}
+.actbar{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.actbar .cbtn{width:52px;height:52px;border-radius:50%;background:var(--pill);color:var(--on-pill);border:0;display:grid;place-items:center;cursor:pointer;flex:none}
+.actbar .cbtn svg{width:22px;height:22px}
+.pillbtn{flex:1;min-width:180px;display:flex;align-items:center;gap:12px;height:52px;border-radius:999px;background:var(--pill);color:var(--on-pill);border:0;padding:5px 22px 5px 5px;font-weight:700;font-size:17px;cursor:pointer}
+.pillbtn .pc{width:42px;height:42px;border-radius:50%;background:var(--surface);color:var(--ink);display:grid;place-items:center;flex:none}
+.pillbtn .pc svg{width:22px;height:22px}
+.pillbtn.light{background:var(--surface);color:var(--ink);box-shadow:0 4px 14px -8px rgba(15,21,19,.3)}
+.pillbtn.light .pc{background:var(--pill);color:var(--on-pill)}
+.linkrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.subtabs{border-bottom:0;gap:8px;margin-top:18px}
+.subtabs button{border:0!important;background:var(--surface);border-radius:999px;padding:10px 16px;font-weight:700;color:var(--muted);box-shadow:0 4px 14px -10px rgba(15,21,19,.3)}
+.subtabs button[aria-current="true"]{background:var(--pill);color:var(--on-pill)}
+/* paneles */
+.panel,.nest,.ad,.post,.empty,.item,.mini,.ag,.tablewrap{border:0;border-radius:22px;box-shadow:0 8px 22px -18px rgba(15,21,19,.5)}
+.empty{background:var(--surface)}
+.mini{background:var(--surface)}
+.pedwrap{background:var(--surface);border-radius:26px;padding:14px;box-shadow:0 8px 22px -18px rgba(15,21,19,.5)}
+.pbox{border-radius:16px;border:0;background:var(--surface-2);box-shadow:none;border-left:5px solid var(--line)}
+.pbox.M{border-left-color:var(--accent)} .pbox.H{border-left-color:var(--sheen)}
+.pbox.root{background:var(--pill);color:var(--on-pill);border-left-color:var(--warm)}
+.pbox.root .rel,.pbox.root .meta,.pbox.root .res{color:inherit;opacity:.75}
+.pbox .nm{font-weight:800}
+.pbox.unk{background:transparent;border:2px dashed var(--line)}
+.pfoto{float:right;width:44px;height:44px;border-radius:50%;object-fit:cover;margin:0 0 4px 8px;box-shadow:0 0 0 2px var(--surface)}
+.pbox .dup{z-index:1;top:-9px;right:auto;left:-9px;box-shadow:0 0 0 2px var(--surface)}
+.tag{border-radius:999px;padding:3px 10px;font-weight:700}
+.rank tr:nth-child(1) td:first-child{color:#C28A14}
+/* navegación flotante */
+.bnav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding:8px;border-radius:999px;background:var(--surface);border:0;box-shadow:0 14px 34px -14px rgba(15,21,19,.5)}
+.bnav button{color:var(--muted);border-radius:999px;padding:6px 0;font-size:11.5px}
+.bnav button svg{width:24px;height:24px}
+.bnav button[aria-current="true"]{background:var(--pill);color:var(--on-pill)}
+.bnav button[aria-current="true"] svg{stroke-width:2.2}
+/* modales y tutorial */
+.modal,.tour{border:0;border-radius:30px}
+.modal h2,.tour h2{text-transform:none}
+.form input,.form select,.form textarea{border:0;background:var(--surface-2);border-radius:14px}
+.seg label{border:0!important;border-radius:999px!important}
+.seg label:has(input:checked){background:var(--pill)!important;color:var(--on-pill)!important}
+.tour{background:var(--bg-2)}
+.tour .art{background:var(--bg) var(--deco)}
+.tour .step{color:var(--accent)}
+.tour .phone{border-color:var(--pill)}
+.dots i.on{background:var(--pill)}
+/* pantalla de bienvenida */
+.splash{position:relative;background:var(--bg) var(--deco);padding:22px 22px 14px;overflow:hidden}
+.splash .bigpig{color:var(--pill)}
+.splash .bigpig svg{width:100%;height:auto;display:block}
+.splash .stage{position:relative;height:clamp(200px,34vh,280px)}
+.splash .bigpig{position:absolute;left:-4%;top:0;width:66%}
+.splash .shot{position:absolute;right:0;bottom:4px;width:42%;aspect-ratio:1/1;border-radius:26px;overflow:hidden;transform:rotate(6deg);box-shadow:0 18px 32px -16px rgba(0,0,0,.5);background:var(--warm)}
+.splash .shot img{width:100%;height:100%;object-fit:cover}
+.splash .ring{position:absolute;left:24%;bottom:10px;font-family:var(--f-mono);font-weight:700;font-size:13px;transform:rotate(-8deg)}
+.splash h2{font-size:48px;letter-spacing:-.03em;margin-top:6px}
+.splash p{margin:2px 0 0;color:var(--muted);font-size:17px}
+@media (max-width:720px){
+  .brand h1{font-size:22px}
+  .tablero{grid-template-columns:repeat(3,1fr)}
+  .grid{grid-template-columns:1fr 1fr;gap:12px}
+  .tiles{grid-template-columns:1fr 1fr}
+  .card .nm{font-size:18px}
+  main{padding-bottom:120px}
+  .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+  .hello h2{font-size:30px}
+}
+</style>
+<link rel="stylesheet" href="cuenta.css">
+</head>
+<body>
+
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z"/><circle cx="45.5" cy="18" r="1.8" fill="var(--bg)"/></svg>
+      <h1>Mi <span>Palomar</span></h1>
+      <button class="btn sm" id="acctBtn" aria-label="Mi cuenta"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
+      <button class="btn sm" id="helpBtn" data-act="tour" aria-label="Cómo funciona la app">? <span class="hl">Cómo funciona</span></button>
+    </div>
+    <nav class="tabs" aria-label="Secciones">
+      <button data-nav="palomar" data-act="view" data-v="palomar">Palomar</button>
+      <button data-nav="pedigree" data-act="view" data-v="pedigree">Pedigree</button>
+      <button data-nav="cria" data-act="view" data-v="cria">Cría</button>
+      <button data-nav="ranking" data-act="view" data-v="ranking">Ranking</button>
+      <button data-nav="comunidad" data-act="view" data-v="mercado">Comunidad</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap" id="app">
+  <div class="empty"><h3>Abriendo tu palomar…</h3><p>Aquí verás tus palomas, su pedigree, sus carreras y capturas.</p></div>
+</main>
+<nav class="bnav" aria-label="Secciones"><button data-nav="palomar" data-act="view" data-v="palomar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9H3z"/><path d="M9 20v-6h6v6"/></svg><span>Palomar</span></button><button data-nav="pedigree" data-act="view" data-v="pedigree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="9" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><rect x="16" y="15" width="6" height="6" rx="1"/><path d="M8 12h4M12 6v12M12 6h4M12 18h4"/></svg><span>Pedigree</span></button><button data-nav="cria" data-act="view" data-v="cria"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c-4 0-7 6-7 11a7 7 0 0 0 14 0c0-5-3-11-7-11z"/></svg><span>Cría</span></button><button data-nav="ranking" data-act="view" data-v="ranking"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 21h8M10 17h4"/></svg><span>Ranking</span></button><button data-nav="comunidad" data-act="view" data-v="mercado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h11v8H8l-4 3z"/><path d="M15 9h5v8l-3-2h-6v-2"/></svg><span>Comunidad</span></button></nav>
+<div id="modal-root"></div>
+<div id="tour-root"></div>
+<div id="toast-root"></div>
+
+
+<div id="login" class="login" hidden>
+  <div class="lcard" role="dialog" aria-modal="true" aria-labelledby="lg-title">
+    <div class="lhead"><span class="llogo"><svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z"/></svg></span>
+      <h2 id="lg-title">Mi Palomar</h2><p>Entra para guardar tu palomar en la nube y usar el mercado y el foro.</p></div>
+    <div class="lseg"><button type="button" data-lmode="entrar" aria-pressed="true">Entrar</button><button type="button" data-lmode="crear" aria-pressed="false">Crear cuenta</button></div>
+    <form id="lg-form" autocomplete="on">
+      <label id="lg-name-row" hidden>Tu nombre o el de tu palomar<input id="lg-name" autocomplete="nickname" placeholder="Ej: Palomar Elite"></label>
+      <label>Correo<input id="lg-email" type="email" inputmode="email" autocomplete="email" required placeholder="tucorreo@ejemplo.com"></label>
+      <label>Contraseña<input id="lg-pass" type="password" autocomplete="current-password" required minlength="6" placeholder="Mínimo 6"></label>
+      <p id="lg-err" class="lerr" role="alert"></p>
+      <button id="lg-go" class="lbtn" type="submit">Entrar</button>
+    </form>
+    <div class="lor"><span>o</span></div>
+    <button type="button" class="lbtn light" data-lact="google"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#EA4335" d="M12 10.2v3.9h5.4c-.2 1.3-1.6 3.8-5.4 3.8-3.2 0-5.9-2.7-5.9-6s2.7-6 5.9-6c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.8 3.4 14.6 2.4 12 2.4 6.7 2.4 2.4 6.7 2.4 12s4.3 9.6 9.6 9.6c5.5 0 9.2-3.9 9.2-9.4 0-.6-.1-1.1-.2-1.6H12z"/></svg>Entrar con Google</button>
+    <div class="llinks"><button type="button" data-lact="reset">Olvidé mi contraseña</button><button type="button" data-lact="guest">Probar sin cuenta</button></div>
+  </div>
+</div>
+<div id="acct" class="login" hidden>
+  <div class="lcard small" role="dialog" aria-modal="true" aria-label="Mi cuenta">
+    <h2>Mi cuenta</h2><p id="acct-who"></p>
+    <button type="button" class="lbtn" data-aact="out">Cerrar sesión</button>
+    <button type="button" class="lbtn light" data-aact="close">Volver</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+/* Puente: la app pide "db", "user" y "downloads"; aquí se conectan a Firebase */
+(function(){
+  var resolveReady; var ready = new Promise(function(r){ resolveReady = r; });
+  window.__palomarReady = resolveReady;
+  var dl = { save: function(o){ return new Promise(function(res){
+    var blob = o.data instanceof Blob ? o.data : new Blob([o.data]);
+    var url = URL.createObjectURL(blob), a = document.createElement("a");
+    a.href = url; a.download = o.filename || "archivo"; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 5000); res();
+  }); } };
+  window.claude = { use: function(name){
+    if (name === "downloads") return Promise.resolve(dl);
+    return ready.then(function(x){ return x ? (x[name] || null) : null; });
+  } };
+})();
+
+</script>
+<script type="module">
+const CFG = window.PALOMAR_CONFIG || {};
+const configured = !!(CFG.firebase && CFG.firebase.apiKey && !/PEGA/i.test(CFG.firebase.apiKey));
+const q = s => document.querySelector(s);
+const lsGet = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+const lsSet = (k, v) => { try { v === null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch(e){} };
+const loginEl = q("#login"), acctBtn = q("#acctBtn");
+let resolved = false, mode = null;
+const done = val => { if (resolved) return; resolved = true; mode = val ? "cloud" : "local"; window.__palomarReady(val); };
+
+if (!configured) {
+  if (acctBtn) acctBtn.hidden = true;
+  done(null);
+} else {
+  try {
+    const V = "10.12.2";
+    const [appMod, authMod, fs] = await Promise.all([
+      import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`),
+      import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`),
+      import(`https://www.gstatic.com/firebasejs/${V}/firebase-firestore.js`)
+    ]);
+    const app = appMod.initializeApp(CFG.firebase);
+    const auth = authMod.getAuth(app);
+    let fdb;
+    try { fdb = fs.initializeFirestore(app, { localCache: fs.persistentLocalCache({ tabManager: fs.persistentMultipleTabManager() }) }); }
+    catch(e){ fdb = fs.getFirestore(app); }
+
+    const mapErr = e => !e ? "unavailable" : e.code === "permission-denied" ? "invalid_argument" : e.code === "resource-exhausted" ? "quota_exceeded" : e.code === "invalid-argument" ? "invalid_argument" : "unavailable";
+    const wrapErr = e => ({ code: mapErr(e), message: (e && e.message) || "" });
+    const snapDoc = d => ({ id: d.id, exists: d.exists(), data: () => d.data(), metadata: d.metadata });
+    const qSnap = s => ({ docs: s.docs.map(snapDoc), size: s.size, empty: s.empty, metadata: s.metadata, docChanges: () => [] });
+    function docRef(path){
+      const r = fs.doc(fdb, path);
+      return { id: r.id, path,
+        async get(){ return snapDoc(await fs.getDoc(r)); },
+        async set(data){ try { await fs.setDoc(r, data); } catch(e){ throw wrapErr(e); } },
+        async update(data){ try { await fs.updateDoc(r, data); } catch(e){ throw wrapErr(e); } },
+        async delete(){ try { await fs.deleteDoc(r); } catch(e){ throw wrapErr(e); } },
+        onSnapshot(next, err){ return fs.onSnapshot(r, { includeMetadataChanges: true }, d => next(snapDoc(d)), e => err && err(wrapErr(e))); },
+        collection(sub){ return colRef(path + "/" + sub); } };
+    }
+    function colRef(path){
+      const r = fs.collection(fdb, path);
+      return { path,
+        doc(id){ return docRef(path + "/" + (id || fs.doc(r).id)); },
+        async get(){ return qSnap(await fs.getDocs(r)); },
+        async add(data){ const d = fs.doc(r); await fs.setDoc(d, data); return docRef(path + "/" + d.id); },
+        onSnapshot(next, err){ return fs.onSnapshot(r, { includeMetadataChanges: true }, s => next(qSnap(s)), e => err && err(wrapErr(e))); } };
+    }
+    const dbNs = { doc: docRef, collection: colRef };
+    const isAdmin = () => !!(auth.currentUser && CFG.adminEmail && (auth.currentUser.email || "").toLowerCase() === CFG.adminEmail.toLowerCase());
+    const userNs = {
+      id: async () => auth.currentUser ? auth.currentUser.uid : null,
+      isOwner: async () => isAdmin(),
+      canEdit: async () => isAdmin(),
+      can: async () => null,
+      me: async () => { const u = auth.currentUser; return { id: u ? u.uid : null, name: (u && u.displayName) || "", email: u ? u.email : null, avatarUrl: "", color: "#0E7A68", isOwner: isAdmin(), canEdit: isAdmin() }; },
+      profiles: async ids => { const o = {}; const u = auth.currentUser; [].concat(ids).forEach(id => { o[id] = { id, name: u && id === u.uid ? (u.displayName || "") : "", avatarUrl: "", color: "#0E7A68", email: null, isMe: !!(u && id === u.uid), guest: false }; }); return o; }
+    };
+
+    /* ---- Pantalla de entrada ---- */
+    const errTxt = e => {
+      const c = (e && e.code) || "";
+      if (c.includes("invalid-credential") || c.includes("wrong-password") || c.includes("user-not-found")) return "Correo o contraseña incorrectos.";
+      if (c.includes("email-already-in-use")) return "Ese correo ya tiene cuenta. Toca “Entrar”.";
+      if (c.includes("weak-password")) return "La contraseña necesita por lo menos 6 letras o números.";
+      if (c.includes("invalid-email")) return "Revisa el correo, parece que tiene un error.";
+      if (c.includes("network")) return "No hay internet. Revisa la conexión.";
+      if (c.includes("too-many-requests")) return "Demasiados intentos. Espera unos minutos.";
+      if (c.includes("popup-closed") || c.includes("cancelled-popup")) return "";
+      if (c.includes("unauthorized-domain")) return "Falta autorizar esta página en Firebase (paso 4 del LEEME).";
+      return "No se pudo entrar. Inténtalo otra vez.";
+    };
+    let loginMode = "entrar";
+    const setMode = m => { loginMode = m; loginEl.querySelectorAll("[data-lmode]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.lmode === m))); q("#lg-name-row").hidden = m !== "crear"; q("#lg-go").textContent = m === "crear" ? "Crear mi cuenta" : "Entrar"; q("#lg-pass").autocomplete = m === "crear" ? "new-password" : "current-password"; q("#lg-err").textContent = ""; };
+    const showLogin = () => { loginEl.hidden = false; setMode(loginMode); };
+    loginEl.addEventListener("click", async ev => {
+      const t = ev.target.closest("[data-lmode],[data-lact]"); if (!t) return;
+      if (t.dataset.lmode) return setMode(t.dataset.lmode);
+      const act = t.dataset.lact, err = q("#lg-err");
+      if (act === "google"){ try { await authMod.signInWithPopup(auth, new authMod.GoogleAuthProvider()); } catch(e){ err.textContent = errTxt(e); } }
+      if (act === "guest"){ lsSet("palomar.guest", "1"); loginEl.hidden = true; if (!resolved) done(null); }
+      if (act === "reset"){ const em = q("#lg-email").value.trim(); if (!em){ err.textContent = "Escribe tu correo arriba y vuelve a tocar aquí."; return; } try { await authMod.sendPasswordResetEmail(auth, em); err.textContent = "Te mandamos un correo para cambiar la contraseña."; } catch(e){ err.textContent = errTxt(e); } }
+      if (act === "close"){ loginEl.hidden = true; if (!resolved) done(null); }
+    });
+    q("#lg-form").addEventListener("submit", async ev => {
+      ev.preventDefault();
+      const em = q("#lg-email").value.trim(), pw = q("#lg-pass").value, err = q("#lg-err"), go = q("#lg-go");
+      go.disabled = true; err.textContent = "";
+      try {
+        if (loginMode === "crear"){
+          const cred = await authMod.createUserWithEmailAndPassword(auth, em, pw);
+          const nm = q("#lg-name").value.trim(); if (nm) await authMod.updateProfile(cred.user, { displayName: nm });
+        } else await authMod.signInWithEmailAndPassword(auth, em, pw);
+      } catch(e){ err.textContent = errTxt(e); }
+      go.disabled = false;
+    });
+
+    /* ---- Botón de cuenta ---- */
+    const acctModal = q("#acct");
+    acctBtn.addEventListener("click", () => {
+      const u = auth.currentUser;
+      if (!u){ lsSet("palomar.guest", null); showLogin(); return; }
+      q("#acct-who").textContent = u.displayName ? `${u.displayName} · ${u.email || ""}` : (u.email || "Tu cuenta");
+      acctModal.hidden = false;
+    });
+    acctModal.addEventListener("click", async ev => {
+      const t = ev.target.closest("[data-aact]");
+      if (ev.target === acctModal || (t && t.dataset.aact === "close")) acctModal.hidden = true;
+      if (t && t.dataset.aact === "out"){ await authMod.signOut(auth); lsSet("palomar.guest", null); location.reload(); }
+    });
+
+    authMod.onAuthStateChanged(auth, u => {
+      if (u){
+        loginEl.hidden = true; acctBtn.classList.add("in");
+        if (resolved && mode === "local") { location.reload(); return; }
+        done({ db: dbNs, user: userNs });
+      } else {
+        acctBtn.classList.remove("in");
+        if (lsGet("palomar.guest") === "1") done(null); else showLogin();
+      }
+    });
+  } catch(e){
+    console.warn("Firebase no cargó", e);
+    if (acctBtn) acctBtn.hidden = true;
+    done(null);
+  }
+}
+
+</script>
+<script>
+(function(){
+"use strict";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const YEAR = new Date().getFullYear();
+const LS_KEY = "palomar.v1", LS_STARTED = "palomar.started";
+const PIGEON = '<svg viewBox="0 0 64 64" fill="currentColor" aria-hidden="true"><path d="M44 12c-4 0-7.6 2.5-9 6.2-1 2.7-.6 5.2-2.6 7.4C27 31.6 14 30 8 40c8 1 13 0 17-2-3 5-9 8-15 9 10 4 21 2 28-5 3 5 2 9 0 13h4l2-11c4-3 7-8 7-14 0-3-.6-5-1.6-7L56 20l-6-2c-1-3.6-3.2-6-6-6z"/></svg>';
+
+const S = { birds:{}, demo:false, ready:false, backend:"memory", view:"palomar", sel:null, ftab:"familia",
+  filter:"todos", q:"", pedId:null, relA:"", relB:"",
+  cria:{nidadas:[]}, rtab:"voladores", ryear:"todos", raw:{mercado:{}, foro:{}, perfiles:{}}, community:false, names:{}, isOwner:false, mfilter:"todos", mq:"", fcat:"Todas", thread:null };
+let db = null, uid = null, userNs = null;
+
+function lsGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+function lsSet(k,v){ try { localStorage.setItem(k,v); return true; } catch(e){ return false; } }
+
+/* ---------- Ejemplo (solo en memoria) ---------- */
+function demoBirds(){
+  const c = (fecha,suelta,km,puesto,total,vel) => ({id:newId(),fecha,suelta,km,puesto,total,vel,nota:""});
+  const k = (fecha,capturada,color,dueno,nota) => ({id:newId(),fecha,capturada,color,dueno,nota});
+  const L = [
+    {id:"d1",foto:"fotos/moro.jpg",anilla:"FL-2019-0412",nombre:"El Moro",sexo:"M",anio:2019,color:"Azul barrado",raza:"Mensajero",estado:"En el palomar",padre:"",madre:"",
+      carreras:[c("2021-03-14","Vero Beach",220,3,94,1312),c("2021-04-11","Orlando",330,1,88,1355),c("2022-03-20","Ocala",420,5,102,1290)],capturas:[]},
+    {id:"d2",anilla:"FL-2019-0377",nombre:"La Rubia",sexo:"H",anio:2019,color:"Colorada",raza:"Mensajero",estado:"En el palomar",padre:"",madre:"",
+      carreras:[c("2021-03-14","Vero Beach",220,8,94,1281),c("2021-05-02","Gainesville",480,2,61,1240)],capturas:[]},
+    {id:"d3",foto:"fotos/pinto.jpg",anilla:"FL-2018-1120",nombre:"Pinto Viejo",sexo:"M",anio:2018,color:"Pinto, cuello morado",raza:"Mensajero",estado:"En el palomar",padre:"",madre:"",
+      carreras:[c("2020-04-05","Orlando",330,12,110,1260)],capturas:[]},
+    {id:"d4",anilla:"FL-2018-0981",nombre:"La Negra",sexo:"H",anio:2018,color:"Negra",raza:"Mensajero",estado:"En el palomar",padre:"",madre:"",carreras:[],capturas:[]},
+    {id:"d5",foto:"fotos/relampago.jpg",anilla:"FL-2021-0233",nombre:"Relámpago",sexo:"M",anio:2021,color:"Azul barrado",raza:"Mensajero",estado:"En el palomar",padre:"d1",madre:"d2",
+      carreras:[c("2022-03-20","Ocala",420,1,102,1371),c("2022-04-17","Gainesville",480,4,77,1302)],capturas:[]},
+    {id:"d6",anilla:"FL-2021-0240",nombre:"Canela",sexo:"H",anio:2021,color:"Gavina",raza:"Mensajero",estado:"En el palomar",padre:"d1",madre:"d4",carreras:[c("2022-03-20","Ocala",420,22,102,1215)],capturas:[]},
+    {id:"d7",anilla:"FL-2021-0236",nombre:"Perla",sexo:"H",anio:2021,color:"Azul",raza:"Mensajero",estado:"En el palomar",padre:"d1",madre:"d2",carreras:[c("2022-04-17","Gainesville",480,9,77,1270)],capturas:[]},
+    {id:"d8",foto:"fotos/tormenta.jpg",anilla:"FL-2023-0518",nombre:"Tormenta",sexo:"M",anio:2023,color:"Negro",raza:"Mensajero",estado:"En el palomar",padre:"d5",madre:"d4",
+      carreras:[c("2024-03-10","Vero Beach",220,2,120,1348),c("2024-04-07","Orlando",330,6,96,1301)],capturas:[]},
+    {id:"d9",anilla:"FL-2023-0530",nombre:"Luna",sexo:"H",anio:2023,color:"Plateada",raza:"Mensajero",estado:"En el palomar",padre:"d3",madre:"d7",carreras:[],capturas:[]},
+    {id:"d10",anilla:"FL-2026-0118",nombre:"",sexo:"?",anio:YEAR,color:"Azul barrado",raza:"Mensajero",estado:"En el palomar",padre:"d5",madre:"d6",carreras:[],capturas:[],notas:"Pichón de medio hermanos (mismo padre: El Moro)."},
+    {id:"d11",foto:"fotos/guapo.jpg",anilla:"BU-2022-007",nombre:"El Guapo",sexo:"M",anio:2022,color:"Azul pinto, buche morado",raza:"Buchón",estado:"En el palomar",padre:"",madre:"",carreras:[],
+      capturas:[k("2025-06-02","FL-2024-2201","Azul","Vecino de la 312","Se quedó"),k("2025-08-19","Sin anilla","Gavina","Cuadra de atrás","Devuelta"),k("2026-02-11","FL-2025-0090","Negra","Palomar El Gallo","Se quedó"),k("2026-09-28","BU-2023-114","Colorada","Vecino de la 312","Rescate pagado")]},
+    {id:"d12",anilla:"BU-2022-012",nombre:"La Coqueta",sexo:"H",anio:2022,color:"Blanca",raza:"Buchón",estado:"En el palomar",padre:"",madre:"",carreras:[],
+      capturas:[k("2025-07-15","FL-2024-1180","Azul barrado","Palomar El Gallo","Se quedó"),k("2026-05-03","Sin anilla","Overo","Cuadra de atrás","Devuelta")]}
+  ];
+  const o = {}; L.forEach(b => o[b.id] = Object.assign({foto:"",notas:""}, b)); return o;
+}
+
+const todayISO = () => { const d = new Date(); d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+const addDays = (iso, n) => { const d = new Date(iso + "T12:00:00"); d.setDate(d.getDate() + n); return d.toISOString().slice(0,10); };
+const daysFrom = iso => Math.round((new Date(iso + "T12:00:00") - new Date(todayISO() + "T12:00:00")) / 86400000);
+const fmtDay = iso => { try { return new Date(iso + "T12:00:00").toLocaleDateString("es", {day:"numeric", month:"short"}); } catch(e){ return iso; } };
+function demoExtras(birds){
+  const t = todayISO(), sid = () => newId();
+  const vac = (fecha, prox) => ({id:sid(), fecha, tipo:"Vacuna", producto:"Paramixovirus (PMV)", dosis:"0.2 ml", proxima:prox, nota:""});
+  ["d1","d2","d4","d5","d6","d7","d8","d9","d11","d12"].forEach(id => { birds[id].salud = [vac(addDays(t,-355), addDays(t,10))]; });
+  birds.d8.salud.push({id:sid(), fecha:addDays(t,-20), tipo:"Medicina", producto:"Tricomonas (Ronidazol)", dosis:"5 días en el agua", proxima:"", nota:"Tenía la garganta amarilla"});
+  birds.d5.salud.push({id:sid(), fecha:addDays(t,-80), tipo:"Desparasitante", producto:"Moxidectina", dosis:"1 gota", proxima:addDays(t,-2), nota:""});
+  return {nidadas:[
+    {id:"n1", macho:"d8", hembra:"d9", puesta:addDays(t,-9), huevos:2, estado:"Incubando", pichones:[], nota:"Cruce de primos hermanos"},
+    {id:"n2", macho:"d5", hembra:"d6", puesta:addDays(t,-24), huevos:2, estado:"Anillados", pichones:["d10"], nota:"Nació 1, el otro huevo salió claro"},
+    {id:"n3", macho:"d1", hembra:"d2", puesta:addDays(t,-17), huevos:2, estado:"Incubando", pichones:[], nota:""}
+  ]};
+}
+
+/* ---------- Genealogía ---------- */
+let memo = {phi:new Map(), dep:new Map()};
+const resetMemo = () => { memo = {phi:new Map(), dep:new Map()}; };
+const B = id => id ? S.birds[id] : undefined;
+const parentsOf = id => { const b = B(id); return b ? [b.padre, b.madre].filter(p => p && B(p)) : []; };
+function depths(id){
+  if (memo.dep.has(id)) return memo.dep.get(id);
+  const m = new Map([[id,0]]); let fr = [id];
+  for (let d = 1; d <= 14 && fr.length; d++){ const nx = []; for (const x of fr) for (const p of parentsOf(x)) if (!m.has(p)){ m.set(p,d); nx.push(p); } fr = nx; }
+  memo.dep.set(id, m); return m;
+}
+function phi(a, b, g){
+  g = g || 0;
+  if (!a || !b || !B(a) || !B(b) || g > 40) return 0;
+  if (a === b) return 0.5 * (1 + F(a, g+1));
+  const key = a < b ? a+"|"+b : b+"|"+a;
+  if (memo.phi.has(key)) return memo.phi.get(key);
+  let keep = a, exp = b;
+  if (depths(a).has(b)) { keep = b; exp = a; }
+  const e = B(exp);
+  const v = 0.5 * (phi(keep, e.padre, g+1) + phi(keep, e.madre, g+1));
+  memo.phi.set(key, v); return v;
+}
+function F(id, g){ const b = B(id); return b ? phi(b.padre, b.madre, g || 0) : 0; }
+const pct = x => { const v = x * 100; return (v === 0 ? "0" : v < 1 ? v.toFixed(2) : (Math.round(v*10)/10).toString()) + "%"; };
+function fLevel(f){
+  if (f <= 0) return {cls:"lo", txt:"Sin consanguinidad"};
+  if (f < 0.0625) return {cls:"lo", txt:"Baja"};
+  if (f < 0.125) return {cls:"mid", txt:"Moderada"};
+  if (f < 0.25) return {cls:"hi", txt:"Alta"};
+  return {cls:"hi", txt:"Muy alta"};
+}
+const nm = b => b ? (b.nombre || b.anilla || "Sin nombre") : "Desconocido";
+const W = (b, m, f) => (b && b.sexo === "H") ? f : m;
+const plural = (a, b, m, f) => (a.sexo === "H" && b.sexo === "H") ? f : m;
+function ancWord(d, b){
+  const t = ["", W(b,"padre","madre"), W(b,"abuelo","abuela"), W(b,"bisabuelo","bisabuela"), W(b,"tatarabuelo","tatarabuela")];
+  return t[d] || `${W(b,"ancestro","ancestra")} (${d} generaciones atrás)`;
+}
+function descWord(d, b){
+  const t = ["", W(b,"hijo","hija"), W(b,"nieto","nieta"), W(b,"bisnieto","bisnieta"), W(b,"tataranieto","tataranieta")];
+  return t[d] || `${W(b,"descendiente","descendiente")} (${d} generaciones)`;
+}
+function relation(a, b){
+  const A = B(a), Bb = B(b);
+  if (a === b) return {title:"Es la misma paloma", common:[]};
+  const da = depths(a), db_ = depths(b);
+  if (db_.has(a)) { const d = db_.get(a); return {title:`${nm(A)} es ${ancWord(d,A)} de ${nm(Bb)}`, sub:`${nm(Bb)} es ${descWord(d,Bb)} de ${nm(A)}.`, common:[a]}; }
+  if (da.has(b)) { const d = da.get(b); return {title:`${nm(Bb)} es ${ancWord(d,Bb)} de ${nm(A)}`, sub:`${nm(A)} es ${descWord(d,A)} de ${nm(Bb)}.`, common:[b]}; }
+  let best = null; const all = [];
+  for (const [c, x] of da){ if (c === a || !db_.has(c)) continue; const y = db_.get(c); all.push({c,x,y}); if (!best || x+y < best.x+best.y) best = {c,x,y}; }
+  if (!best) return {title:"Sin parentesco conocido", sub:"No tienen ningún ancestro en común registrado en tu palomar.", common:[]};
+  const closest = all.filter(o => o.x + o.y === best.x + best.y).map(o => o.c);
+  const {x, y} = best;
+  if (x === 1 && y === 1){
+    const sp = A.padre && A.padre === Bb.padre, sm = A.madre && A.madre === Bb.madre;
+    if (sp && sm) return {title:`Son ${plural(A,Bb,"hermanos","hermanas")} completos`.replace("hermanas completos","hermanas completas"), sub:"Mismo padre y misma madre.", common:closest};
+    return {title:`Son ${plural(A,Bb,"medio hermanos","medio hermanas")}`, sub:`Comparten solo ${sp ? "el padre" : "la madre"}: ${nm(B(sp ? A.padre : A.madre))}.`, common:closest};
+  }
+  if (x === 1 && y === 2) return {title:`${nm(A)} es ${W(A,"tío","tía")} de ${nm(Bb)}`, sub:`${nm(Bb)} es ${W(Bb,"sobrino","sobrina")} de ${nm(A)}.`, common:closest};
+  if (x === 2 && y === 1) return {title:`${nm(Bb)} es ${W(Bb,"tío","tía")} de ${nm(A)}`, sub:`${nm(A)} es ${W(A,"sobrino","sobrina")} de ${nm(Bb)}.`, common:closest};
+  if (x === 1 && y === 3) return {title:`${nm(A)} es ${W(A,"tío abuelo","tía abuela")} de ${nm(Bb)}`, common:closest};
+  if (x === 3 && y === 1) return {title:`${nm(Bb)} es ${W(Bb,"tío abuelo","tía abuela")} de ${nm(A)}`, common:closest};
+  if (x === y){
+    const p = plural(A,Bb,"primos","primas");
+    const g = {2:`${p} ${p==="primas"?"hermanas":"hermanos"}`, 3:`${p} ${p==="primas"?"segundas":"segundos"}`, 4:`${p} ${p==="primas"?"terceras":"terceros"}`}[x];
+    if (g) return {title:`Son ${g}`, sub:"Sus " + (x===2?"padres":x===3?"abuelos":"bisabuelos") + " son hermanos.", common:closest};
+  }
+  return {title:"Son parientes lejanos", sub:`Su ancestro común más cercano está a ${x} y ${y} generaciones.`, common:closest};
+}
+function descendantsOf(id){ return Object.keys(S.birds).filter(x => depths(x).has(id)); }
+function siblings(id){
+  const b = B(id); if (!b) return {full:[], half:[]};
+  const full = [], half = [];
+  for (const o of Object.values(S.birds)){
+    if (o.id === id) continue;
+    const sp = b.padre && o.padre === b.padre, sm = b.madre && o.madre === b.madre;
+    if (sp && sm) full.push(o); else if (sp || sm) half.push(o);
+  }
+  return {full, half};
+}
+const childrenOf = id => Object.values(S.birds).filter(o => o.padre === id || o.madre === id);
+function raceSummary(b){
+  const cs = (b && b.carreras) || [];
+  if (!cs.length) return "";
+  const withPos = cs.filter(c => +c.puesto > 0);
+  let best = "";
+  if (withPos.length){ const m = withPos.reduce((a,c) => +c.puesto < +a.puesto ? c : a); best = ` · mejor ${m.puesto}º${m.total ? " de " + m.total : ""}${m.suelta ? " en " + m.suelta : ""}`; }
+  return `${cs.length} carrera${cs.length>1?"s":""}${best}`;
+}
+const capSummary = b => { const n = ((b && b.capturas) || []).length; return n ? `${n} captura${n>1?"s":""}` : ""; };
+
+/* ---------- Guardado ---------- */
+function col(){ return db.collection("data/users/" + uid); }
+function cleanBird(b){ const o = Object.assign({}, b); delete o.id; return JSON.parse(JSON.stringify(o)); }
+function localSaveAll(){ if (!lsSet(LS_KEY, JSON.stringify(S.birds))) toast("No se pudo guardar en este dispositivo."); }
+async function persist(b){
+  if (S.demo) return;
+  try {
+    if (S.backend === "db") await col().doc(b.id).set(cleanBird(b));
+    else if (S.backend === "local") localSaveAll();
+  } catch(e){ toast(errMsg(e)); }
+}
+async function unpersist(id){
+  if (S.demo) return;
+  try {
+    if (S.backend === "db") await col().doc(id).delete();
+    else if (S.backend === "local") localSaveAll();
+  } catch(e){ toast(errMsg(e)); }
+}
+function errMsg(e){
+  const c = e && e.code;
+  if (c === "quota_exceeded") return "Se llenó el espacio. Borra fotos grandes o palomas viejas.";
+  if (c === "invalid_argument") return "No tienes permiso para guardar aquí, o la foto es muy grande.";
+  return "No se pudo guardar. Revisa tu conexión e inténtalo otra vez.";
+}
+async function saveCria(){
+  if (S.demo) return render();
+  render();
+  try {
+    if (S.backend === "db") await col().doc("cfg-cria").set(JSON.parse(JSON.stringify(S.cria)));
+    else if (S.backend === "local") { if (!lsSet(LS_KEY + ".cria", JSON.stringify(S.cria))) toast("No se pudo guardar en este dispositivo."); }
+  } catch(e){ toast(errMsg(e)); }
+}
+async function saveBird(b){ S.birds[b.id] = b; resetMemo(); render(); await persist(b); }
+
+
+
+/* ---------- Salud ---------- */
+const SALUD_TIPOS = ["Vacuna","Medicina","Desparasitante","Vitaminas","Otro"];
+function saludForm(h){
+  const b = B(S.sel); const isNew = !h; h = h || {fecha:todayISO(), tipo:"Vacuna"};
+  const enPalomar = Object.values(S.birds).filter(o => !o.estado || o.estado === "En el palomar").length;
+  openModal(`<h2>${isNew ? "Vacuna o medicina" : "Editar"} · ${esc(nm(b))}</h2>
+  <form class="form" autocomplete="off">
+    <label>Fecha<input id="h-fecha" name="fecha" type="date" required value="${esc(h.fecha)}"></label>
+    <label>Tipo<select id="h-tipo" name="tipo">${SALUD_TIPOS.map(t => `<option ${t===h.tipo?"selected":""}>${t}</option>`).join("")}</select></label>
+    <label class="full">Producto o enfermedad *<input id="h-producto" name="producto" required list="prods" value="${esc(h.producto)}" placeholder="Paramixovirus, viruela, tricomonas…"><datalist id="prods"><option>Paramixovirus (PMV)</option><option>Viruela</option><option>Salmonela (paratifus)</option><option>Tricomonas</option><option>Coccidiosis</option><option>Gusanos (desparasitante)</option><option>Respiratorio</option><option>Vitaminas y electrolitos</option></datalist></label>
+    <label>Dosis<input id="h-dosis" name="dosis" value="${esc(h.dosis)}" placeholder="0.2 ml, 1 gota, en el agua…"></label>
+    <label>Próxima dosis<input id="h-proxima" name="proxima" type="date" value="${esc(h.proxima)}"><span class="hint">Sale en el calendario de Cría</span></label>
+    <label class="full">Nota<input id="h-nota" name="nota" value="${esc(h.nota)}"></label>
+    ${isNew && enPalomar > 1 ? `<label class="full" style="flex-direction:row;align-items:center;gap:8px;color:var(--ink)"><input id="h-todas" name="todas" type="checkbox" style="width:auto"> Aplicar a todas las palomas del palomar (${enPalomar})</label>` : ""}
+    <div class="full mfoot" style="justify-content:space-between"><div>${isNew?"":`<button type="button" class="btn danger" data-act="delSalud" data-cid="${esc(h.id)}">Borrar</button>`}</div>
+    <div class="row"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Guardar</button></div></div>
+  </form>`, async fd => {
+    const base = {}; ["fecha","tipo","producto","dosis","proxima","nota"].forEach(k => base[k] = String(fd.get(k)||"").trim());
+    const todas = fd.get("todas");
+    closeModal(); S.ftab = "salud";
+    const targets = todas ? Object.values(S.birds).filter(o => !o.estado || o.estado === "En el palomar") : [b];
+    for (const t of targets){
+      const n = Object.assign({id: (!todas && h.id) ? h.id : newId()}, base);
+      await saveBird(Object.assign({}, t, {salud:(t.salud||[]).filter(x => x.id !== n.id).concat(n)}));
+    }
+    toast(todas ? `Anotado en ${targets.length} palomas` : "Guardado");
+  });
+}
+
+/* ---------- Cría ---------- */
+const NID_ESTADOS = ["Incubando","Nacieron","Anillados","Destetados","Perdida"];
+function nidFechas(n){
+  const eclosion = n.nacio || addDays(n.puesta, 19);
+  return {eclosion, anillarDe:addDays(eclosion,5), anillarA:addDays(eclosion,7), destete:addDays(eclosion,28)};
+}
+function agenda(){
+  const items = [], t = todayISO();
+  for (const n of S.cria.nidadas || []){
+    if (!n.puesta) continue;
+    const f = nidFechas(n), par = `${nm(B(n.macho))} × ${nm(B(n.hembra))}`;
+    if (n.estado === "Incubando") items.push({fecha:f.eclosion, t:"Deben nacer los pichones", s:par, nid:n.id});
+    if (n.estado === "Incubando" || n.estado === "Nacieron") items.push({fecha:f.anillarDe, t:`Anillar pichones (hasta el ${fmtDay(f.anillarA)})`, s:par, nid:n.id});
+    if (["Incubando","Nacieron","Anillados"].includes(n.estado)) items.push({fecha:f.destete, t:"Destetar pichones", s:par, nid:n.id});
+  }
+  const groups = {};
+  for (const b of Object.values(S.birds)){
+    if (b.estado && b.estado !== "En el palomar") continue;
+    const latest = {};
+    for (const h of b.salud || []){ const k = (h.producto||"").toLowerCase(); if (!latest[k] || (h.fecha||"") > (latest[k].fecha||"")) latest[k] = h; }
+    for (const h of Object.values(latest)) if (h.proxima){ const k = h.proxima + "|" + h.tipo + "|" + h.producto; (groups[k] = groups[k] || {fecha:h.proxima, t:`${h.tipo}: ${h.producto}`, birds:[]}).birds.push(b); }
+  }
+  for (const g of Object.values(groups)) items.push({fecha:g.fecha, t:g.t, s:g.birds.length > 3 ? `${g.birds.length} palomas` : g.birds.map(nm).join(", "), bird:g.birds.length===1?g.birds[0].id:null});
+  return items.filter(i => daysFrom(i.fecha) <= 30 && daysFrom(i.fecha) >= -21).sort((a,b) => a.fecha.localeCompare(b.fecha));
+}
+function nestCard(n){
+  const M = B(n.macho), H = B(n.hembra), f = n.puesta ? nidFechas(n) : null, fo = phi(n.macho, n.hembra), lv = fLevel(fo);
+  const idx = Math.max(0, ["Incubando","Nacieron","Anillados","Destetados"].indexOf(n.estado)) + 1;
+  const step = (i, lbl, d) => `<div class="${i < idx || n.estado==="Destetados" ? "done" : i === idx ? "now" : ""}">${lbl}<b>${d ? fmtDay(d) : "—"}</b></div>`;
+  const kids = (n.pichones || []).map(B).filter(Boolean);
+  return `<article class="nest">
+    <div class="row" style="justify-content:space-between"><div class="row" style="gap:8px"><span class="tag">${esc(n.estado)}</span>${fo>0?`<span class="pill ${lv.cls}">Pichones ${pct(fo)} consang.</span>`:""}</div><button class="btn sm" data-act="editNid" data-id="${esc(n.id)}">Editar</button></div>
+    <h3 style="font-size:22px;margin-top:8px"><button class="linkbtn" data-act="open" data-id="${esc(n.macho)}">${esc(nm(M))}</button> <span class="meta">♂ ×</span> <button class="linkbtn" data-act="open" data-id="${esc(n.hembra)}">${esc(nm(H))}</button> <span class="meta">♀</span></h3>
+    ${f && n.estado !== "Perdida" ? `<div class="steps">${step(0,"Puesta",n.puesta)}${step(1,"Nacen",f.eclosion)}${step(2,"Anillar",f.anillarDe)}${step(3,"Destete",f.destete)}</div>` : ""}
+    <p class="meta" style="margin:8px 0 0">${esc(n.huevos||2)} huevo${(n.huevos||2)==1?"":"s"}${n.nota?` · ${esc(n.nota)}`:""}</p>
+    ${kids.length ? `<p style="margin:6px 0 0">${kids.map(k => `<button class="btn sm" style="margin:2px 6px 0 0" data-act="open" data-id="${esc(k.id)}">${esc(k.anilla||nm(k))}</button>`).join("")}</p>` : ""}
+    ${["Nacieron","Anillados"].includes(n.estado) ? `<button class="btn sm pri" style="margin-top:10px" data-act="addPichon" data-id="${esc(n.id)}">+ Registrar pichón con su anilla</button>` : ""}
+  </article>`;
+}
+function viewCria(){
+  const nids = (S.cria.nidadas || []).slice().sort((a,b) => (b.puesta||"").localeCompare(a.puesta||""));
+  const act = nids.filter(n => !["Destetados","Perdida"].includes(n.estado)), old = nids.filter(n => ["Destetados","Perdida"].includes(n.estado));
+  const ag = agenda();
+  const pairs = {};
+  nids.forEach(n => { const k = n.macho + "|" + n.hembra; const p = pairs[k] = pairs[k] || {m:n.macho, h:n.hembra, nid:0, pich:0}; p.nid++; p.pich += (n.pichones||[]).length; });
+  return `${noticeHtml()}
+  <div class="row" style="justify-content:space-between"><h2 style="font-size:30px">Cría y calendario</h2><button class="btn pri" data-act="newNid">+ Nueva nidada</button></div>
+  <div class="sec-h"><h2>Próximas fechas</h2><span class="meta">próximos 30 días</span></div>
+  ${ag.length ? `<div class="agenda">${ag.map(i => { const d = daysFrom(i.fecha); return `<div class="ag ${d<0?"late":d===0?"today":""}"><div><div class="d">${fmtDay(i.fecha)}</div><div class="meta" style="font-size:12px">${d<0?`atrasado ${-d} d`:d===0?"hoy":d===1?"mañana":`en ${d} días`}</div></div><div style="min-width:0"><div style="font-weight:600">${esc(i.t)}</div><div class="meta">${esc(i.s)}</div></div></div>`; }).join("")}</div>`
+    : `<p class="meta">Nada pendiente. Las fechas salen solas cuando anotas una nidada o la próxima dosis de una vacuna.</p>`}
+  <div class="sec-h"><h2>Nidadas activas</h2></div>
+  ${act.length ? `<div class="fam" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">${act.map(nestCard).join("")}</div>` : `<div class="empty">No hay nidadas activas. Cuando una pareja ponga, toca “Nueva nidada” y anota la fecha del primer huevo. La app calcula cuándo nacen (unos 18 días), cuándo anillar (a los 5–7 días de nacidos) y cuándo destetar (unos 28 días).</div>`}
+  ${Object.keys(pairs).length ? `<div class="sec-h"><h2>Parejas</h2></div><div class="tablewrap"><table><thead><tr><th>Macho</th><th>Hembra</th><th style="text-align:right">Nidadas</th><th style="text-align:right">Pichones</th><th style="text-align:right">Consang. pichones</th></tr></thead><tbody>${Object.values(pairs).map(p => `<tr><td>${esc(nm(B(p.m)))}</td><td>${esc(nm(B(p.h)))}</td><td class="num">${p.nid}</td><td class="num">${p.pich}</td><td class="num">${pct(phi(p.m,p.h))}</td></tr>`).join("")}</tbody></table></div>` : ""}
+  ${old.length ? `<div class="sec-h"><h2>Historial</h2></div><div class="fam" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))">${old.map(nestCard).join("")}</div>` : ""}`;
+}
+function nidForm(n){
+  const isNew = !n; n = n || {puesta:todayISO(), huevos:2, estado:"Incubando", pichones:[]};
+  openModal(`<h2>${isNew ? "Nueva nidada" : "Editar nidada"}</h2>
+  <form class="form" autocomplete="off">
+    <label>Macho *<select id="n-macho" name="macho" required>${birdOptions(n.macho, o => o.sexo !== "H", "Elige el macho")}</select></label>
+    <label>Hembra *<select id="n-hembra" name="hembra" required>${birdOptions(n.hembra, o => o.sexo !== "M", "Elige la hembra")}</select></label>
+    <p class="hint full" id="n-cons" style="margin:-4px 0 0"></p>
+    <label>Fecha del primer huevo<input id="n-puesta" name="puesta" type="date" required value="${esc(n.puesta)}"></label>
+    <label>Huevos<input id="n-huevos" name="huevos" type="number" min="1" max="3" value="${esc(n.huevos)}"></label>
+    <label>Estado<select id="n-estado" name="estado">${NID_ESTADOS.map(e => `<option ${e===n.estado?"selected":""}>${e}</option>`).join("")}</select></label>
+    <label>Fecha en que nacieron<input id="n-nacio" name="nacio" type="date" value="${esc(n.nacio)}"><span class="hint">Si la anotas, se ajustan anillado y destete</span></label>
+    <label class="full">Nota<input id="n-nota" name="nota" value="${esc(n.nota)}"></label>
+    <div class="full mfoot" style="justify-content:space-between"><div>${isNew?"":`<button type="button" class="btn danger" data-act="delNid" data-id="${esc(n.id)}">Borrar</button>`}</div>
+    <div class="row"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Guardar</button></div></div>
+  </form>`, async fd => {
+    const o = Object.assign({}, n, {id:n.id || newId(), pichones:n.pichones || []});
+    ["macho","hembra","puesta","estado","nacio","nota"].forEach(k => o[k] = String(fd.get(k)||"").trim());
+    o.huevos = +fd.get("huevos") || 2;
+    if (o.macho === o.hembra){ toast("Elige dos palomas distintas."); return; }
+    S.cria = Object.assign({}, S.cria, {nidadas:(S.cria.nidadas||[]).filter(x => x.id !== o.id).concat(o)});
+    closeModal(); await saveCria(); toast(isNew ? "Nidada anotada" : "Nidada guardada");
+  });
+  const upd = () => { const m = $("#n-macho").value, h = $("#n-hembra").value, el = $("#n-cons"); if (!el) return; if (m && h){ const f = phi(m,h); el.textContent = f > 0 ? `Los pichones tendrán ${pct(f)} de consanguinidad (${fLevel(f).txt.toLowerCase()}). ${relation(m,h).title}.` : "Pareja sin parentesco: cruce abierto."; } else el.textContent = ""; };
+  $("#n-macho").addEventListener("change", upd); $("#n-hembra").addEventListener("change", upd); upd();
+}
+function addPichon(nid){
+  const n = (S.cria.nidadas||[]).find(x => x.id === nid); if (!n) return;
+  const M = B(n.macho);
+  birdForm(null, {padre:n.macho, madre:n.hembra, anio:+(n.nacio || nidFechas(n).eclosion).slice(0,4), raza:(M && M.raza) || "Mensajero"}, async nb => {
+    const cur = (S.cria.nidadas||[]).find(x => x.id === nid) || n;
+    const o = Object.assign({}, cur, {pichones:(cur.pichones||[]).concat(nb.id)});
+    S.cria = Object.assign({}, S.cria, {nidadas:(S.cria.nidadas||[]).map(x => x.id === nid ? o : x)});
+    await saveCria();
+  });
+}
+
+/* ---------- Ranking ---------- */
+const racePts = c => (+c.puesto > 0 && +c.total > 0) ? Math.max(0, Math.round(100 * (+c.total - +c.puesto + 1) / +c.total)) : (+c.puesto > 0 ? Math.max(0, 50 - +c.puesto) : 0);
+function inYear(fecha){ if (S.ryear === "todos") return true; return String(fecha||"").slice(0,4) === S.ryear; }
+function flyerStats(b){
+  const cs = (b.carreras||[]).filter(c => inYear(c.fecha));
+  if (!cs.length) return null;
+  const pts = cs.reduce((a,c) => a + racePts(c), 0);
+  const pos = cs.filter(c => +c.puesto > 0).map(c => +c.puesto);
+  const vel = cs.filter(c => +c.vel > 0).map(c => +c.vel);
+  return {b, n:cs.length, pts, avg:Math.round(pts/cs.length), best:pos.length?Math.min(...pos):null, top10:pos.filter(p => p<=10).length, vel:vel.length?Math.max(...vel):null};
+}
+function viewRanking(){
+  const years = [...new Set(Object.values(S.birds).flatMap(b => [...(b.carreras||[]), ...(b.capturas||[])].map(x => String(x.fecha||"").slice(0,4))).filter(Boolean))].sort().reverse();
+  const tabs = [["voladores","Voladores"],["reproductores","Reproductores"],["buchones","Buchones"]].map(([k,t]) => `<button aria-current="${S.rtab===k}" data-act="rtab" data-v="${k}">${t}</button>`).join("");
+  const ychips = ["todos", ...years].map(y => `<button class="chip" aria-pressed="${S.ryear===y}" data-act="ryear" data-v="${y}">${y==="todos"?"Todos los años":y}</button>`).join("");
+  const link = b => `<button class="linkbtn" data-act="open" data-id="${esc(b.id)}">${esc(nm(b))}</button> <span class="band">${esc(b.anilla||"")}</span>`;
+  let body = "";
+  if (S.rtab === "voladores"){
+    const L = Object.values(S.birds).map(flyerStats).filter(Boolean).sort((a,b) => b.pts - a.pts || b.avg - a.avg);
+    body = `<p class="meta">Puntos por carrera: 100 si llega 1ª, y bajan según el puesto y cuántas palomas volaron. Ganar contra 100 vale más que ganar contra 10.</p>` +
+      (L.length ? `<div class="tablewrap rank"><table><thead><tr><th>#</th><th>Paloma</th><th style="text-align:right">Puntos</th><th style="text-align:right">Carreras</th><th style="text-align:right">Promedio</th><th style="text-align:right">Mejor</th><th style="text-align:right">Top 10</th><th style="text-align:right">Vel. máx</th></tr></thead><tbody>${L.map((r,i) => `<tr><td>${i+1}</td><td>${link(r.b)}</td><td class="num"><b>${r.pts}</b></td><td class="num">${r.n}</td><td class="num">${r.avg}</td><td class="num ${r.best===1?"pos1":""}">${r.best?r.best+"º":"—"}</td><td class="num">${r.top10}</td><td class="num">${r.vel?r.vel+" m/min":"—"}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No hay carreras anotadas${S.ryear!=="todos"?" en "+S.ryear:""}.</div>`);
+  } else if (S.rtab === "reproductores"){
+    const L = Object.values(S.birds).map(b => {
+      const kids = childrenOf(b.id); if (!kids.length) return null;
+      const st = kids.map(flyerStats).filter(Boolean);
+      const pts = st.reduce((a,s) => a + s.pts, 0);
+      const best = st.filter(s => s.best).sort((a,c) => a.best - c.best)[0];
+      return {b, kids:kids.length, voladores:st.length, pts, best, caps:kids.reduce((a,k) => a + (k.capturas||[]).filter(c => inYear(c.fecha)).length, 0)};
+    }).filter(Boolean).sort((a,b) => b.pts - a.pts || b.caps - a.caps || b.kids - a.kids);
+    body = `<p class="meta">Los mejores padres y madres según lo que han hecho sus hijos en las carreras.</p>` +
+      (L.length ? `<div class="tablewrap rank"><table><thead><tr><th>#</th><th>Reproductor</th><th style="text-align:right">Hijos</th><th style="text-align:right">Hijos con carreras</th><th style="text-align:right">Puntos de los hijos</th><th>Mejor hijo</th><th style="text-align:right">Capturas de hijos</th></tr></thead><tbody>${L.map((r,i) => `<tr><td>${i+1}</td><td>${link(r.b)} <span class="sx ${r.b.sexo}">${r.b.sexo==="M"?"♂":r.b.sexo==="H"?"♀":""}</span></td><td class="num">${r.kids}</td><td class="num">${r.voladores}</td><td class="num"><b>${r.pts}</b></td><td>${r.best?`${esc(nm(r.best.b))} · ${r.best.best}º`:"—"}</td><td class="num">${r.caps}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">Todavía no hay palomas con hijos registrados.</div>`);
+  } else {
+    const L = Object.values(S.birds).map(b => { const cs = (b.capturas||[]).filter(c => inYear(c.fecha)); if (!cs.length) return null; const quedo = cs.filter(c => /qued/i.test(c.nota||"")).length; const last = cs.map(c => c.fecha||"").sort().pop(); return {b, n:cs.length, quedo, last}; })
+      .filter(Boolean).sort((a,b) => b.n - a.n || b.quedo - a.quedo);
+    body = (L.length ? `<div class="tablewrap rank"><table><thead><tr><th>#</th><th>Ejemplar</th><th style="text-align:right">Capturas</th><th style="text-align:right">Se quedaron</th><th>Última</th></tr></thead><tbody>${L.map((r,i) => `<tr><td>${i+1}</td><td>${link(r.b)}</td><td class="num"><b>${r.n}</b></td><td class="num">${r.quedo}</td><td>${esc(r.last)}</td></tr>`).join("")}</tbody></table></div>` : `<div class="empty">No hay capturas anotadas${S.ryear!=="todos"?" en "+S.ryear:""}.</div>`);
+  }
+  return `${noticeHtml()}<h2 style="font-size:30px">Ranking del palomar</h2>
+  <nav class="subtabs" style="margin-top:8px">${tabs}</nav>
+  <div class="chips" style="margin:12px 0">${ychips}</div>${body}`;
+}
+
+/* ---------- Comunidad: mercado, foro, perfiles ---------- */
+const CATS = ["General","Carreras","Cría y pedigree","Salud","Capturas","Buchones"];
+const fmtDate = t => { try { return new Date(t).toLocaleDateString("es", {day:"numeric", month:"short", year:"numeric"}); } catch(e){ return ""; } };
+function perfil(id){ return S.raw.perfiles[id] || {}; }
+function whoName(id){ const p = perfil(id); return p.palomar || S.names[id] || "Palomero"; }
+function whoHtml(id, t){
+  const p = perfil(id);
+  return `<div class="who"><b style="color:var(--ink)">${esc(whoName(id))}</b>${p.ciudad?` · ${esc(p.ciudad)}`:""}${t?` · ${fmtDate(t)}`:""}${id===uid?' · <span class="pill mut">Tú</span>':""}</div>`;
+}
+let namesPending = false;
+function refreshNames(){
+  if (!userNs || namesPending) return;
+  const ids = new Set([...Object.keys(S.raw.mercado), ...Object.keys(S.raw.foro), ...Object.keys(S.raw.perfiles)]);
+  if (!ids.size) return;
+  namesPending = true;
+  userNs.profiles([...ids]).then(ps => { namesPending = false; let ch = false; for (const k in ps){ if (ps[k].name && S.names[k] !== ps[k].name){ S.names[k] = ps[k].name; ch = true; } } if (ch) render(); }).catch(() => { namesPending = false; });
+}
+async function writeMine(colName, data){
+  try { await db.doc(colName + "/" + uid).set(data); return true; }
+  catch(e){ toast(e && e.code === "invalid_argument" ? "Tu acceso es solo para ver. Pide al dueño que te dé permiso para participar." : errMsg(e)); return false; }
+}
+async function writeOther(colName, owner, data){
+  try { await db.doc(colName + "/" + owner).set(data); return true; } catch(e){ toast(errMsg(e)); return false; }
+}
+function communityGate(){
+  if (S.community) return "";
+  return `<div class="empty"><h3>El mercado y el foro necesitan tu cuenta</h3><p>Entra con tu cuenta (botón de la persona, arriba) para ver los anuncios y conversar con otros palomeros.</p></div>`;
+}
+function myProfileBar(){
+  const p = perfil(uid);
+  return `<div class="notice plain" style="justify-content:space-between"><span>${p.palomar ? `Publicas como <b style="color:var(--ink)">${esc(p.palomar)}</b>${p.telefono?` · ${esc(p.telefono)}`:""}` : "Pon el nombre de tu palomar y tu teléfono para que te puedan contactar."}</span><button class="btn sm" data-act="perfil">${p.palomar ? "Editar mi perfil" : "Crear mi perfil"}</button></div>`;
+}
+function allAds(){
+  const L = [];
+  for (const [owner, d] of Object.entries(S.raw.mercado)) (d.items || []).forEach(it => L.push(Object.assign({owner}, it)));
+  return L.sort((a,b) => (b.fecha||0) - (a.fecha||0));
+}
+function viewMercado(){
+  const gate = communityGate(); if (gate) return gate;
+  const chips = [["todos","Todo"],["Vendo","Se vende"],["Compro","Se compra"],["Cambio","Cambio"],["mios","Mis anuncios"]]
+    .map(([k,t]) => `<button class="chip" aria-pressed="${S.mfilter===k}" data-act="mfilter" data-v="${k}">${t}</button>`).join("");
+  let L = allAds();
+  if (S.mfilter === "mios") L = L.filter(a => a.owner === uid);
+  else if (S.mfilter !== "todos") L = L.filter(a => a.tipo === S.mfilter);
+  const q = S.mq.trim().toLowerCase();
+  if (q) L = L.filter(a => [a.titulo,a.raza,a.color,a.anilla,a.ubicacion,a.desc,whoName(a.owner)].join(" ").toLowerCase().includes(q));
+  const cards = L.map(a => {
+    const mine = a.owner === uid;
+    return `<article class="ad ${a.vendida?"sold":""}">
+      <div class="ph">${a.foto ? `<img src="${esc(a.foto)}" alt="">` : PIGEON}</div>
+      <div class="bd">
+        <div class="row" style="gap:6px"><span class="tag ${esc(a.tipo)}">${a.tipo==="Vendo"?"Se vende":a.tipo==="Compro"?"Se compra":"Cambio"}</span>${a.vendida?'<span class="pill mut">Vendida</span>':""}${a.anilla?`<span class="band">${esc(a.anilla)}</span>`:""}</div>
+        <h3 style="font-size:22px">${esc(a.titulo)}</h3>
+        ${a.precio ? `<div class="price">${esc(a.precio)}</div>` : ""}
+        <div class="meta">${esc([a.raza, a.sexo, a.color, a.ubicacion].filter(Boolean).join(" · "))}</div>
+        ${a.pedigree ? `<div class="ped-txt"><b>Pedigree:</b> ${esc(a.pedigree)}</div>` : ""}
+        ${a.desc ? `<div class="body-txt" style="font-size:14px">${esc(a.desc)}</div>` : ""}
+        ${whoHtml(a.owner, a.fecha)}
+        ${(a.contacto || perfil(a.owner).telefono) ? `<div class="contact"><span>${esc(a.contacto || perfil(a.owner).telefono)}</span><button class="btn sm" data-act="copy" data-v="${esc(a.contacto || perfil(a.owner).telefono)}">Copiar</button></div>` : ""}
+        <div class="row" style="margin-top:auto;padding-top:6px">
+          ${mine ? `<button class="btn sm" data-act="editAd" data-id="${esc(a.id)}">Editar</button><button class="btn sm" data-act="soldAd" data-id="${esc(a.id)}">${a.vendida?"Volver a publicar":"Marcar vendida"}</button>` : ""}
+          ${!mine && S.isOwner ? `<button class="btn sm danger" data-act="modAd" data-owner="${esc(a.owner)}" data-id="${esc(a.id)}">Quitar anuncio</button>` : ""}
+        </div>
+      </div></article>`;
+  }).join("");
+  return `${myProfileBar()}
+  <div class="row"><input class="search" id="mq" type="search" placeholder="Buscar raza, color, ciudad…" value="${esc(S.mq)}" aria-label="Buscar anuncios"><button class="btn pri" data-act="newAd">+ Publicar anuncio</button></div>
+  <div class="chips" style="margin-top:10px">${chips}</div>
+  ${L.length ? `<div class="mgrid">${cards}</div>` : `<div class="empty" style="margin-top:14px"><h3>${S.mfilter==="mios"?"No tienes anuncios":"Todavía no hay anuncios"}</h3><p>Publica una paloma para vender, cambiar, o di qué estás buscando. Si la vendes de tu palomar, el pedigree se agrega solo.</p><button class="btn pri" data-act="newAd">+ Publicar anuncio</button></div>`}`;
+}
+function pedigreeText(b){
+  const part = (lbl, x) => x ? `${lbl}: ${nm(x)}${raceSummary(x) ? " (" + raceSummary(x) + ")" : ""}` : "";
+  return [part("Padre", B(b.padre)), part("Madre", B(b.madre)), raceSummary(b) ? "Ella/él: " + raceSummary(b) : "", F(b.id) > 0 ? "Consanguinidad " + pct(F(b.id)) : ""].filter(Boolean).join(" · ").replace("Ella/él", b.sexo==="H"?"Ella":"Él");
+}
+function adForm(a){
+  const isNew = !a; a = a || {tipo:"Vendo"};
+  const myBirds = S.demo ? [] : Object.values(S.birds);
+  let foto = a.foto || "";
+  openModal(`<h2>${isNew ? "Nuevo anuncio" : "Editar anuncio"}</h2>
+  <form class="form" autocomplete="off">
+    <label>Tipo<select id="a-tipo" name="tipo">${[["Vendo","Se vende"],["Compro","Se compra"],["Cambio","Cambio"]].map(([v,t]) => `<option value="${v}" ${a.tipo===v?"selected":""}>${t}</option>`).join("")}</select></label>
+    ${myBirds.length ? `<label>De mi palomar<select id="a-bird" name="bird"><option value="">— Ninguna —</option>${myBirds.map(b => `<option value="${esc(b.id)}" ${a.birdId===b.id?"selected":""}>${esc(nm(b))} — ${esc(b.anilla)}</option>`).join("")}</select><span class="hint">Llena los datos y el pedigree</span></label>` : `<span></span>`}
+    <label class="full">Título *<input id="a-titulo" name="titulo" required maxlength="80" value="${esc(a.titulo)}" placeholder="Pareja de mensajeros, hijos de campeón"></label>
+    <label>Precio<input id="a-precio" name="precio" value="${esc(a.precio)}" placeholder="$150 · o a cambio"></label>
+    <label>Raza<input id="a-raza" name="raza" list="razas2" value="${esc(a.raza)}"><datalist id="razas2"><option>Mensajero</option><option>Buchón</option><option>Colillano</option><option>Tumbler</option></datalist></label>
+    <label>Sexo<input id="a-sexo" name="sexo" list="sexos" value="${esc(a.sexo)}"><datalist id="sexos"><option>Macho</option><option>Hembra</option><option>Pareja</option><option>Pichón sin sexar</option></datalist></label>
+    <label>Color<input id="a-color" name="color" value="${esc(a.color)}"></label>
+    <label>Anilla<input id="a-anilla" name="anilla" value="${esc(a.anilla)}"></label>
+    <label>Ciudad<input id="a-ubicacion" name="ubicacion" value="${esc(a.ubicacion || perfil(uid).ciudad || "")}" placeholder="Homestead, FL"></label>
+    <label>Contacto<input id="a-contacto" name="contacto" value="${esc(a.contacto || perfil(uid).telefono || "")}" placeholder="Teléfono o WhatsApp"></label>
+    <label>Foto<input id="a-foto" type="file" accept="image/*"><span class="hint" id="aFotoHint">${foto?"Tiene foto.":"Opcional"}</span></label>
+    <label class="full">Pedigree<textarea id="a-pedigree" name="pedigree" placeholder="Padre, madre y sus resultados">${esc(a.pedigree)}</textarea></label>
+    <label class="full">Descripción<textarea id="a-desc" name="desc">${esc(a.desc)}</textarea></label>
+    <div class="full mfoot" style="justify-content:space-between"><div>${isNew?"":`<button type="button" class="btn danger" data-act="delAd" data-id="${esc(a.id)}">Borrar anuncio</button>`}</div>
+    <div class="row"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Publicar</button></div></div>
+  </form>`, async fd => {
+    const n = Object.assign({}, a, {id:a.id || newId(), fecha:a.fecha || Date.now(), foto, birdId:fd.get("bird") || a.birdId || ""});
+    ["tipo","titulo","precio","raza","sexo","color","anilla","ubicacion","contacto","pedigree","desc"].forEach(k => n[k] = String(fd.get(k)||"").trim());
+    delete n.owner;
+    const mine = (S.raw.mercado[uid] && S.raw.mercado[uid].items) || [];
+    if (isNew && mine.filter(x => !x.vendida).length >= 8){ toast("Máximo 8 anuncios activos. Borra o marca vendido uno viejo."); return; }
+    const items = mine.filter(x => x.id !== n.id).concat(n);
+    closeModal();
+    if (await writeMine("mercado", {items})) toast(isNew ? "Anuncio publicado" : "Anuncio actualizado");
+  });
+  const bs = $("#a-bird");
+  if (bs) bs.addEventListener("change", () => {
+    const b = B(bs.value); if (!b) return;
+    const set = (id, v) => { const el = $(id); if (el && v) el.value = v; };
+    set("#a-titulo", `${b.raza || "Paloma"} ${b.nombre ? "“" + b.nombre + "”" : ""} ${b.anio || ""}`.replace(/\s+/g," ").trim());
+    set("#a-raza", b.raza); set("#a-color", b.color); set("#a-anilla", b.anilla);
+    set("#a-sexo", b.sexo === "M" ? "Macho" : b.sexo === "H" ? "Hembra" : "Pichón sin sexar");
+    set("#a-pedigree", pedigreeText(b));
+    if (b.foto){ foto = b.foto; $("#aFotoHint").textContent = "Usando la foto de la ficha."; }
+  });
+  $("#a-foto").addEventListener("change", async ev => {
+    const file = ev.target.files && ev.target.files[0]; if (!file) return;
+    try { foto = await resizeImg(file, 360); $("#aFotoHint").textContent = "Foto lista."; } catch(e){ $("#aFotoHint").textContent = "No se pudo leer esa foto."; }
+  });
+}
+function perfilForm(){
+  const p = perfil(uid);
+  openModal(`<h2>Mi perfil de palomero</h2>
+  <form class="form" autocomplete="off">
+    <label class="full">Nombre de tu palomar *<input id="p-palomar" name="palomar" required maxlength="50" value="${esc(p.palomar)}" placeholder="Palomar Elite"></label>
+    <label>Ciudad<input id="p-ciudad" name="ciudad" maxlength="50" value="${esc(p.ciudad)}" placeholder="Homestead, FL"></label>
+    <label>Teléfono / WhatsApp<input id="p-telefono" name="telefono" maxlength="30" value="${esc(p.telefono)}"></label>
+    <label class="full">Sobre ti<textarea id="p-bio" name="bio" maxlength="400" placeholder="Qué razas crías, desde cuándo vuelas…">${esc(p.bio)}</textarea></label>
+    <p class="hint full" style="margin:0">Todo lo que pongas aquí lo ven los demás palomeros de la app.</p>
+    <div class="full mfoot"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Guardar perfil</button></div>
+  </form>`, async fd => {
+    const n = {}; ["palomar","ciudad","telefono","bio"].forEach(k => n[k] = String(fd.get(k)||"").trim());
+    closeModal(); if (await writeMine("perfiles", n)) toast("Perfil guardado");
+  });
+}
+function forumData(){
+  const posts = [], replies = {};
+  for (const [owner, d] of Object.entries(S.raw.foro)){
+    (d.posts || []).forEach(p => posts.push(Object.assign({owner}, p)));
+    (d.replies || []).forEach(r => { (replies[r.postId] = replies[r.postId] || []).push(Object.assign({owner}, r)); });
+  }
+  Object.values(replies).forEach(l => l.sort((a,b) => (a.fecha||0) - (b.fecha||0)));
+  const last = p => Math.max(p.fecha || 0, ...((replies[p.id] || []).map(r => r.fecha || 0)));
+  posts.sort((a,b) => last(b) - last(a));
+  return {posts, replies};
+}
+function viewForo(){
+  const gate = communityGate(); if (gate) return gate;
+  const {posts, replies} = forumData();
+  if (S.thread){
+    const p = posts.find(x => x.id === S.thread);
+    if (!p){ S.thread = null; }
+    else {
+      const rs = replies[p.id] || [];
+      const canMod = (o) => o === uid || S.isOwner;
+      return `<div class="row" style="margin-bottom:14px"><button class="btn sm" data-act="closeThread">← Foro</button></div>
+      <article class="panel"><span class="tag">${esc(p.cat||"General")}</span><h2 style="font-size:32px;margin:8px 0 6px">${esc(p.titulo)}</h2>${whoHtml(p.owner, p.fecha)}
+        ${p.foto ? `<img src="${esc(p.foto)}" alt="" style="border-radius:8px;margin-top:12px;max-height:420px">` : ""}
+        <p class="body-txt" style="margin:12px 0 0">${esc(p.texto)}</p>
+        ${perfil(p.owner).telefono ? `<div class="contact" style="margin-top:10px"><span>${esc(perfil(p.owner).telefono)}</span><button class="btn sm" data-act="copy" data-v="${esc(perfil(p.owner).telefono)}">Copiar</button></div>` : ""}
+        ${canMod(p.owner) ? `<div class="row" style="margin-top:12px"><button class="btn sm danger" data-act="delPost" data-owner="${esc(p.owner)}" data-id="${esc(p.id)}">Borrar tema</button></div>` : ""}
+      </article>
+      <div class="sec-h"><h2>${rs.length} respuesta${rs.length===1?"":"s"}</h2></div>
+      <div class="list">${rs.map(r => `<div class="reply">${whoHtml(r.owner, r.fecha)}<div class="body-txt" style="margin-top:4px">${esc(r.texto)}</div>${canMod(r.owner)?`<button class="btn sm danger" style="margin-top:6px" data-act="delReply" data-owner="${esc(r.owner)}" data-id="${esc(r.id)}">Borrar</button>`:""}</div>`).join("") || '<p class="meta">Nadie ha respondido todavía.</p>'}</div>
+      <div class="compose"><label class="lbl" for="replyText">Tu respuesta</label><textarea id="replyText" data-keep maxlength="2000" placeholder="Escribe aquí…"></textarea><div><button class="btn pri" data-act="sendReply" data-id="${esc(p.id)}">Responder</button></div></div>`;
+    }
+  }
+  const cats = ["Todas", ...CATS].map(c => `<button class="chip" aria-pressed="${S.fcat===c}" data-act="fcat" data-v="${esc(c)}">${esc(c)}</button>`).join("");
+  const L = S.fcat === "Todas" ? posts : posts.filter(p => p.cat === S.fcat);
+  return `${myProfileBar()}
+  <div class="row" style="justify-content:space-between"><h2 style="font-size:28px">Foro de palomeros</h2><button class="btn pri" data-act="newPost">+ Nuevo tema</button></div>
+  <div class="chips" style="margin-top:10px">${cats}</div>
+  ${L.length ? `<div class="list" style="margin-top:14px">${L.map(p => `<button class="post" data-act="thread" data-id="${esc(p.id)}"><div class="row" style="gap:8px"><span class="tag">${esc(p.cat||"General")}</span><span class="meta">${(replies[p.id]||[]).length} respuestas</span></div><h3 style="margin:6px 0 4px">${esc(p.titulo)}</h3><div class="meta" style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">${esc(p.texto)}</div><div style="margin-top:6px">${whoHtml(p.owner, p.fecha)}</div></button>`).join("")}</div>`
+    : `<div class="empty" style="margin-top:14px"><h3>Todavía no hay temas</h3><p>Abre el primero: cuenta una carrera, pregunta por un cruce o presenta tu palomar.</p><button class="btn pri" data-act="newPost">+ Nuevo tema</button></div>`}`;
+}
+function postForm(){
+  let foto = "";
+  openModal(`<h2>Nuevo tema</h2>
+  <form class="form" autocomplete="off">
+    <label class="full">Título *<input id="t-titulo" name="titulo" required maxlength="100" placeholder="¿Qué cruce me recomiendan para fondo?"></label>
+    <label>Categoría<select id="t-cat" name="cat">${CATS.map(c => `<option>${c}</option>`).join("")}</select></label>
+    <label>Foto<input id="t-foto" type="file" accept="image/*"><span class="hint" id="tFotoHint">Opcional</span></label>
+    <label class="full">Mensaje *<textarea id="t-texto" name="texto" required maxlength="4000" style="min-height:140px"></textarea></label>
+    <div class="full mfoot"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Publicar</button></div>
+  </form>`, async fd => {
+    const n = {id:newId(), fecha:Date.now(), titulo:String(fd.get("titulo")||"").trim(), cat:fd.get("cat"), texto:String(fd.get("texto")||"").trim(), foto};
+    const mine = Object.assign({posts:[], replies:[]}, S.raw.foro[uid] || {});
+    closeModal();
+    if (await writeMine("foro", {posts:mine.posts.concat(n).slice(-40), replies:mine.replies})){ S.thread = n.id; render(); toast("Tema publicado"); }
+  });
+  $("#t-foto").addEventListener("change", async ev => {
+    const file = ev.target.files && ev.target.files[0]; if (!file) return;
+    try { foto = await resizeImg(file, 480); $("#tFotoHint").textContent = "Foto lista."; } catch(e){ $("#tFotoHint").textContent = "No se pudo leer esa foto."; }
+  });
+}
+async function sendReply(postId){
+  const ta = $("#replyText"); const texto = (ta && ta.value || "").trim(); if (!texto) return;
+  const mine = Object.assign({posts:[], replies:[]}, S.raw.foro[uid] || {});
+  const replies = mine.replies.concat({id:newId(), postId, texto, fecha:Date.now()}).slice(-200);
+  if (await writeMine("foro", {posts:mine.posts, replies})){ ta.value = ""; toast("Respuesta publicada"); }
+}
+async function removeFrom(colName, owner, field, id){
+  const d = Object.assign({}, S.raw[colName][owner] || {});
+  d[field] = (d[field] || []).filter(x => x.id !== id);
+  ["posts","replies","items"].forEach(k => { if (colName === "foro" && k !== "items" && !d[k]) d[k] = []; });
+  return owner === uid ? writeMine(colName, d) : writeOther(colName, owner, d);
+}
+function subscribeCommunity(){
+  ["mercado","foro","perfiles"].forEach(name => {
+    db.collection(name).onSnapshot(snap => {
+      const m = {}; snap.docs.forEach(d => { m[d.id] = d.data(); });
+      S.raw[name] = m; refreshNames();
+      if (S.view === "mercado" || S.view === "foro") render();
+    }, () => {});
+  });
+}
+
+
+/* ---------- Compartir pedigree ---------- */
+let downloadsNs = null;
+function pedGens(id){
+  const gens = [[id]];
+  for (let g = 1; g < 4; g++){ const cur = []; for (const x of gens[g-1]){ const b = B(x); cur.push(b && B(b.padre) ? b.padre : null, b && B(b.madre) ? b.madre : null); } gens.push(cur); }
+  return gens;
+}
+const REL = [["Ejemplar"],["Padre","Madre"],["Abuelo paterno","Abuela paterna","Abuelo materno","Abuela materna"],
+  ["Bisabuelo","Bisabuela","Bisabuelo","Bisabuela","Bisabuelo","Bisabuela","Bisabuelo","Bisabuela"]];
+function pedigreeTextFull(id){
+  const gens = pedGens(id), b = B(id);
+  const line = (x, lbl, ind) => { const o = B(x); if (!o) return `${ind}${lbl}: ${/a( |$)/.test(lbl.toLowerCase()) || lbl==="MADRE" ? "desconocida" : "desconocido"}`; const r = [raceSummary(o), capSummary(o)].filter(Boolean).join(" · "); return `${ind}${lbl}: ${nm(o)} (${o.anilla||"sin anilla"})${o.color?" · "+o.color:""}${r?"\n"+ind+"   "+r:""}`; };
+  const out = [`🕊️ PEDIGREE — ${nm(b)} (${b.anilla||"sin anilla"})`,
+    [b.sexo==="M"?"Macho":b.sexo==="H"?"Hembra":"Sin sexar", b.color, b.anio, b.raza].filter(Boolean).join(" · ")];
+  const r0 = [raceSummary(b), capSummary(b)].filter(Boolean).join(" · "); if (r0) out.push("Resultados: " + r0);
+  if (F(id) > 0) out.push("Consanguinidad: " + pct(F(id)));
+  out.push("");
+  [[0,"PADRE"],[1,"MADRE"]].forEach(([i, lbl]) => {
+    out.push(line(gens[1][i], lbl, ""));
+    out.push(line(gens[2][i*2], i?"Abuelo materno":"Abuelo paterno", "   "));
+    out.push(line(gens[2][i*2+1], i?"Abuela materna":"Abuela paterna", "   "));
+    out.push("");
+  });
+  const p = perfil(uid); if (p.palomar) out.push(`${p.palomar}${p.telefono?" · "+p.telefono:""}`);
+  return out.join("\n").trim();
+}
+function fitText(ctx, t, w){ t = String(t||""); if (ctx.measureText(t).width <= w) return t; while (t.length && ctx.measureText(t + "…").width > w) t = t.slice(0,-1); return t + "…"; }
+function rrect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+async function pedigreeImage(id){
+  try { await document.fonts.ready; } catch(e){}
+  const W_ = 1080, H_ = 1350, c = document.createElement("canvas"); c.width = W_; c.height = H_;
+  const x = c.getContext("2d"), b = B(id), gens = pedGens(id);
+  const C = {bg:"#CDE5DE", card:"#FFFFFF", ink:"#0F1513", muted:"#53635E", line:"#B9CFC8", acc:"#0E7A68", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
+  const DISP = '"Outfit",system-ui,sans-serif', BODY = '"Outfit",system-ui,sans-serif', MONO = '"JetBrains Mono",monospace';
+  x.fillStyle = C.bg; x.fillRect(0,0,W_,H_);
+  x.fillStyle = C.slate; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#13A58B"); gr.addColorStop(.48,"#2C83B9"); gr.addColorStop(1,"#7B44B8"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
+  x.fillStyle = "#AEBBCD"; x.font = `600 26px ${BODY}`; x.fillText("PEDIGREE", 48, 72);
+  x.fillStyle = "#F3F6FA"; x.font = `900 78px ${DISP}`; x.fillText(fitText(x, b.nombre || b.anilla || "Sin nombre", 980), 48, 148);
+  x.font = `600 28px ${MONO}`; const bt = b.anilla || "—", bw = x.measureText(bt).width + 32;
+  x.fillStyle = C.band; rrect(x, 48, 168, bw, 46, 23); x.fill(); x.fillStyle = "#2A1E05"; x.fillText(bt, 64, 201);
+  x.fillStyle = "#D5DDE8"; x.font = `500 26px ${BODY}`;
+  const info = [b.sexo==="M"?"Macho":b.sexo==="H"?"Hembra":"Sin sexar", b.color, b.anio, b.raza, F(id)>0?"Consang. "+pct(F(id)):""].filter(Boolean).join(" · ");
+  x.fillText(fitText(x, info, 1000 - bw - 24), 48 + bw + 20, 201);
+  const top = 262, bottom = 1250, rowH = (bottom - top) / 8, colW = 238, gap = 20;
+  gens.forEach((row, g) => {
+    const span = 8 / Math.pow(2, g);
+    row.forEach((bid, i) => {
+      const o = B(bid), cx = 40 + g * (colW + gap), cy = top + (i * span + span / 2) * rowH;
+      const h = g === 3 ? rowH - 10 : Math.min(rowH * span - 16, 170), y0 = cy - h/2;
+      if (g > 0){ x.strokeStyle = C.line; x.lineWidth = 2; x.beginPath(); x.moveTo(cx - gap, cy); x.lineTo(cx, cy); x.stroke(); }
+      if (g < 3){ const ch = span / 2; const y1 = top + (i*span + ch/2) * rowH, y2 = top + (i*span + span - ch/2) * rowH; x.strokeStyle = C.line; x.lineWidth = 2; x.beginPath(); x.moveTo(cx + colW + gap/2, y1); x.lineTo(cx + colW + gap/2, y2); x.moveTo(cx + colW, cy); x.lineTo(cx + colW + gap/2, cy); x.stroke(); }
+      x.fillStyle = o ? C.card : "rgba(255,255,255,.45)"; rrect(x, cx, y0, colW, h, 12); x.fill();
+      x.strokeStyle = C.line; x.lineWidth = 1.5; x.stroke();
+      x.fillStyle = !o ? C.line : o.sexo === "M" ? C.acc : o.sexo === "H" ? C.sheen : C.muted; x.fillRect(cx, y0 + 8, 6, h - 16);
+      const tx = cx + 18, tw = colW - 28; let ty = y0 + 28;
+      x.fillStyle = C.muted; x.font = `600 15px ${BODY}`; x.fillText(REL[g][i].toUpperCase(), tx, ty);
+      if (!o){ x.font = `500 20px ${BODY}`; x.fillText(i % 2 && g > 0 ? "Desconocida" : "Desconocido", tx, ty + 30); return; }
+      ty += 32; x.fillStyle = C.ink; x.font = `700 ${g===3?24:28}px ${DISP}`; x.fillText(fitText(x, o.nombre || "Sin nombre", tw), tx, ty);
+      ty += 26; x.font = `600 16px ${MONO}`; x.fillStyle = C.ink; x.fillText(fitText(x, o.anilla || "—", tw), tx, ty);
+      const res = [raceSummary(o), capSummary(o)].filter(Boolean).join(" · ");
+      x.font = `500 15px ${BODY}`; x.fillStyle = C.muted;
+      if (g === 3){ if (res && ty + 22 < y0 + h) x.fillText(fitText(x, res, tw), tx, ty + 22); return; }
+      if (o.color){ ty += 24; x.fillText(fitText(x, o.color, tw), tx, ty); }
+      if (res){ const words = res.split(" "); let ln = ""; for (const w of words){ const t = ln ? ln + " " + w : w; if (x.measureText(t).width > tw){ ty += 21; if (ty > y0 + h - 8) return; x.fillText(ln, tx, ty); ln = w; } else ln = t; } ty += 21; if (ty <= y0 + h - 8) x.fillText(ln, tx, ty); }
+    });
+  });
+  const p = perfil(uid);
+  x.fillStyle = C.muted; x.font = `500 22px ${BODY}`;
+  x.fillText(fitText(x, p.palomar ? `${p.palomar}${p.telefono ? " · " + p.telefono : ""}${p.ciudad ? " · " + p.ciudad : ""}` : "Mi Palomar", 760), 48, 1305);
+  x.textAlign = "right"; x.fillText(new Date().toLocaleDateString("es"), W_ - 48, 1305); x.textAlign = "left";
+  return new Promise(res => c.toBlob(bl => res({blob:bl, url:c.toDataURL("image/png")}), "image/png"));
+}
+async function shareModal(id){
+  const b = B(id); if (!b) return;
+  const txt = pedigreeTextFull(id);
+  openModal(`<h2>Compartir pedigree · ${esc(nm(b))}</h2>
+    <div id="shareImgBox" class="empty" style="padding:40px">Preparando la imagen…</div>
+    <p class="hint" style="margin:8px 0 0">En el teléfono: deja el dedo sobre la imagen para guardarla y mandarla por WhatsApp.</p>
+    <div class="row" style="margin-top:12px">${downloadsNs ? '<button class="btn pri" id="saveImg">Guardar imagen</button>' : ""}<button class="btn" id="copyTxt">Copiar texto para WhatsApp</button></div>
+    <label class="lbl" for="shareTxt" style="display:block;margin-top:14px">Texto</label>
+    <textarea id="shareTxt" readonly style="width:100%;min-height:200px;margin-top:4px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2);font:13px/1.45 var(--f-mono)">${esc(txt)}</textarea>
+    <div class="mfoot"><button class="btn" data-act="close">Cerrar</button></div>`);
+  $("#copyTxt").addEventListener("click", () => {
+    const ta = $("#shareTxt");
+    try { navigator.clipboard.writeText(txt).then(() => toast("Texto copiado. Pégalo en WhatsApp."), () => { ta.select(); toast("Selecciona el texto y cópialo."); }); }
+    catch(e){ ta.select(); toast("Selecciona el texto y cópialo."); }
+  });
+  const img = await pedigreeImage(id);
+  const box = $("#shareImgBox"); if (!box) return;
+  box.outerHTML = `<img src="${img.url}" alt="Pedigree de ${esc(nm(b))}" style="width:100%;border-radius:10px;border:1px solid var(--line)">`;
+  const sv = $("#saveImg");
+  if (sv) sv.addEventListener("click", async () => {
+    try { await downloadsNs.save({filename:`pedigree-${(b.anilla || b.nombre || "paloma").replace(/[^\w-]+/g,"_")}.png`, data:img.blob}); toast("Imagen guardada"); }
+    catch(e){ if (e && e.code === "declined") return; toast("No se pudo guardar aquí. Deja el dedo sobre la imagen para guardarla."); }
+  });
+}
+
+/* ---------- Íconos ficha ---------- */
+const FI = {"back": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M15 5l-7 7 7 7\"/></svg>", "share": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3v12M7 8l5-5 5 5\"/><path d=\"M5 13v6h14v-6\"/></svg>", "tree": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"2\" y=\"9\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"16\" y=\"3\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"16\" y=\"15\" width=\"6\" height=\"6\" rx=\"1\"/><path d=\"M8 12h4M12 6v12M12 6h4M12 18h4\"/></svg>", "edit": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h4L19 9l-4-4L4 16z\"/></svg>", "flag": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 21V4M5 4h11l-2 4 2 4H5\"/></svg>", "cal": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"15\" rx=\"3\"/><path d=\"M4 10h16M9 3v4M15 3v4\"/></svg>", "drop": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z\"/></svg>", "cap": "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"8\"/><path d=\"M12 8v8M8 12h8\"/></svg>"};
+/* ---------- Atajos ---------- */
+const svgI = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const QI = {
+  add: svgI('<path d="M12 5v14M5 12h14"/>'),
+  race: svgI('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>'),
+  cap: svgI('<circle cx="12" cy="12" r="8"/><path d="M12 8v8M8 12h8"/>'),
+  egg: svgI('<path d="M12 3c-4 0-7 6-7 11a7 7 0 0 0 14 0c0-5-3-11-7-11z"/>')
+};
+function pickModal(kind){
+  const all = Object.values(S.birds);
+  if (!all.length){ toast("Primero agrega una paloma."); return birdForm(null); }
+  const L = all.slice().sort((a,b) => kind === "captura" ? ((b.raza||"").toLowerCase().startsWith("buch") - (a.raza||"").toLowerCase().startsWith("buch")) || nm(a).localeCompare(nm(b)) : nm(a).localeCompare(nm(b)));
+  const list = q => L.filter(b => !q || [b.anilla,b.nombre,b.color].join(" ").toLowerCase().includes(q.toLowerCase()))
+    .map(b => `<button type="button" data-act="pickGo" data-k="${kind}" data-id="${esc(b.id)}"><div class="thumb" style="width:44px;height:44px">${b.foto?`<img src="${esc(b.foto)}" alt="">`:PIGEON}</div><div style="min-width:0"><b>${esc(b.nombre || "Sin nombre")}</b> <span class="band">${esc(b.anilla||"")}</span><div class="meta">${esc([b.color,b.raza].filter(Boolean).join(" · "))}</div></div></button>`).join("") || '<p class="meta">No hay palomas con ese nombre.</p>';
+  openModal(`<h2>${kind === "carrera" ? "¿Qué paloma corrió?" : "¿Qué paloma capturó?"}</h2>
+    <input class="search" id="pickQ" type="search" placeholder="Busca por anilla o nombre" style="width:100%">
+    <div class="picklist" id="pickList">${list("")}</div>
+    <div class="mfoot"><button class="btn" data-act="close">Cancelar</button></div>`);
+  $("#pickQ").addEventListener("input", ev => { $("#pickList").innerHTML = list(ev.target.value); });
+}
+
+/* ---------- Render ---------- */
+function thumb(b){ return `<div class="thumb">${b && b.foto ? `<img src="${esc(b.foto)}" alt="">` : PIGEON}</div>`; }
+function sx(b){ return b.sexo === "M" ? '<span class="sx M" title="Macho">♂ Macho</span>' : b.sexo === "H" ? '<span class="sx H" title="Hembra">♀ Hembra</span>' : '<span class="sx">? Sin sexar</span>'; }
+function noticeHtml(){
+  if (S.demo) return `<div class="notice"><span><b>Palomar de ejemplo.</b> Mira cómo funciona: toca cualquier paloma, el pedigree, la cría o el ranking. Nada de esto se guarda.</span><button class="btn pri sm" data-act="start">Empezar mi palomar</button></div>`;
+  if (S.backend === "db") return "";
+  if (S.backend === "local") return `<div class="notice plain">Se guarda solo en este teléfono. Entra con tu cuenta (botón de la persona, arriba) para guardarlo en la nube y no perderlo.</div>`;
+  return `<div class="notice plain">Aquí no se puede guardar. Lo que agregues se perderá al cerrar.</div>`;
+}
+function filtered(){
+  let L = Object.values(S.birds);
+  const f = S.filter, q = S.q.trim().toLowerCase();
+  if (f === "M" || f === "H") L = L.filter(b => b.sexo === f);
+  if (f === "pich") L = L.filter(b => +b.anio === YEAR);
+  if (f === "buch") L = L.filter(b => (b.raza||"").toLowerCase().startsWith("buch"));
+  if (f === "fuera") L = L.filter(b => b.estado && b.estado !== "En el palomar");
+  if (q) L = L.filter(b => [b.anilla,b.nombre,b.color,b.raza].join(" ").toLowerCase().includes(q));
+  return L.sort((a,b) => (+b.anio||0) - (+a.anio||0) || (a.anilla||"").localeCompare(b.anilla||""));
+}
+function viewPalomar(){
+  const all = Object.values(S.birds);
+  const chips = [["todos","Todas"],["M","Machos"],["H","Hembras"],["pich",`Pichones ${YEAR}`],["buch","Buchones"],["fuera","Vendidas / muertas"]]
+    .map(([k,t]) => `<button class="chip" aria-pressed="${S.filter===k}" data-act="filter" data-v="${k}">${t}</button>`).join("");
+  let body;
+  if (!all.length){
+    body = `<div class="empty" style="margin-top:14px"><h3>Tu palomar está vacío</h3><p>Empieza por los padres: agrega primero el macho y la hembra, y después sus pichones. Así el pedigree se arma solo.</p><button class="btn pri" data-act="new">+ Agregar mi primera paloma</button></div>`;
+  } else {
+    const L = filtered();
+    body = L.length ? `<div class="grid">${L.map(card).join("")}</div>` : `<div class="empty" style="margin-top:14px">No hay palomas con ese filtro.</div>`;
+  }
+  return `${noticeHtml()}
+  ${all.length ? (() => { const c = (f) => all.filter(f).length; const car = all.reduce((a,b) => a + (b.carreras||[]).length, 0), cap = all.reduce((a,b) => a + (b.capturas||[]).length, 0);
+    return `<div class="hello"><h2>Mi palomar</h2><p>Tus palomas, su sangre y sus resultados.</p></div><section class="tablero" aria-label="Resumen del palomar">
+      <div><div class="n">${all.length}</div><div class="l">Palomas</div></div><div><div class="n">${c(b => b.sexo==="M")}</div><div class="l">Machos</div></div><div><div class="n">${c(b => b.sexo==="H")}</div><div class="l">Hembras</div></div>
+      <div><div class="n">${c(b => +b.anio===YEAR)}</div><div class="l">Pichones</div></div><div><div class="n">${car}</div><div class="l">Carreras</div></div><div><div class="n">${cap}</div><div class="l">Capturas</div></div></section>`; })() : ""}
+  <div class="qa">
+    <button class="main" data-act="new"><span class="ic">${QI.add}</span><b>Agregar paloma</b><small>Anilla, padre y madre</small></button>
+    <button data-act="pick" data-k="carrera"><span class="ic">${QI.race}</span><b>Anotar carrera</b><small>Puesto y velocidad</small></button>
+    <button data-act="pick" data-k="captura"><span class="ic">${QI.cap}</span><b>Anotar captura</b><small>Lo que trajo el buchón</small></button>
+    <button data-act="newNid"><span class="ic">${QI.egg}</span><b>Nueva nidada</b><small>Cuándo nacen y anillar</small></button>
+  </div>
+  <div class="row"><input class="search" id="q" type="search" placeholder="Buscar paloma por anilla, nombre o color" value="${esc(S.q)}" aria-label="Buscar"></div>
+  <div class="chips" style="margin-top:10px">${chips}</div>
+  ${all.length ? `<p class="meta" style="margin:10px 0 0">${all.length} paloma${all.length>1?"s":""} registradas</p>` : ""}
+  ${body}`;
+}
+function card(b){
+  const f = F(b.id), lv = fLevel(f);
+  const pa = B(b.padre), ma = B(b.madre);
+  const parents = (pa || ma) ? `Hijo de ${esc(nm(pa))} × ${esc(nm(ma))}`.replace(/^Hijo/, b.sexo==="H"?"Hija":"Hijo") : "Padres no registrados";
+  return `<button class="card ${b.sexo}" data-act="open" data-id="${esc(b.id)}">
+    <div class="thumb">${b.foto ? `<img src="${esc(b.foto)}" alt="">` : PIGEON}${b.sexo==="M"||b.sexo==="H" ? `<span class="sexdot ${b.sexo}" title="${b.sexo==="M"?"Macho":"Hembra"}">${b.sexo==="M"?"♂":"♀"}</span>` : ""}</div>
+    <div style="min-width:0">
+      <div class="nm">${esc(b.nombre || "Sin nombre")}</div>
+      <div class="row" style="gap:6px;margin:3px 0"><span class="band">${esc(b.anilla||"—")}</span></div>
+      <div class="meta">${esc([b.color, b.anio].filter(Boolean).join(" · "))}${b.estado && b.estado!=="En el palomar" ? ` · <b>${esc(b.estado)}</b>` : ""}</div>
+      <div class="stats"><span><b>${(b.carreras||[]).length}</b> carreras</span><span><b>${(b.capturas||[]).length}</b> capturas</span>${f>0?`<span class="pill ${lv.cls}">Consang. ${pct(f)}</span>`:""}</div>
+    </div></button>`;
+}
+function miniBird(b, label){
+  if (!b) return `<div class="mini none"><div class="lbl">${label}</div><div>No registrado</div></div>`;
+  const s = [raceSummary(b), capSummary(b)].filter(Boolean).join(" · ") || "Sin carreras ni capturas";
+  return `<button class="mini" data-act="open" data-id="${esc(b.id)}"><div class="lbl">${label}</div><div class="nm">${esc(nm(b))} <span class="band">${esc(b.anilla||"—")}</span></div><div class="meta">${esc(s)}</div></button>`;
+}
+function viewFicha(){
+  const b = B(S.sel); if (!b) { S.view = "palomar"; return viewPalomar(); }
+  const f = F(b.id), lv = fLevel(f);
+  const sib = siblings(b.id), kids = childrenOf(b.id);
+  const tabs = [["familia","Familia"],["carreras",`Carreras (${(b.carreras||[]).length})`],["capturas",`Capturas (${(b.capturas||[]).length})`],["salud",`Salud (${(b.salud||[]).length})`]]
+    .map(([k,t]) => `<button aria-current="${S.ftab===k}" data-act="ftab" data-v="${k}">${t}</button>`).join("");
+  let content = "";
+  if (S.ftab === "familia"){
+    const group = (title, arr, lbl) => `<div class="sec-h"><h2>${title}</h2></div>${arr.length ? `<div class="fam">${arr.map(o => miniBird(o, lbl(o))).join("")}</div>` : `<p class="meta">Ninguno registrado.</p>`}`;
+    content = `<div class="sec-h"><h2>Padres</h2><button class="btn sm" data-act="ped" data-id="${esc(b.id)}">Ver pedigree completo</button></div>
+      <div class="fam">${miniBird(B(b.padre), "Padre")}${miniBird(B(b.madre), "Madre")}</div>
+      <div class="panel" style="margin-top:12px"><div class="lbl">Consanguinidad de ${esc(nm(b))}</div>
+        <div class="row" style="margin-top:4px"><span class="big">${pct(f)}</span><span class="pill ${lv.cls}">${lv.txt}</span></div>
+        <p class="explain">Dice qué tan parientes son el padre y la madre. 0% = nada de parientes. 12.5% = como cruzar medio hermanos. 25% = como cruzar hermanos.</p>
+        <p class="meta" style="margin:6px 0 0">${f>0 ? `Sus padres son parientes: ${esc(relation(b.padre,b.madre).title.toLowerCase())}.` : "Sus padres no son parientes (según lo registrado)."}</p></div>
+      ${group("Hermanos completos", sib.full, o => W(o,"Hermano","Hermana"))}
+      ${group("Medio hermanos", sib.half, o => `${W(o,"Medio hermano","Media hermana")} · por ${o.padre && o.padre===b.padre ? "el padre" : "la madre"}`)}
+      ${group("Hijos", kids, o => { const other = B(o.padre===b.id ? o.madre : o.padre); return `${W(o,"Hijo","Hija")} ${o.anio||""} · con ${nm(other)}`; })}`;
+  } else if (S.ftab === "carreras"){
+    const cs = (b.carreras||[]).slice().sort((x,y) => (y.fecha||"").localeCompare(x.fecha||""));
+    content = `<div class="sec-h"><h2>Carreras</h2><button class="btn pri sm" data-act="addCarrera">+ Agregar carrera</button></div>
+      ${cs.length ? `<div class="tablewrap"><table><thead><tr><th>Fecha</th><th>Suelta</th><th style="text-align:right">Km</th><th style="text-align:right">Puesto</th><th style="text-align:right">Velocidad</th><th>Nota</th><th></th></tr></thead><tbody>
+        ${cs.map(c => `<tr><td>${esc(c.fecha)}</td><td>${esc(c.suelta)}</td><td class="num">${esc(c.km)}</td><td class="num ${+c.puesto===1?"pos1":""}">${c.puesto?esc(c.puesto)+"º":""}${c.total?` <span class="meta">de ${esc(c.total)}</span>`:""}</td><td class="num">${c.vel?esc(c.vel)+" m/min":""}</td><td style="white-space:normal;min-width:140px">${esc(c.nota)}</td><td><button class="btn sm" data-act="editCarrera" data-cid="${esc(c.id)}">Editar</button></td></tr>`).join("")}
+      </tbody></table></div>` : `<div class="empty">Todavía no hay carreras. Anota la fecha, de dónde la soltaron, los km y en qué puesto llegó.</div>`}`;
+  } else if (S.ftab === "salud"){
+    const hs = (b.salud||[]).slice().sort((x,y) => (y.fecha||"").localeCompare(x.fecha||""));
+    content = `<div class="sec-h"><h2>Vacunas y medicinas</h2><button class="btn pri sm" data-act="addSalud">+ Agregar</button></div>
+      ${hs.length ? `<div class="list">${hs.map(h => { const dd = h.proxima ? daysFrom(h.proxima) : null; return `<div class="item"><div style="min-width:0"><div class="t">${esc(h.fecha)} · ${esc(h.tipo)}: ${esc(h.producto)}</div><div class="meta">${h.dosis?esc(h.dosis):""}${h.nota?` · ${esc(h.nota)}`:""}</div>${h.proxima?`<div class="meta">Próxima: <b style="color:${dd<0?"var(--danger)":"var(--ink)"}">${fmtDay(h.proxima)}</b> ${dd<0?`(atrasada ${-dd} días)`:dd===0?"(hoy)":`(en ${dd} días)`}</div>`:""}</div><button class="btn sm" data-act="editSalud" data-cid="${esc(h.id)}">Editar</button></div>`; }).join("")}</div>`
+        : `<div class="empty">Sin vacunas ni medicinas anotadas. Anota cada vacuna, desparasitante o tratamiento, y cuándo toca el próximo.</div>`}`;
+  } else {
+    const ks = (b.capturas||[]).slice().sort((x,y) => (y.fecha||"").localeCompare(x.fecha||""));
+    content = `<div class="sec-h"><h2>Capturas</h2><button class="btn pri sm" data-act="addCaptura">+ Agregar captura</button></div>
+      ${ks.length ? `<div class="list">${ks.map(k => `<div class="item"><div style="min-width:0"><div class="t">${esc(k.fecha)} · <span class="band">${esc(k.capturada||"Sin anilla")}</span> ${esc(k.color)}</div><div class="meta">${k.dueno?`De: ${esc(k.dueno)}`:""}${k.nota?` · ${esc(k.nota)}`:""}</div></div><button class="btn sm" data-act="editCaptura" data-cid="${esc(k.id)}">Editar</button></div>`).join("")}</div>` : `<div class="empty">Todavía no hay capturas. Cuando ${esc(nm(b))} traiga una paloma, anótala aquí.</div>`}`;
+  }
+  return `${noticeHtml()}
+  <div class="fhero">
+    <button class="circ l" data-act="view" data-v="palomar" aria-label="Volver al palomar">${FI.back}</button>
+    <button class="circ r" data-act="share" data-id="${esc(b.id)}" aria-label="Compartir pedigree">${FI.share}</button>
+    <div class="pcard"><div class="ph">${b.foto ? `<img src="${esc(b.foto)}" alt="Foto de ${esc(nm(b))}">` : PIGEON}</div></div>
+  </div>
+  <section class="sheet">
+    <div class="who-l"><span class="band">${esc(b.anilla||"—")}</span>${sx(b)}${b.estado&&b.estado!=="En el palomar"?`<span class="pill mut">${esc(b.estado)}</span>`:""}</div>
+    <h2 class="name">${esc(b.nombre || "Sin nombre")}</h2>
+    <div class="meta">${esc([b.color, b.raza].filter(Boolean).join(" · ")) || "&nbsp;"}</div>
+    <div class="tiles">
+      <div class="tile"><div class="tl"><i>${FI.cal}</i>Año</div><div class="tv">${esc(b.anio||"—")}</div></div>
+      <div class="tile"><div class="tl"><i>${FI.flag}</i>Carreras</div><div class="tv">${(b.carreras||[]).length}</div></div>
+      <div class="tile"><div class="tl"><i>${FI.cap}</i>Capturas</div><div class="tv">${(b.capturas||[]).length}</div></div>
+      <div class="tile"><div class="tl"><i>${FI.drop}</i>Sangre</div><div class="tv">${pct(f)} <small>consang.</small></div></div>
+    </div>
+    ${b.notas || raceSummary(b) ? `<div class="about"><h3>Sobre ${esc(nm(b))}</h3><p>${esc([raceSummary(b) ? "Mejor resultado: " + raceSummary(b).replace(/^\d+ carreras? · /,"") : "", b.notas].filter(Boolean).join(". "))}</p></div>` : ""}
+    <div class="actbar">
+      <button class="cbtn" data-act="ped" data-id="${esc(b.id)}" aria-label="Ver pedigree" title="Pedigree">${FI.tree}</button>
+      <button class="cbtn" data-act="edit" aria-label="Editar datos" title="Editar">${FI.edit}</button>
+      <button class="pillbtn" data-act="addCarrera"><span class="pc">${FI.flag}</span>Anotar carrera</button>
+    </div>
+    <div class="linkrow"><button class="btn sm" data-act="share" data-id="${esc(b.id)}">Compartir pedigree</button><button class="btn sm" data-act="relWith" data-id="${esc(b.id)}">¿Es pariente de…?</button></div>
+  </section>
+  <nav class="subtabs">${tabs}</nav>
+  ${content}`;
+}
+function birdOptions(sel, filterFn, emptyLabel){
+  const L = Object.values(S.birds).filter(filterFn || (() => true)).sort((a,b) => nm(a).localeCompare(nm(b)));
+  return `<option value="">${emptyLabel}</option>` + L.map(b => `<option value="${esc(b.id)}" ${b.id===sel?"selected":""}>${esc(b.nombre ? b.nombre + " — " + (b.anilla||"") : (b.anilla||"Sin nombre"))}</option>`).join("");
+}
+function viewPedigree(){
+  const ids = Object.keys(S.birds);
+  if (!ids.length) return `${noticeHtml()}<div class="empty"><h3>Sin palomas todavía</h3><p>Agrega palomas con su padre y su madre para ver el pedigree.</p></div>`;
+  if (!S.pedId || !B(S.pedId)) S.pedId = (S.sel && B(S.sel)) ? S.sel : (Object.values(S.birds).find(b => b.padre || b.madre) || B(ids[0])).id;
+  const gens = [[S.pedId]];
+  for (let g = 1; g < 4; g++){ const cur = []; for (const x of gens[g-1]){ const b = B(x); cur.push(b && B(b.padre) ? b.padre : null, b && B(b.madre) ? b.madre : null); } gens.push(cur); }
+  const count = {}; gens.slice(1).flat().forEach(x => { if (x) count[x] = (count[x]||0) + 1; });
+  const dupIds = Object.keys(count).filter(k => count[k] > 1); const dupMark = {}; dupIds.forEach((k,i) => dupMark[k] = String.fromCharCode(65+i));
+  const relLabel = (g, i) => {
+    if (g === 0) return "Ejemplar";
+    const side = i % 2 === 0 ? 0 : 1;
+    if (g === 1) return side ? "Madre" : "Padre";
+    const path = []; let idx = i; for (let k = g; k >= 1; k--){ path.unshift(idx % 2 ? "M" : "P"); idx = Math.floor(idx/2); }
+    const word = g === 2 ? (side ? "Abuela" : "Abuelo") : (side ? "Bisabuela" : "Bisabuelo");
+    return `${word} ${path[0]==="P" ? "paterno" : "materno"}`.replace(/(a) paterno$/, "$1 paterna").replace(/(a) materno$/, "$1 materna");
+  };
+  let cells = "";
+  gens.forEach((row, g) => {
+    const span = 8 / Math.pow(2, g);
+    row.forEach((id, i) => {
+      const style = `grid-column:${g+1};grid-row:${i*span+1} / span ${span}`;
+      const b = B(id);
+      if (!b){ cells += `<div class="pbox unk" style="${style}"><div class="rel">${relLabel(g,i)}</div><div>Desconocido</div></div>`; return; }
+      const res = [raceSummary(b), capSummary(b)].filter(Boolean).join(" · ");
+      cells += `<button class="pbox ${b.sexo} ${g===0?"root":""}" style="${style}" data-act="${g===0?"open":"ped"}" data-id="${esc(b.id)}">
+        ${dupMark[id] ? `<span class="dup" title="Aparece ${count[id]} veces">${dupMark[id]}</span>` : ""}
+        ${b.foto ? `<img class="pfoto" src="${esc(b.foto)}" alt="">` : ""}<div class="rel">${relLabel(g,i)}</div><div class="nm">${esc(b.nombre||"Sin nombre")}</div>
+        <div><span class="band">${esc(b.anilla||"—")}</span> <span class="meta">${esc(b.color||"")}</span></div>
+        ${res ? `<div class="res">${esc(res)}</div>` : ""}</button>`;
+    });
+  });
+  const f = F(S.pedId), lv = fLevel(f);
+  return `${noticeHtml()}
+  <div class="row"><label class="lbl" for="pedSel">Ejemplar</label><select id="pedSel" class="search" style="flex:0 1 360px">${birdOptions(S.pedId, null, "Elige una paloma")}</select>
+    <span class="pill ${lv.cls}">Consanguinidad ${pct(f)}</span><button class="btn sm pri" data-act="share" data-id="${esc(S.pedId)}">Compartir pedigree</button></div>
+  ${dupIds.length ? `<div class="notice plain" style="margin-top:12px">Línea cerrada: ${dupIds.map(k => `<b>${dupMark[k]}</b> ${esc(nm(B(k)))} aparece ${count[k]} veces`).join(" · ")}.</div>` : ""}
+  <p class="meta">Toca un ancestro para ver su propio pedigree. Toca el ejemplar para abrir su ficha.</p>
+  <div class="pedwrap"><div class="ped">${cells}</div></div>`;
+}
+function viewParentesco(){
+  const ids = Object.keys(S.birds);
+  if (ids.length < 2) return `${noticeHtml()}<div class="empty"><h3>Necesitas al menos 2 palomas</h3><p>Aquí comparas dos palomas y la app te dice si son hermanos, primos, tío y sobrino, y cuánta consanguinidad tendrían sus pichones.</p></div>`;
+  let res = "";
+  if (S.relA && S.relB && B(S.relA) && B(S.relB)){
+    const A = B(S.relA), Bb = B(S.relB), r = relation(S.relA, S.relB);
+    const shared = Math.min(1, 2 * phi(S.relA, S.relB));
+    const canBreed = A.sexo !== Bb.sexo || A.sexo === "?";
+    const fo = phi(S.relA, S.relB), lv = fLevel(fo);
+    res = `<div class="panel result"><div class="lbl">Parentesco</div><h3 style="margin-top:4px">${esc(r.title)}</h3>${r.sub?`<p class="meta" style="margin:6px 0 0">${esc(r.sub)}</p>`:""}
+      ${r.common && r.common.length && S.relA!==S.relB ? `<p style="margin:10px 0 0"><span class="lbl">Ancestro común más cercano</span><br>${r.common.map(c => `<button class="btn sm" style="margin:4px 6px 0 0" data-act="open" data-id="${esc(c)}">${esc(nm(B(c)))}</button>`).join("")}</p>` : ""}
+      <div class="twocol">
+        <div class="panel" style="background:var(--surface-2)"><div class="lbl">Sangre en común</div><div class="big" style="margin-top:4px">${pct(shared)}</div><div class="meter"><i style="width:${Math.min(100,shared*100)}%"></i></div></div>
+        ${canBreed && S.relA!==S.relB ? `<div class="panel" style="background:var(--surface-2)"><div class="lbl">Si los cruzas, el pichón tendría</div><div class="row" style="margin-top:4px"><span class="big">${pct(fo)}</span><span class="pill ${lv.cls}">${lv.txt}</span></div><p class="meta" style="margin:6px 0 0">de consanguinidad. ${fo>=0.125?"Es un cruce de sangre cerrado: fija la línea, pero sube el riesgo de pichones débiles.":fo>0?"Cruce de línea suave.":"Cruce abierto, sangre nueva."}</p></div>`
+        : `<div class="panel" style="background:var(--surface-2)"><div class="lbl">Cruce</div><p class="meta" style="margin:4px 0 0">Son del mismo sexo, no se pueden cruzar entre sí.</p></div>`}
+      </div></div>`;
+  }
+  return `${noticeHtml()}
+  <div class="panel"><h2 style="font-size:26px">Comparar dos palomas</h2><p class="meta" style="margin:4px 0 12px">Elige dos ejemplares. La app busca sus ancestros comunes y calcula el parentesco.</p>
+  <div class="relgrid"><label class="lbl" style="display:flex;flex-direction:column;gap:4px">Paloma 1<select id="relA" class="search">${birdOptions(S.relA, null, "Elige…")}</select></label>
+  <label class="lbl" style="display:flex;flex-direction:column;gap:4px">Paloma 2<select id="relB" class="search">${birdOptions(S.relB, null, "Elige…")}</select></label></div></div>
+  ${res}`;
+}
+function render(){
+  if (!S.ready) return;
+  const grp = {palomar:"palomar", ficha:"palomar", pedigree:"pedigree", parentesco:"pedigree", cria:"cria", ranking:"ranking", mercado:"comunidad", foro:"comunidad"}[S.view];
+  document.querySelectorAll("[data-nav]").forEach(b => b.setAttribute("aria-current", String(b.dataset.nav === grp)));
+  const html = S.view === "cria" ? viewCria() : S.view === "ranking" ? viewRanking() : S.view === "mercado" ? viewMercado() : S.view === "foro" ? viewForo() : S.view === "ficha" ? viewFicha() : S.view === "pedigree" ? viewPedigree() : S.view === "parentesco" ? viewParentesco() : viewPalomar();
+  const sw = (opts) => `<nav class="subtabs" style="margin:0 0 16px">${opts.map(([v,t]) => `<button aria-current="${S.view===v}" data-act="view" data-v="${v}">${t}</button>`).join("")}</nav>`;
+  let pre = "";
+  if (grp === "pedigree") pre = sw([["pedigree","Árbol (pedigree)"],["parentesco","¿Son parientes?"]]);
+  if (grp === "comunidad") pre = sw([["mercado","Compra y venta"],["foro","Foro"]]);
+  const ae = document.activeElement, fid = ae && ae.id && ["q","mq","replyText"].includes(ae.id) ? ae.id : null;
+  const pos = fid ? ae.selectionStart : null;
+  const kept = {}; document.querySelectorAll("#app [data-keep]").forEach(el => kept[el.id] = el.value);
+  $("#app").innerHTML = pre + html;
+  for (const k in kept){ const el = document.getElementById(k); if (el) el.value = kept[k]; }
+  if (fid){ const el = document.getElementById(fid); if (el){ el.focus(); try { el.setSelectionRange(pos,pos); } catch(e){} } }
+}
+
+/* ---------- Modales ---------- */
+function openModal(html, onSubmit){
+  $("#modal-root").innerHTML = `<div class="scrim" data-act="closeScrim"><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`;
+  const form = $("#modal-root form");
+  if (form) form.addEventListener("submit", ev => { ev.preventDefault(); onSubmit(new FormData(form), form); });
+  const first = $("#modal-root input, #modal-root select"); if (first) first.focus();
+}
+const closeModal = () => { $("#modal-root").innerHTML = ""; };
+function birdForm(b, prefill, onSaved){
+  const isNew = !b; b = b || Object.assign({sexo:"?", anio:YEAR, raza:"Mensajero", estado:"En el palomar"}, prefill || {});
+  const blocked = b.id ? new Set(descendantsOf(b.id)) : new Set();
+  const okFor = sex => o => !blocked.has(o.id) && (o.sexo === sex || o.sexo === "?");
+  const opt = (v, cur) => `<option ${v===cur?"selected":""}>${v}</option>`;
+  let foto = b.foto || "";
+  openModal(`<h2>${isNew ? "Nueva paloma" : "Editar " + esc(nm(b))}</h2>
+  <form class="form" id="fBird" autocomplete="off">
+    <label>Número de anilla *<input id="f-anilla" name="anilla" required value="${esc(b.anilla)}" placeholder="Ej: FL-2026-0118"></label>
+    <label>Nombre (si tiene)<input id="f-nombre" name="nombre" value="${esc(b.nombre)}" placeholder="Ej: Relámpago"></label>
+    <div class="full"><div class="lbl" style="margin-bottom:6px">Sexo</div><div class="seg">
+      <label><input type="radio" name="sexo" value="M" ${b.sexo==="M"?"checked":""}>♂ Macho</label>
+      <label><input type="radio" name="sexo" value="H" ${b.sexo==="H"?"checked":""}>♀ Hembra</label>
+      <label><input type="radio" name="sexo" value="?" ${b.sexo!=="M"&&b.sexo!=="H"?"checked":""}>No sé aún</label></div></div>
+    <label>Padre<select id="f-padre" name="padre">${birdOptions(b.padre, okFor("M"), "No sé / no está")}</select></label>
+    <label>Madre<select id="f-madre" name="madre">${birdOptions(b.madre, okFor("H"), "No sé / no está")}</select></label>
+    <p class="explain full" style="margin:0">Si el padre o la madre no salen en la lista, guárdala así y después agrégalos a ellos. Luego vuelves aquí y los escoges.</p>
+    <details class="more" ${isNew ? "" : "open"}><summary>Más datos (color, año, foto…)</summary><div class="form">
+    <label>Color<input id="f-color" name="color" value="${esc(b.color)}" placeholder="Azul barrado, colorada…"></label>
+    <label>Año en que nació<input id="f-anio" name="anio" type="number" inputmode="numeric" min="1980" max="${YEAR+1}" value="${esc(b.anio)}"></label>
+    <label>Raza<input id="f-raza" name="raza" list="razas" value="${esc(b.raza)}"><datalist id="razas"><option>Mensajero</option><option>Buchón</option><option>Colillano</option><option>Tumbler</option></datalist></label>
+    <label>¿Dónde está?<select id="f-estado" name="estado">${["En el palomar","Vendida","Prestada","Perdida","Muerta"].map(v => opt(v, b.estado)).join("")}</select></label>
+    <label class="full">Foto<input id="f-foto" type="file" accept="image/*"><span class="hint" id="fotoHint">${foto ? "Tiene foto. Elige otra para cambiarla." : "Puedes tomarla con la cámara"}</span></label>
+    <label class="full">Notas<textarea id="f-notas" name="notas" placeholder="Carácter, de quién vino, cruces planeados…">${esc(b.notas)}</textarea></label>
+    </div></details>
+    <div class="full mfoot" style="justify-content:space-between">
+      <div>${isNew ? "" : `<button type="button" class="btn danger" data-act="delBird" data-id="${esc(b.id)}">Borrar paloma</button>`}</div>
+      <div class="row"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Guardar</button></div>
+    </div>
+  </form>`, async fd => {
+    const anilla = String(fd.get("anilla")||"").trim().toUpperCase();
+    if (!anilla) return;
+    const dup = Object.values(S.birds).find(o => (o.anilla||"").toUpperCase() === anilla && o.id !== b.id);
+    if (dup){ toast(`La anilla ${anilla} ya es de ${nm(dup)}.`); return; }
+    const nb = Object.assign({}, b, {
+      id: b.id || newId(), anilla, nombre:String(fd.get("nombre")||"").trim(), sexo:fd.get("sexo") || "?", anio: fd.get("anio") ? +fd.get("anio") : "",
+      color:String(fd.get("color")||"").trim(), raza:String(fd.get("raza")||"").trim(), padre:fd.get("padre")||"", madre:fd.get("madre")||"",
+      estado:fd.get("estado"), notas:String(fd.get("notas")||"").trim(), foto, carreras:b.carreras||[], capturas:b.capturas||[], salud:b.salud||[], creado:b.creado||Date.now()
+    });
+    closeModal();
+    if (isNew){ S.sel = nb.id; S.view = "ficha"; S.ftab = "familia"; }
+    await saveBird(nb);
+    if (onSaved) await onSaved(nb);
+    toast(isNew ? "Paloma agregada" : "Cambios guardados");
+  });
+  $("#f-foto").addEventListener("change", async ev => {
+    const file = ev.target.files && ev.target.files[0]; if (!file) return;
+    try { foto = await resizeImg(file); $("#fotoHint").textContent = "Foto lista."; } catch(e){ $("#fotoHint").textContent = "No se pudo leer esa foto."; }
+  });
+}
+function resizeImg(file, maxSize){
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => { const img = new Image(); img.onload = () => {
+      const max = maxSize || 480, s = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement("canvas"); c.width = Math.round(img.width*s); c.height = Math.round(img.height*s);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); res(c.toDataURL("image/jpeg", 0.72)); };
+      img.onerror = rej; img.src = r.result; };
+    r.onerror = rej; r.readAsDataURL(file);
+  });
+}
+function carreraForm(c){
+  const b = B(S.sel); const isNew = !c; c = c || {fecha:new Date().toISOString().slice(0,10)};
+  openModal(`<h2>${isNew ? "Nueva carrera" : "Editar carrera"} · ${esc(nm(b))}</h2>
+  <form class="form" autocomplete="off">
+    <label>Fecha<input id="c-fecha" name="fecha" type="date" required value="${esc(c.fecha)}"></label>
+    <label>Suelta (lugar)<input id="c-suelta" name="suelta" value="${esc(c.suelta)}" placeholder="Ocala"></label>
+    <label>Distancia (km)<input id="c-km" name="km" type="number" step="any" inputmode="decimal" value="${esc(c.km)}"></label>
+    <label>Velocidad (m/min)<input id="c-vel" name="vel" type="number" step="any" inputmode="decimal" value="${esc(c.vel)}"></label>
+    <label>Puesto<input id="c-puesto" name="puesto" type="number" min="1" inputmode="numeric" value="${esc(c.puesto)}"></label>
+    <label>De cuántas palomas<input id="c-total" name="total" type="number" min="1" inputmode="numeric" value="${esc(c.total)}"></label>
+    <label class="full">Nota<textarea id="c-nota" name="nota" placeholder="Clima, hora de llegada, cómo llegó…">${esc(c.nota)}</textarea></label>
+    <div class="full mfoot" style="justify-content:space-between"><div>${isNew?"":`<button type="button" class="btn danger" data-act="delCarrera" data-cid="${esc(c.id)}">Borrar</button>`}</div>
+    <div class="row"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Guardar</button></div></div>
+  </form>`, async fd => {
+    const n = {id:c.id||newId()}; ["fecha","suelta","km","vel","puesto","total","nota"].forEach(k => n[k] = String(fd.get(k)||"").trim());
+    ["km","vel","puesto","total"].forEach(k => n[k] = n[k] === "" ? "" : +n[k]);
+    const nb = Object.assign({}, b, {carreras:(b.carreras||[]).filter(x => x.id !== n.id).concat(n)});
+    closeModal(); S.ftab = "carreras"; await saveBird(nb); toast("Carrera guardada");
+  });
+}
+function capturaForm(k){
+  const b = B(S.sel); const isNew = !k; k = k || {fecha:new Date().toISOString().slice(0,10)};
+  openModal(`<h2>${isNew ? "Nueva captura" : "Editar captura"} · ${esc(nm(b))}</h2>
+  <form class="form" autocomplete="off">
+    <label>Fecha<input id="k-fecha" name="fecha" type="date" required value="${esc(k.fecha)}"></label>
+    <label>Anilla de la capturada<input id="k-capturada" name="capturada" value="${esc(k.capturada)}" placeholder="O “Sin anilla”"></label>
+    <label>Color<input id="k-color" name="color" value="${esc(k.color)}"></label>
+    <label>De quién era<input id="k-dueno" name="dueno" value="${esc(k.dueno)}" placeholder="Vecino, palomar…"></label>
+    <label class="full">Qué pasó<input id="k-nota" name="nota" list="kres" value="${esc(k.nota)}" placeholder="Se quedó, devuelta, rescate…"><datalist id="kres"><option>Se quedó</option><option>Devuelta</option><option>Rescate pagado</option><option>Cambiada</option></datalist></label>
+    <div class="full mfoot" style="justify-content:space-between"><div>${isNew?"":`<button type="button" class="btn danger" data-act="delCaptura" data-cid="${esc(k.id)}">Borrar</button>`}</div>
+    <div class="row"><button type="button" class="btn" data-act="close">Cancelar</button><button type="submit" class="btn pri">Guardar</button></div></div>
+  </form>`, async fd => {
+    const n = {id:k.id||newId()}; ["fecha","capturada","color","dueno","nota"].forEach(f => n[f] = String(fd.get(f)||"").trim());
+    const nb = Object.assign({}, b, {capturas:(b.capturas||[]).filter(x => x.id !== n.id).concat(n)});
+    closeModal(); S.ftab = "capturas"; await saveBird(nb); toast("Captura guardada");
+  });
+}
+function armOrRun(btn, fn){
+  if (btn.classList.contains("armed")) { fn(); return; }
+  btn.classList.add("armed"); const t = btn.textContent; btn.textContent = "¿Seguro? Toca otra vez";
+  setTimeout(() => { if (btn.isConnected){ btn.classList.remove("armed"); btn.textContent = t; } }, 4000);
+}
+let toastT;
+function toast(msg){ $("#toast-root").innerHTML = `<div class="toast" role="status">${esc(msg)}</div>`; clearTimeout(toastT); toastT = setTimeout(() => $("#toast-root").innerHTML = "", 3200); }
+
+
+/* ---------- Tutorial ---------- */
+const TOUR_KEY = "palomar.tour.v1";
+const TOUR = [
+  {splash:true},
+  {vid:"completo", vlabel:"Video: así se usa la app", noart:false, h:"Bienvenido a Mi Palomar", p:"Es la libreta del palomero en el teléfono. Anotas tus palomas y la app hace lo demás.",
+   l:["Pedigree solo","Carreras y capturas","Cría, vacunas y ranking","Compra, venta y foro"],
+   art:`<div style="text-align:center"><div style="width:84px;height:84px;margin:0 auto;color:var(--accent)">${PIGEON}</div><div class="nmb" style="font-size:30px;margin-top:6px">MI <span style="color:var(--sheen)">PALOMAR</span></div></div>`},
+  {vid:"agregar", h:"Agrega tus palomas", p:"Toca “Agregar paloma”. Pon la anilla y escoge el padre y la madre. Con eso la app arma sola el pedigree.",
+   l:["Empieza por los padres, después los pichones"],
+   art:`<div class="mped"><div class="demo" style="grid-row:span 2;border-left:4px solid var(--accent)"><div class="lbl">Pichón</div><div class="nmb">Tormenta</div></div><div class="demo" style="border-left:4px solid var(--accent)"><b>Papá: Relámpago</b><div class="meta" style="font-size:11px">1º de 102 en Ocala</div></div><div class="demo" style="border-left:4px solid var(--sheen)"><b>Mamá: La Negra</b></div></div>`},
+  {vid:"anotar", h:"Anota lo que pasa", p:"Usa los botones grandes de arriba: “Anotar carrera”, “Anotar captura” y “Nueva nidada”. La app te avisa cuándo nacen los pichones, cuándo anillar y cuándo toca vacunar.",
+   art:`<div class="qa" style="grid-template-columns:1fr 1fr;width:100%;max-width:320px;margin:0"><button tabindex="-1" class="main"><span class="ic">${QI.add}</span><b>Agregar paloma</b></button><button tabindex="-1"><span class="ic">${QI.race}</span><b>Anotar carrera</b></button><button tabindex="-1"><span class="ic">${QI.cap}</span><b>Anotar captura</b></button><button tabindex="-1"><span class="ic">${QI.egg}</span><b>Nueva nidada</b></button></div>`},
+  {vid:"secciones", h:"Abajo están las secciones", p:"Palomar, Pedigree, Cría, Ranking y Comunidad. En Pedigree puedes ver si dos palomas son parientes. En Comunidad compras, vendes y hablas con otros palomeros.",
+   art:`<div class="demo" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;max-width:340px;color:var(--muted);font-size:11px;text-align:center">${["palomar","pedigree","cria","ranking","comunidad"].map((k,i) => `<div style="${i===0?"color:var(--accent);font-weight:700":""}"><div style="width:26px;height:26px;margin:0 auto">${document.querySelector('.bnav [data-nav="'+k+'"] svg').outerHTML}</div>${["Palomar","Pedigree","Cría","Ranking","Comunidad"][i]}</div>`).join("")}</div>`},
+  {h:"Pruébalo sin miedo", p:"Primero verás un palomar de ejemplo. Toca lo que quieras: nada se guarda. Cuando estés listo, toca “Empezar mi palomar”.",
+   l:["Este tutorial siempre está en “? Cómo funciona”"],
+   art:`<div style="width:90px;height:90px;color:var(--sheen)">${PIGEON}</div>`, last:true}
+];
+let tourI = 0;
+function openTour(i){
+  tourI = Math.max(0, Math.min(TOUR.length - 1, i || 0));
+  const t = TOUR[tourI];
+  if (t.splash){
+    const shot = (Object.values(S.birds).find(b => b.foto) || {}).foto || "fotos/moro.jpg";
+    $("#tour-root").innerHTML = `<div class="scrim" style="z-index:40"><div class="tour" role="dialog" aria-modal="true" aria-label="Bienvenido a Mi Palomar">
+      <div class="splash"><div class="stage"><div class="bigpig">${PIGEON}</div><div class="shot"><img src="${esc(shot)}" alt=""></div><span class="band ring">FL-2026-0118</span></div>
+        <h2>Mi Palomar</h2><p>La libreta del palomero, en tu teléfono.</p></div>
+      <div class="nav"><div class="dots">${TOUR.map((_,k) => `<i class="${k===tourI?"on":""}"></i>`).join("")}</div>
+        <button class="btn" data-act="tourEnd" data-v="skip">Saltar</button>
+        <button class="pillbtn light" style="flex:0 0 auto;min-width:0" data-act="tourNext"><span class="pc">${PIGEON}</span>Empezar</button></div></div></div>`;
+    const b = $("#tour-root .pillbtn"); if (b) b.focus({preventScroll:true});
+    return;
+  }
+  $("#tour-root").innerHTML = `<div class="scrim" style="z-index:40"><div class="tour" role="dialog" aria-modal="true" aria-label="Cómo funciona Mi Palomar">
+    ${t.vid ? "" : `<div class="art">${t.art}</div>`}
+    <div class="txt"><div class="step">${tourI === 1 ? "Cómo funciona" : t.last ? "Empecemos" : `Paso ${tourI - 1} de ${TOUR.length - 3}`}</div><h2>${t.h}</h2><p>${t.p}</p>${t.l ? `<ul>${t.l.map(x => `<li>${x}</li>`).join("")}</ul>` : ""}</div>
+    ${t.vid ? `<div class="vid"><div class="lbl">${t.vlabel || "Mira cómo se hace"}</div><div class="phone"><video poster="videos/${t.vid}.jpg" autoplay muted loop playsinline preload="auto" aria-label="Video: ${esc(t.h)}"><source src="videos/${t.vid}.mp4" type="video/mp4"><source src="videos/${t.vid}.webm" type="video/webm"></video></div></div>` : ""}
+    <div class="nav"><div class="dots">${TOUR.map((_,k) => `<i class="${k===tourI?"on":""}"></i>`).join("")}</div>
+      ${t.last ? `<button class="btn" data-act="tourEnd" data-v="demo">Ver el ejemplo</button>${S.demo ? '<button class="btn pri" data-act="tourEnd" data-v="start">Empezar mi palomar</button>' : '<button class="btn pri" data-act="tourEnd" data-v="ok">Listo</button>'}`
+        : `${tourI > 1 ? '<button class="btn" data-act="tourPrev">Atrás</button>' : '<button class="btn" data-act="tourEnd" data-v="skip">Saltar</button>'}<button class="btn pri" data-act="tourNext">${tourI === 1 ? "Ver cómo funciona" : "Siguiente"}</button>`}
+    </div></div></div>`;
+  const b = $("#tour-root .nav .pri"); if (b) b.focus({preventScroll:true}); const tc = $("#tour-root .tour"); if (tc) tc.scrollTop = 0;
+}
+function closeTour(){ $("#tour-root").innerHTML = ""; lsSet(TOUR_KEY, "1"); }
+let tourShown = false;
+function maybeTour(){ if (tourShown) return; tourShown = true; if (S.demo || lsGet(TOUR_KEY) !== "1") openTour(0); }
+
+/* ---------- Eventos ---------- */
+document.addEventListener("click", ev => {
+  const el = ev.target.closest("[data-act]"); if (!el) return;
+  const act = el.dataset.act;
+  if (act === "closeScrim"){ if (ev.target === el) closeModal(); return; }
+  if (act === "close") return closeModal();
+  if (act === "view"){ S.view = el.dataset.v; if (S.view === "foro") S.thread = null; render(); window.scrollTo(0,0); return; }
+  if (act === "filter"){ S.filter = el.dataset.v; return render(); }
+  if (act === "open"){ S.sel = el.dataset.id; S.view = "ficha"; S.ftab = "familia"; closeModal(); render(); window.scrollTo(0,0); return; }
+  if (act === "ftab"){ S.ftab = el.dataset.v; return render(); }
+  if (act === "ped"){ S.pedId = el.dataset.id; S.view = "pedigree"; render(); window.scrollTo(0,0); return; }
+  if (act === "relWith"){ S.relA = el.dataset.id; S.relB = ""; S.view = "parentesco"; render(); window.scrollTo(0,0); return; }
+  if (act === "mfilter"){ S.mfilter = el.dataset.v; return render(); }
+  if (act === "fcat"){ S.fcat = el.dataset.v; return render(); }
+  if (act === "newAd") return S.community ? adForm(null) : null;
+  if (act === "editAd") return adForm(((S.raw.mercado[uid]||{}).items||[]).find(x => x.id === el.dataset.id));
+  if (act === "soldAd"){ const items = ((S.raw.mercado[uid]||{}).items||[]).map(x => x.id === el.dataset.id ? Object.assign({}, x, {vendida:!x.vendida}) : x); writeMine("mercado", {items}); return; }
+  if (act === "delAd") return armOrRun(el, async () => { closeModal(); if (await removeFrom("mercado", uid, "items", el.dataset.id)) toast("Anuncio borrado"); });
+  if (act === "modAd") return armOrRun(el, async () => { if (await removeFrom("mercado", el.dataset.owner, "items", el.dataset.id)) toast("Anuncio quitado"); });
+  if (act === "perfil") return perfilForm();
+  if (act === "newPost") return postForm();
+  if (act === "thread"){ S.thread = el.dataset.id; render(); window.scrollTo(0,0); return; }
+  if (act === "closeThread"){ S.thread = null; return render(); }
+  if (act === "sendReply") return sendReply(el.dataset.id);
+  if (act === "delPost") return armOrRun(el, async () => { if (await removeFrom("foro", el.dataset.owner, "posts", el.dataset.id)){ S.thread = null; render(); toast("Tema borrado"); } });
+  if (act === "delReply") return armOrRun(el, async () => { if (await removeFrom("foro", el.dataset.owner, "replies", el.dataset.id)) toast("Respuesta borrada"); });
+  if (act === "copy"){ const v = el.dataset.v; const done = () => toast("Copiado: " + v); try { navigator.clipboard.writeText(v).then(done, () => toast(v)); } catch(e){ toast(v); } return; }
+  if (act === "pick") return pickModal(el.dataset.k);
+  if (act === "pickGo"){ S.sel = el.dataset.id; closeModal(); return el.dataset.k === "carrera" ? carreraForm(null) : capturaForm(null); }
+  if (act === "sexo") return;
+  if (act === "tour") return openTour(0);
+  if (act === "tourNext") return openTour(tourI + 1);
+  if (act === "tourPrev") return openTour(tourI - 1);
+  if (act === "tourEnd"){
+    closeTour();
+    if (el.dataset.v === "start"){ const st = document.querySelector('[data-act="start"]'); if (st) st.click(); }
+    else if (el.dataset.v === "demo"){ S.view = "palomar"; render(); window.scrollTo(0,0); }
+    return;
+  }
+  if (act === "share") return shareModal(el.dataset.id);
+  if (act === "addSalud") return saludForm(null);
+  if (act === "editSalud") return saludForm((B(S.sel).salud||[]).find(c => c.id === el.dataset.cid));
+  if (act === "delSalud") return armOrRun(el, async () => { const b = B(S.sel); closeModal(); await saveBird(Object.assign({}, b, {salud:(b.salud||[]).filter(c => c.id !== el.dataset.cid)})); toast("Borrado"); });
+  if (act === "newNid"){ if (Object.keys(S.birds).length < 2){ toast("Primero agrega el macho y la hembra al palomar."); return; } return nidForm(null); }
+  if (act === "editNid") return nidForm((S.cria.nidadas||[]).find(n => n.id === el.dataset.id));
+  if (act === "delNid") return armOrRun(el, async () => { S.cria = Object.assign({}, S.cria, {nidadas:(S.cria.nidadas||[]).filter(n => n.id !== el.dataset.id)}); closeModal(); await saveCria(); toast("Nidada borrada"); });
+  if (act === "addPichon") return addPichon(el.dataset.id);
+  if (act === "rtab"){ S.rtab = el.dataset.v; return render(); }
+  if (act === "ryear"){ S.ryear = el.dataset.v; return render(); }
+  if (act === "new") return birdForm(null);
+  if (act === "edit") return birdForm(B(S.sel));
+  if (act === "addCarrera") return carreraForm(null);
+  if (act === "editCarrera") return carreraForm((B(S.sel).carreras||[]).find(c => c.id === el.dataset.cid));
+  if (act === "addCaptura") return capturaForm(null);
+  if (act === "editCaptura") return capturaForm((B(S.sel).capturas||[]).find(c => c.id === el.dataset.cid));
+  if (act === "delCarrera") return armOrRun(el, async () => { const b = B(S.sel); closeModal(); await saveBird(Object.assign({}, b, {carreras:b.carreras.filter(c => c.id !== el.dataset.cid)})); toast("Carrera borrada"); });
+  if (act === "delCaptura") return armOrRun(el, async () => { const b = B(S.sel); closeModal(); await saveBird(Object.assign({}, b, {capturas:b.capturas.filter(c => c.id !== el.dataset.cid)})); toast("Captura borrada"); });
+  if (act === "delBird") return armOrRun(el, async () => {
+    const id = el.dataset.id, name = nm(B(id)); closeModal();
+    delete S.birds[id]; resetMemo(); S.view = "palomar"; S.sel = null; render();
+    await unpersist(id); toast(`${name} borrada`);
+  });
+  if (act === "start"){
+    S.demo = false; S.birds = {}; S.cria = liveCria || {nidadas:[]}; lsSet(LS_STARTED, "1"); resetMemo();
+    if (S.backend === "db" && liveBirds) S.birds = liveBirds;
+    S.view = "palomar"; S.filter = "todos"; S.q = ""; S.sel = null; S.pedId = null; S.relA = S.relB = "";
+    render(); setTimeout(() => birdForm(null), 50); return;
+  }
+});
+document.addEventListener("input", ev => { if (ev.target.id === "q"){ S.q = ev.target.value; render(); } if (ev.target.id === "mq"){ S.mq = ev.target.value; render(); } });
+document.addEventListener("change", ev => {
+  const id = ev.target.id;
+  if (id === "pedSel"){ S.pedId = ev.target.value; render(); }
+  if (id === "relA"){ S.relA = ev.target.value; render(); }
+  if (id === "relB"){ S.relB = ev.target.value; render(); }
+});
+document.addEventListener("keydown", ev => {
+  if (ev.key === "Escape" && $("#tour-root").innerHTML) return closeTour();
+  if (ev.key === "Escape" && $("#modal-root").innerHTML) closeModal();
+  if ($("#tour-root").innerHTML && ev.key === "ArrowRight" && tourI < TOUR.length - 1) openTour(tourI + 1);
+  if ($("#tour-root").innerHTML && ev.key === "ArrowLeft" && tourI > 0) openTour(tourI - 1);
+});
+
+/* ---------- Arranque ---------- */
+let liveBirds = null;
+const started = () => S.startedSession || lsGet(LS_STARTED) === "1";
+let liveCria = {nidadas:[]};
+function applyBirds(map, cria){
+  liveBirds = map; if (cria) liveCria = cria;
+  const wasDemo = S.demo;
+  if (Object.keys(map).length){ S.demo = false; S.birds = map; S.startedSession = true; }
+  else if (started() && !S.demo){ S.birds = map; }
+  else if (!S.demo && !started()){ S.demo = true; S.birds = demoBirds(); }
+  if (!S.demo) { S.birds = map; S.cria = liveCria; }
+  else if (!wasDemo) { S.cria = demoExtras(S.birds); }
+  resetMemo(); S.ready = true; render(); maybeTour();
+}
+function startLocal(){
+  let map = {}, ok = true;
+  let cria = {nidadas:[]};
+  try { const raw = localStorage.getItem(LS_KEY); if (raw) map = JSON.parse(raw) || {}; const rc = localStorage.getItem(LS_KEY + ".cria"); if (rc) cria = JSON.parse(rc) || cria; localStorage.setItem("palomar.t","1"); } catch(e){ ok = false; }
+  S.backend = ok ? "local" : "memory";
+  applyBirds(map, cria);
+}
+async function boot(){
+  if (!window.claude || typeof window.claude.use !== "function") return startLocal();
+  window.claude.use("downloads").then(d => { downloadsNs = d; }).catch(() => {});
+  let user = null;
+  try { [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]); } catch(e){ db = null; }
+  try { uid = user ? await user.id() : null; } catch(e){ uid = null; }
+  if (!db || !uid) return startLocal();
+  userNs = user; S.backend = "db"; S.community = true;
+  try { S.isOwner = await user.isOwner(); } catch(e){}
+  subscribeCommunity();
+  let gotDefinitive = false;
+  col().onSnapshot(snap => {
+    const map = {}; let cria = {nidadas:[]};
+    snap.docs.forEach(d => { if (d.id === "cfg-cria") cria = Object.assign({nidadas:[]}, d.data()); else if (!d.id.startsWith("cfg-")) map[d.id] = Object.assign({}, d.data(), {id:d.id}); });
+    if (!snap.size && snap.metadata.fromCache && !gotDefinitive) return;
+    gotDefinitive = true;
+    applyBirds(map, cria);
+  }, err => { toast("Se perdió la conexión con tu palomar. Recarga la página."); });
+  setTimeout(() => { if (!S.ready){ S.backend = "db"; applyBirds({}); } }, 8000);
+}
+boot();
+})();
+</script>
+
+<script>
+if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function dentro() { return request.auth != null; }
+    function admin() { return dentro() && request.auth.token.email == "ivan.amg@icloud.com"; }
+
+    // El palomar de cada usuario: solo lo ve y lo cambia su dueño
+    match /data/users/{uid}/{docId} {
+      allow read, write: if dentro() && request.auth.uid == uid;
+    }
+    // Mercado y foro: todos leen; cada uno cambia lo suyo; el admin puede quitar
+    match /mercado/{uid} {
+      allow read: if true;
+      allow write: if dentro() && (request.auth.uid == uid || admin());
+    }
+    match /foro/{uid} {
+      allow read: if true;
+      allow write: if dentro() && (request.auth.uid == uid || admin());
+    }
+    // Perfil del palomero: todos lo ven; solo el dueño lo cambia
+    match /perfiles/{uid} {
+      allow read: if true;
+      allow write: if dentro() && request.auth.uid == uid;
+    }
+  }
+}

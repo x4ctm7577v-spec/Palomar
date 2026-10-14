@@ -1,0 +1,5 @@
+MI PALOMAR - La app para palomeros
+==================================
+Las instrucciones paso a paso están en el chat con Claude.
+Lo único que tienes que cambiar es el archivo config.js
+(pegar lo que te da Firebase).
