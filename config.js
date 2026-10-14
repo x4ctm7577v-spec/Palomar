@@ -1,17 +1,14 @@
 /* ============================================================
    CONFIGURACIÓN DE MI PALOMAR
-   Paso 1: pega aquí lo que te da Firebase (firebaseConfig).
-   Mientras no lo pegues, la app funciona igual, pero guarda
-   solo en el teléfono y no hay mercado ni foro.
    ============================================================ */
 window.PALOMAR_CONFIG = {
   firebase: {
-    apiKey: "PEGA_AQUI",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+    apiKey: "AIzaSyBTjmX_Wwd0bEHLop5sfmvUd21UYAL5xls",
+    authDomain: "palomar-8bbf0.firebaseapp.com",
+    projectId: "palomar-8bbf0",
+    storageBucket: "palomar-8bbf0.firebasestorage.app",
+    messagingSenderId: "976296521388",
+    appId: "1:976296521388:web:ea2c1c0efa20067eb1f909"
   },
   /* La persona que entre con este correo puede quitar anuncios
      y temas del foro (moderador). */
