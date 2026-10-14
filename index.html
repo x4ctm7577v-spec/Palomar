@@ -408,6 +408,61 @@ h1,h2,h3{font-weight:800;letter-spacing:-.01em}
   .toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}
   .hello h2{font-size:30px}
 }
+
+/* ===== Capa moderna ===== */
+:root{--grad:linear-gradient(135deg,#3B82F6 0%,#6366F1 100%);--glass:rgba(255,255,255,.62);--glass-b:rgba(255,255,255,.75);--shadow:0 18px 40px -24px rgba(30,60,120,.45);
+  --bgfx:radial-gradient(60% 40% at 0% 0%,#C9E0FF 0,transparent 70%),radial-gradient(50% 35% at 100% 10%,#E2DAFF 0,transparent 70%),radial-gradient(60% 40% at 50% 100%,#D6ECFF 0,transparent 70%)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--glass:rgba(20,32,50,.6);--glass-b:rgba(255,255,255,.08);--shadow:0 18px 40px -24px rgba(0,0,0,.8);
+  --bgfx:radial-gradient(60% 40% at 0% 0%,#14305A 0,transparent 70%),radial-gradient(50% 35% at 100% 10%,#2A2160 0,transparent 70%),radial-gradient(60% 40% at 50% 100%,#0F2747 0,transparent 70%)}}
+:root[data-theme="dark"]{--glass:rgba(20,32,50,.6);--glass-b:rgba(255,255,255,.08);--shadow:0 18px 40px -24px rgba(0,0,0,.8);
+  --bgfx:radial-gradient(60% 40% at 0% 0%,#14305A 0,transparent 70%),radial-gradient(50% 35% at 100% 10%,#2A2160 0,transparent 70%),radial-gradient(60% 40% at 50% 100%,#0F2747 0,transparent 70%)}
+body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
+.top{background:var(--glass);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-bottom:1px solid var(--glass-b)}
+.brand svg{background:var(--grad);color:#fff}
+.brand h1{letter-spacing:-.03em}
+.hello h2{font-size:40px;letter-spacing:-.035em;font-weight:900}
+.btn.pri,.qa button.main,.pillbtn,.lbtn:not(.light){background:var(--grad)!important;color:#fff!important;border:0}
+.qa button.main .ic{background:rgba(255,255,255,.22);color:#fff}
+.qa button,.tablero > div,.card,.notice,.panel,.nest,.ad,.post,.empty,.item,.mini,.ag,.tablewrap,.pedwrap,.sheet,.search,.chip,.btn:not(.pri),.subtabs button{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:var(--shadow);border:1px solid var(--glass-b)!important}
+.chip[aria-pressed="true"],.subtabs button[aria-current="true"]{background:var(--ink);color:var(--bg-2);border-color:transparent!important}
+.tablero .n{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900}
+.qa .ic{background:var(--grad);color:#fff}
+/* hero */
+.hero{position:relative;display:block;width:100%;border:0;padding:0;margin:0 0 14px;border-radius:30px;overflow:hidden;aspect-ratio:16/10;max-width:100%;cursor:pointer;box-shadow:var(--shadow);background:var(--surface-2);text-align:left;color:#fff}
+.hero .hph,.hero .hph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 28%}
+.hero .hph svg{width:40%;height:auto;margin:10% 30%;opacity:.4;color:var(--muted)}
+.hero .hov{position:absolute;inset:auto 0 0 0;padding:60px 18px 16px;background:linear-gradient(180deg,transparent,rgba(5,12,25,.82))}
+.hero .hk{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hero .hn{font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.05;margin-top:6px}
+.hero .hs{font-size:14px;opacity:.85}
+.hero .hchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.hero .hchips span{font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.hero .hchips span:empty{display:none}
+.hero:hover{transform:translateY(-2px)}
+@media (prefers-reduced-motion:no-preference){.hero,.card{transition:transform .2s ease,box-shadow .2s ease}.card:hover{transform:translateY(-3px)}}
+/* tarjetas con foto a sangre */
+.card{padding:8px 8px 12px}
+.card .thumb{aspect-ratio:4/5;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#DDE9F8,#C9D6F2)}
+.card .thumb .ov{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 10px;background:linear-gradient(180deg,transparent,rgba(5,12,25,.78));color:#fff;text-align:left}
+.card .thumb:not(.hasph) .ov{background:none;color:var(--ink)}
+.card .thumb .ov .nm{font-size:19px;font-weight:800;letter-spacing:-.02em;padding:0;line-height:1.1;margin-bottom:4px}
+.card .thumb svg{position:absolute;inset:0;margin:auto;width:46%;height:46%}
+.card > div:last-child{padding:2px 6px 0}
+.card .meta:empty{display:none}
+.sexdot{backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(255,255,255,.8)}
+/* ficha */
+.pcard::before{background:var(--grad)}
+.sheet{border-radius:34px}
+.tile{background:var(--surface-2)}
+.tile .tv{letter-spacing:-.02em}
+.actbar .cbtn{background:var(--ink);color:var(--bg-2)}
+/* barra de abajo vidrio */
+.bnav{background:var(--glass);backdrop-filter:saturate(1.6) blur(20px);-webkit-backdrop-filter:saturate(1.6) blur(20px);border:1px solid var(--glass-b)}
+.bnav button[aria-current="true"]{background:var(--grad);color:#fff}
+.tour{background:var(--bg-2)}
+.splash{background:var(--bgfx),var(--bg-2)}
+.splash .bigpig{color:#3B5BDB}
+.dots i.on{background:var(--grad)}
 </style>
 <link rel="stylesheet" href="cuenta.css">
 </head>
@@ -1336,7 +1391,9 @@ function viewPalomar(){
   }
   return `${noticeHtml()}
   ${all.length ? (() => { const c = (f) => all.filter(f).length; const car = all.reduce((a,b) => a + (b.carreras||[]).length, 0), cap = all.reduce((a,b) => a + (b.capturas||[]).length, 0);
-    return `<div class="hello"><h2>Mi palomar</h2><p>Tus palomas, su sangre y sus resultados.</p></div><section class="tablero" aria-label="Resumen del palomar">
+    const star = all.map(b => ({b, s:(b.carreras||[]).reduce((a,c) => a + racePts(c), 0) + (b.capturas||[]).length*20})).filter(x => x.s > 0).sort((a,b) => (b.b.foto?1:0) - (a.b.foto?1:0) || b.s - a.s)[0];
+    const hero = star ? `<button class="hero" data-act="open" data-id="${esc(star.b.id)}"><div class="hph">${star.b.foto ? `<img src="${esc(star.b.foto)}" alt="">` : PIGEON}</div><div class="hov"><span class="hk">★ Paloma estrella</span><div class="hn">${esc(nm(star.b))}</div><div class="hs">${esc(raceSummary(star.b) || capSummary(star.b))}</div><div class="hchips"><span>${esc(star.b.anilla||"")}</span><span>${esc(star.b.color||"")}</span><span>${(star.b.carreras||[]).length} carreras</span></div></div></button>` : "";
+    return `<div class="hello"><h2>Mi palomar</h2><p>Tus palomas, su sangre y sus resultados.</p></div>${hero}<section class="tablero" aria-label="Resumen del palomar">
       <div><div class="n">${all.length}</div><div class="l">Palomas</div></div><div><div class="n">${c(b => b.sexo==="M")}</div><div class="l">Machos</div></div><div><div class="n">${c(b => b.sexo==="H")}</div><div class="l">Hembras</div></div>
       <div><div class="n">${c(b => +b.anio===YEAR)}</div><div class="l">Pichones</div></div><div><div class="n">${car}</div><div class="l">Carreras</div></div><div><div class="n">${cap}</div><div class="l">Capturas</div></div></section>`; })() : ""}
   <div class="qa">
@@ -1355,10 +1412,9 @@ function card(b){
   const pa = B(b.padre), ma = B(b.madre);
   const parents = (pa || ma) ? `Hijo de ${esc(nm(pa))} × ${esc(nm(ma))}`.replace(/^Hijo/, b.sexo==="H"?"Hija":"Hijo") : "Padres no registrados";
   return `<button class="card ${b.sexo}" data-act="open" data-id="${esc(b.id)}">
-    <div class="thumb">${b.foto ? `<img src="${esc(b.foto)}" alt="">` : PIGEON}${b.sexo==="M"||b.sexo==="H" ? `<span class="sexdot ${b.sexo}" title="${b.sexo==="M"?"Macho":"Hembra"}">${b.sexo==="M"?"♂":"♀"}</span>` : ""}</div>
+    <div class="thumb ${b.foto ? "hasph" : ""}">${b.foto ? `<img src="${esc(b.foto)}" alt="">` : PIGEON}${b.sexo==="M"||b.sexo==="H" ? `<span class="sexdot ${b.sexo}" title="${b.sexo==="M"?"Macho":"Hembra"}">${b.sexo==="M"?"♂":"♀"}</span>` : ""}
+      <div class="ov"><div class="nm">${esc(b.nombre || "Sin nombre")}</div><span class="band">${esc(b.anilla||"—")}</span></div></div>
     <div style="min-width:0">
-      <div class="nm">${esc(b.nombre || "Sin nombre")}</div>
-      <div class="row" style="gap:6px;margin:3px 0"><span class="band">${esc(b.anilla||"—")}</span></div>
       <div class="meta">${esc([b.color, b.anio].filter(Boolean).join(" · "))}${b.estado && b.estado!=="En el palomar" ? ` · <b>${esc(b.estado)}</b>` : ""}</div>
       <div class="stats"><span><b>${(b.carreras||[]).length}</b> carreras</span><span><b>${(b.capturas||[]).length}</b> capturas</span>${f>0?`<span class="pill ${lv.cls}">Consang. ${pct(f)}</span>`:""}</div>
     </div></button>`;
