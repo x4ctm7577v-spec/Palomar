@@ -465,6 +465,26 @@ body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
 .dots i.on{background:var(--grad)}
 .relgrid select,.relgrid .search{flex:none;width:100%;height:auto}
 #pedSel{flex:0 1 360px;height:auto}
+
+/* Botón Agregar paloma bien visible */
+.qa button.addbig{grid-column:1/-1;flex-direction:row;align-items:center;gap:16px;padding:18px 18px 18px 16px;min-height:96px;border-radius:26px!important;
+  box-shadow:0 14px 30px -10px rgba(59,130,246,.75),inset 0 1px 0 rgba(255,255,255,.35)!important;position:relative;overflow:hidden}
+.qa button.addbig::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-100%)}
+@media (prefers-reduced-motion:no-preference){.qa button.addbig::after{animation:brillo 3.2s ease-in-out infinite 1s}}
+@keyframes brillo{0%{transform:translateX(-100%)}45%,100%{transform:translateX(100%)}}
+.qa button.addbig .ic{width:58px;height:58px;flex:none;background:#fff!important;color:#3B5BDB!important;box-shadow:0 6px 14px -6px rgba(0,0,0,.35)}
+.qa button.addbig .ic svg{width:32px;height:32px;stroke-width:2.6}
+.qa button.addbig .tx{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;text-align:left}
+.qa button.addbig b{font-size:24px}
+.qa button.addbig small{opacity:.92}
+.qa button.addbig .go{font-size:44px;line-height:1;font-weight:300;opacity:.9;flex:none;margin-right:4px}
+.qa button.addbig:active{transform:scale(.98)}
+.fab{position:fixed;right:18px;bottom:calc(100px + env(safe-area-inset-bottom,0px));z-index:9;display:flex;align-items:center;gap:8px;height:58px;padding:0 22px 0 16px;border:0;border-radius:999px;
+  background:var(--grad);color:#fff;font:inherit;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 14px 30px -8px rgba(59,130,246,.8)}
+.fab span{width:34px;height:34px;border-radius:50%;background:#fff;color:#3B5BDB;display:grid;place-items:center;font-size:28px;font-weight:700;line-height:1}
+.fab:active{transform:scale(.96)}
+@media (min-width:721px){.fab{bottom:28px}}
+@media (max-width:720px){.qa button[data-act="newNid"]{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px}.qa button[data-act="newNid"] small{margin-left:auto}}
 </style>
 <link rel="stylesheet" href="cuenta.css">
 </head>
@@ -1399,7 +1419,7 @@ function viewPalomar(){
       <div><div class="n">${all.length}</div><div class="l">Palomas</div></div><div><div class="n">${c(b => b.sexo==="M")}</div><div class="l">Machos</div></div><div><div class="n">${c(b => b.sexo==="H")}</div><div class="l">Hembras</div></div>
       <div><div class="n">${c(b => +b.anio===YEAR)}</div><div class="l">Pichones</div></div><div><div class="n">${car}</div><div class="l">Carreras</div></div><div><div class="n">${cap}</div><div class="l">Capturas</div></div></section>`; })() : ""}
   <div class="qa">
-    <button class="main" data-act="new"><span class="ic">${QI.add}</span><b>Agregar paloma</b><small>Anilla, padre y madre</small></button>
+    <button class="main addbig" data-act="new"><span class="ic">${QI.add}</span><span class="tx"><b>Agregar paloma</b><small>Toca aquí · anilla, padre y madre</small></span><span class="go" aria-hidden="true">›</span></button>
     <button data-act="pick" data-k="carrera"><span class="ic">${QI.race}</span><b>Anotar carrera</b><small>Puesto y velocidad</small></button>
     <button data-act="pick" data-k="captura"><span class="ic">${QI.cap}</span><b>Anotar captura</b><small>Lo que trajo el buchón</small></button>
     <button data-act="newNid"><span class="ic">${QI.egg}</span><b>Nueva nidada</b><small>Cuándo nacen y anillar</small></button>
@@ -1407,7 +1427,8 @@ function viewPalomar(){
   <div class="row"><input class="search" id="q" type="search" placeholder="Buscar paloma por anilla, nombre o color" value="${esc(S.q)}" aria-label="Buscar"></div>
   <div class="chips" style="margin-top:10px">${chips}</div>
   ${all.length ? `<p class="meta" style="margin:10px 0 0">${all.length} paloma${all.length>1?"s":""} registradas</p>` : ""}
-  ${body}`;
+  ${body}
+  <button class="fab" data-act="new" aria-label="Agregar paloma"><span>+</span> Agregar</button>`;
 }
 function card(b){
   const f = F(b.id), lv = fLevel(f);
