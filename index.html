@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B1B4D" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#06141F" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#06141F" media="(prefers-color-scheme: dark)">
 <meta name="description" content="Aletazo: pedigree, carreras, capturas, cría y comunidad para palomeros.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Aletazo">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Aletazo</title>
@@ -487,7 +487,20 @@ body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
 @media (max-width:720px){.qa button[data-act="newNid"]{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px}.qa button[data-act="newNid"] small{margin-left:auto}}
 
 /* ===== Estilos para escoger ===== */
+html:root[data-skin="noche"]{--bg:#0B0D12;--bg-2:#0B0D12;--surface:#151922;--surface-2:#1C212C;--ink:#F4F6FA;--muted:#9AA3B2;--line:#262C38;
+  --pill:#F4F6FA;--on-pill:#0B0D12;--accent:#FF7A45;--sheen:#FF4D8D;--warm:#FF7A45;
+  --grad:linear-gradient(135deg,#FF8A3D 0%,#FF3D71 100%);--glass:rgba(24,28,38,.72);--glass-b:rgba(255,255,255,.07);--shadow:0 18px 40px -24px rgba(0,0,0,.9);
+  --bgfx:radial-gradient(55% 35% at 0% 0%,rgba(255,122,69,.22) 0,transparent 70%),radial-gradient(50% 30% at 100% 25%,rgba(255,61,113,.16) 0,transparent 70%);color-scheme:dark}
+html:root[data-skin="moderno"]{--bg:#F6F5FB;--bg-2:#F6F5FB;--surface:#FFFFFF;--surface-2:#F1EFF8;--ink:#14121F;--muted:#6B6880;--line:#E6E3F0;
+  --pill:#14121F;--on-pill:#FFFFFF;--accent:#7C3AED;--sheen:#EC4899;--warm:#F59E0B;
+  --grad:linear-gradient(135deg,#8B5CF6 0%,#EC4899 100%);--glass:rgba(255,255,255,.8);--glass-b:rgba(20,18,31,.06);--shadow:0 16px 36px -22px rgba(76,29,149,.35);
+  --bgfx:radial-gradient(60% 35% at 100% 0%,rgba(236,72,153,.14) 0,transparent 70%),radial-gradient(55% 35% at 0% 20%,rgba(139,92,246,.16) 0,transparent 70%);color-scheme:light}
+html:root[data-skin="oro"]{--bg:#0A0A0A;--bg-2:#0A0A0A;--surface:#141414;--surface-2:#1C1C1C;--ink:#F7F3E8;--muted:#A8A090;--line:#2A2722;
+  --pill:#F5C451;--on-pill:#0A0A0A;--accent:#F5C451;--sheen:#E9A23B;--warm:#F5C451;
+  --grad:linear-gradient(135deg,#FFE08A 0%,#E9A23B 100%);--glass:rgba(22,22,22,.78);--glass-b:rgba(245,196,81,.12);--shadow:0 18px 40px -24px rgba(0,0,0,.9);
+  --bgfx:radial-gradient(55% 35% at 50% 0%,rgba(245,196,81,.14) 0,transparent 70%);color-scheme:dark}
 html[data-skin] .qa button.main,html[data-skin] .btn.pri,html[data-skin] .pillbtn,html[data-skin] .fab,html[data-skin] .bnav button[aria-current="true"]{background:var(--grad)!important;color:var(--on-grad,#fff)!important}
+html:root[data-skin="oro"]{--on-grad:#0A0A0A}
 html[data-skin] .qa button.addbig .ic,html[data-skin] .fab span{color:var(--accent)!important}
 html[data-skin] .qa button.addbig{box-shadow:0 14px 34px -10px color-mix(in srgb,var(--accent) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.3)!important}
 html[data-skin] .fab{box-shadow:0 14px 30px -8px color-mix(in srgb,var(--accent) 75%,transparent)}
@@ -496,20 +509,44 @@ html[data-skin] .qa .ic{background:var(--grad);color:var(--on-grad,#fff)}
 html[data-skin] .brand svg{background:var(--grad);color:var(--on-grad,#fff)}
 html[data-skin] .chip[aria-pressed="true"],html[data-skin] .subtabs button[aria-current="true"]{background:var(--ink);color:var(--bg)}
 html[data-skin] .hello h2{font-size:44px}
+html[data-skin="noche"] .sexdot,html[data-skin="oro"] .sexdot{background:rgba(0,0,0,.55);color:#fff}
+html[data-skin="noche"] .card .thumb,html[data-skin="oro"] .card .thumb{background:linear-gradient(160deg,#20242E,#14171E)}
+html[data-skin="noche"] .card .thumb:not(.hasph) .ov,html[data-skin="oro"] .card .thumb:not(.hasph) .ov{color:var(--ink)}
+html:root[data-skin="oceano"]{--bg:#06141F;--bg-2:#06141F;--surface:#0D2030;--surface-2:#12293B;--ink:#EAF6FB;--muted:#8FB0C2;--line:#1C3446;
+  --pill:#EAF6FB;--on-pill:#06141F;--accent:#22D3EE;--sheen:#38BDF8;--warm:#22D3EE;
+  --grad:linear-gradient(135deg,#22D3EE 0%,#3B82F6 100%);--glass:rgba(13,32,48,.75);--glass-b:rgba(34,211,238,.10);--shadow:0 18px 40px -24px rgba(0,0,0,.9);
+  --bgfx:radial-gradient(55% 35% at 0% 0%,rgba(34,211,238,.20) 0,transparent 70%),radial-gradient(50% 30% at 100% 30%,rgba(59,130,246,.18) 0,transparent 70%);color-scheme:dark}
 html:root[data-skin="cubano"]{--bg:#FFFFFF;--bg-2:#F7F8FC;--surface:#FFFFFF;--surface-2:#F1F3FA;--ink:#0B1B4D;--muted:#5A6587;--line:#E2E6F2;
   --pill:#0B1B4D;--on-pill:#FFFFFF;--accent:#D7263D;--sheen:#1E3A8A;--warm:#D7263D;
   --grad:linear-gradient(135deg,#E63946 0%,#B5172E 100%);--glass:rgba(255,255,255,.85);--glass-b:rgba(11,27,77,.07);--shadow:0 16px 34px -22px rgba(11,27,77,.35);
   --bgfx:linear-gradient(180deg,rgba(30,58,138,.07) 0,transparent 260px);color-scheme:light}
 html[data-skin="cubano"] .tablero .n{background:linear-gradient(135deg,#1E3A8A,#1E40AF)!important;-webkit-background-clip:text!important;background-clip:text!important}
 html[data-skin="cubano"] .qa button:not(.main) .ic{background:#1E3A8A!important}
-html[data-skin="cubano"] .splash .bigpig{color:#1E3A8A}
-html[data-skin="cubano"] .hero .hk{background:rgba(215,38,61,.85)}
+html:root[data-skin="grafito"]{--bg:#EDEDEF;--bg-2:#EDEDEF;--surface:#FFFFFF;--surface-2:#F4F4F6;--ink:#111113;--muted:#66666E;--line:#DEDEE3;
+  --pill:#111113;--on-pill:#FFFFFF;--accent:#FFD43B;--sheen:#111113;--warm:#FFD43B;--on-grad:#111113;
+  --grad:linear-gradient(135deg,#FFE066 0%,#FFC107 100%);--glass:rgba(255,255,255,.88);--glass-b:rgba(0,0,0,.05);--shadow:0 14px 30px -22px rgba(0,0,0,.45);
+  --bgfx:none;color-scheme:light}
+html[data-skin="grafito"] .tablero .n{background:none!important;color:#111113!important;-webkit-text-fill-color:#111113}
+html[data-skin="grafito"] .qa button:not(.main) .ic{background:#111113!important;color:#FFD43B!important}
+html[data-skin="grafito"] .brand svg{background:#111113!important;color:#FFD43B!important}
+html[data-skin="oceano"] .sexdot{background:rgba(0,0,0,.55);color:#fff}
+html[data-skin="oceano"] .card .thumb{background:linear-gradient(160deg,#143046,#0B1E2C)}
+
+html[data-skin="oceano"] .splash .bigpig{color:#22D3EE}
+html[data-skin="oceano"] .hero .hk{background:rgba(34,211,238,.25)}
+html[data-skin="oceano"] .card:hover,html[data-skin="oceano"] .qa button:hover{box-shadow:0 0 0 2px #22D3EE}
+html[data-skin="oceano"] .band{--alu-1:#E3EBF1;--alu-2:#AAB8C4;--alu-edge:#7F8E9B}
+html[data-skin="oceano"] .pbox.root{background:linear-gradient(135deg,#0E7490,#1E40AF);color:#fff}
+html[data-skin="oceano"] .tile,html[data-skin="oceano"] .about{background:var(--surface-2)}
+html[data-skin="oceano"] .actbar .cbtn{background:#EAF6FB;color:#06141F}
+html[data-skin="oceano"] .search::placeholder{color:#7F9AAD}
+html[data-skin="oceano"] .lcard{background:var(--surface)}
 </style>
 <link rel="stylesheet" href="cuenta.css">
 </head>
 <body>
 
-<script>document.documentElement.setAttribute("data-skin","cubano")</script>
+<script>document.documentElement.setAttribute("data-skin","oceano")</script>
 
 <header class="top">
   <div class="wrap">
@@ -1313,10 +1350,10 @@ async function pedigreeImage(id){
   try { await document.fonts.ready; } catch(e){}
   const W_ = 1080, H_ = 1350, c = document.createElement("canvas"); c.width = W_; c.height = H_;
   const x = c.getContext("2d"), b = B(id), gens = pedGens(id);
-  const C = {bg:"#F7F8FC", card:"#FFFFFF", ink:"#0B1B4D", muted:"#5A6587", line:"#D5DBEC", acc:"#1E3A8A", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
+  const C = {bg:"#EAF4F8", card:"#FFFFFF", ink:"#06141F", muted:"#4F6676", line:"#C7D7E1", acc:"#0E7490", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
   const DISP = '"Outfit",system-ui,sans-serif', BODY = '"Outfit",system-ui,sans-serif', MONO = '"JetBrains Mono",monospace';
   x.fillStyle = C.bg; x.fillRect(0,0,W_,H_);
-  x.fillStyle = "#0B1B4D"; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#E63946"); gr.addColorStop(1,"#B5172E"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
+  x.fillStyle = "#06141F"; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#22D3EE"); gr.addColorStop(1,"#3B82F6"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
   x.fillStyle = "#AEBBCD"; x.font = `600 26px ${BODY}`; x.fillText("PEDIGREE", 48, 72);
   x.fillStyle = "#F3F6FA"; x.font = `900 78px ${DISP}`; x.fillText(fitText(x, b.nombre || b.anilla || "Sin nombre", 980), 48, 148);
   x.font = `600 28px ${MONO}`; const bt = b.anilla || "—", bw = x.measureText(bt).width + 32;
