@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#CFE4F5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0D1622" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1B4D" media="(prefers-color-scheme: dark)">
 <meta name="description" content="Aletazo: pedigree, carreras, capturas, cría y comunidad para palomeros.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
@@ -461,7 +461,7 @@ body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
 .bnav button[aria-current="true"]{background:var(--grad);color:#fff}
 .tour{background:var(--bg-2)}
 .splash{background:var(--bgfx),var(--bg-2)}
-.splash .bigpig{color:#3B5BDB}
+.splash .bigpig{color:#1E3A8A}
 .dots i.on{background:var(--grad)}
 .relgrid select,.relgrid .search{flex:none;width:100%;height:auto}
 #pedSel{flex:0 1 360px;height:auto}
@@ -485,11 +485,31 @@ body{background:var(--bgfx),var(--bg-2);background-attachment:fixed}
 .fab:active{transform:scale(.96)}
 @media (min-width:721px){.fab{bottom:28px}}
 @media (max-width:720px){.qa button[data-act="newNid"]{grid-column:1/-1;flex-direction:row;align-items:center;gap:14px}.qa button[data-act="newNid"] small{margin-left:auto}}
+
+/* ===== Estilos para escoger ===== */
+html[data-skin] .qa button.main,html[data-skin] .btn.pri,html[data-skin] .pillbtn,html[data-skin] .fab,html[data-skin] .bnav button[aria-current="true"]{background:var(--grad)!important;color:var(--on-grad,#fff)!important}
+html[data-skin] .qa button.addbig .ic,html[data-skin] .fab span{color:var(--accent)!important}
+html[data-skin] .qa button.addbig{box-shadow:0 14px 34px -10px color-mix(in srgb,var(--accent) 70%,transparent),inset 0 1px 0 rgba(255,255,255,.3)!important}
+html[data-skin] .fab{box-shadow:0 14px 30px -8px color-mix(in srgb,var(--accent) 75%,transparent)}
+html[data-skin] .tablero .n{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-skin] .qa .ic{background:var(--grad);color:var(--on-grad,#fff)}
+html[data-skin] .brand svg{background:var(--grad);color:var(--on-grad,#fff)}
+html[data-skin] .chip[aria-pressed="true"],html[data-skin] .subtabs button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+html[data-skin] .hello h2{font-size:44px}
+html:root[data-skin="cubano"]{--bg:#FFFFFF;--bg-2:#F7F8FC;--surface:#FFFFFF;--surface-2:#F1F3FA;--ink:#0B1B4D;--muted:#5A6587;--line:#E2E6F2;
+  --pill:#0B1B4D;--on-pill:#FFFFFF;--accent:#D7263D;--sheen:#1E3A8A;--warm:#D7263D;
+  --grad:linear-gradient(135deg,#E63946 0%,#B5172E 100%);--glass:rgba(255,255,255,.85);--glass-b:rgba(11,27,77,.07);--shadow:0 16px 34px -22px rgba(11,27,77,.35);
+  --bgfx:linear-gradient(180deg,rgba(30,58,138,.07) 0,transparent 260px);color-scheme:light}
+html[data-skin="cubano"] .tablero .n{background:linear-gradient(135deg,#1E3A8A,#1E40AF)!important;-webkit-background-clip:text!important;background-clip:text!important}
+html[data-skin="cubano"] .qa button:not(.main) .ic{background:#1E3A8A!important}
+html[data-skin="cubano"] .splash .bigpig{color:#1E3A8A}
+html[data-skin="cubano"] .hero .hk{background:rgba(215,38,61,.85)}
 </style>
 <link rel="stylesheet" href="cuenta.css">
 </head>
 <body>
 
+<script>document.documentElement.setAttribute("data-skin","cubano")</script>
 
 <header class="top">
   <div class="wrap">
@@ -1293,10 +1313,10 @@ async function pedigreeImage(id){
   try { await document.fonts.ready; } catch(e){}
   const W_ = 1080, H_ = 1350, c = document.createElement("canvas"); c.width = W_; c.height = H_;
   const x = c.getContext("2d"), b = B(id), gens = pedGens(id);
-  const C = {bg:"#CFE4F5", card:"#FFFFFF", ink:"#0E1520", muted:"#526174", line:"#B8CCE0", acc:"#1D6FB8", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
+  const C = {bg:"#F7F8FC", card:"#FFFFFF", ink:"#0B1B4D", muted:"#5A6587", line:"#D5DBEC", acc:"#1E3A8A", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
   const DISP = '"Outfit",system-ui,sans-serif', BODY = '"Outfit",system-ui,sans-serif', MONO = '"JetBrains Mono",monospace';
   x.fillStyle = C.bg; x.fillRect(0,0,W_,H_);
-  x.fillStyle = C.slate; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#13A58B"); gr.addColorStop(.48,"#2C83B9"); gr.addColorStop(1,"#7B44B8"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
+  x.fillStyle = "#0B1B4D"; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#E63946"); gr.addColorStop(1,"#B5172E"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
   x.fillStyle = "#AEBBCD"; x.font = `600 26px ${BODY}`; x.fillText("PEDIGREE", 48, 72);
   x.fillStyle = "#F3F6FA"; x.font = `900 78px ${DISP}`; x.fillText(fitText(x, b.nombre || b.anilla || "Sin nombre", 980), 48, 148);
   x.font = `600 28px ${MONO}`; const bt = b.anilla || "—", bw = x.measureText(bt).width + 32;
