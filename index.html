@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#06141F" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#06141F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#F6F9FC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#F6F9FC" media="(prefers-color-scheme: dark)">
 <meta name="description" content="Aletazo: pedigree, carreras, capturas, cría y comunidad para palomeros.">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Aletazo">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Aletazo</title>
@@ -541,12 +541,53 @@ html[data-skin="oceano"] .tile,html[data-skin="oceano"] .about{background:var(--
 html[data-skin="oceano"] .actbar .cbtn{background:#EAF6FB;color:#06141F}
 html[data-skin="oceano"] .search::placeholder{color:#7F9AAD}
 html[data-skin="oceano"] .lcard{background:var(--surface)}
+
+/* ===== Estilo CLARO y sencillo ===== */
+html:root[data-skin="claro"]{--bg:#F6F9FC;--bg-2:#F6F9FC;--surface:#FFFFFF;--surface-2:#F1F5FA;--ink:#1B2533;--muted:#6A7687;--line:#E2E8F0;
+  --pill:#3B9EF5;--on-pill:#FFFFFF;--accent:#3B9EF5;--sheen:#E66A9B;--warm:#BFE0FD;--on-grad:#FFFFFF;
+  --grad:linear-gradient(#3B9EF5,#3B9EF5);--glass:#FFFFFF;--glass-b:#E2E8F0;--shadow:0 1px 2px rgba(16,24,40,.05);--bgfx:none;--deco:none;color-scheme:light}
+html[data-skin="claro"] body{background:#F6F9FC}
+html[data-skin="claro"] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+html[data-skin="claro"] .top{background:#FFFFFF;border-bottom:1px solid #E2E8F0}
+html[data-skin="claro"] .qa button,html[data-skin="claro"] .tablero > div,html[data-skin="claro"] .card,html[data-skin="claro"] .notice,html[data-skin="claro"] .panel,html[data-skin="claro"] .nest,html[data-skin="claro"] .ad,html[data-skin="claro"] .post,html[data-skin="claro"] .empty,html[data-skin="claro"] .item,html[data-skin="claro"] .mini,html[data-skin="claro"] .ag,html[data-skin="claro"] .tablewrap,html[data-skin="claro"] .pedwrap,html[data-skin="claro"] .sheet,html[data-skin="claro"] .search,html[data-skin="claro"] .chip,html[data-skin="claro"] .btn:not(.pri),html[data-skin="claro"] .subtabs button{background:#FFFFFF!important;border:1px solid #E2E8F0!important;box-shadow:none!important}
+html[data-skin="claro"] .btn.pri,html[data-skin="claro"] .pillbtn,html[data-skin="claro"] .lbtn:not(.light),html[data-skin="claro"] .fab{background:#3B9EF5!important;color:#fff!important;box-shadow:none!important;border:0!important}
+html[data-skin="claro"] .qa button.main,html[data-skin="claro"] .qa button.addbig{background:#3B9EF5!important;color:#fff!important;border:0!important;box-shadow:none!important}
+html[data-skin="claro"] .qa button.addbig::after{display:none}
+html[data-skin="claro"] .qa button.addbig .ic{background:#fff!important;color:#3B9EF5!important;box-shadow:none}
+html[data-skin="claro"] .qa .ic,html[data-skin="claro"] .qa button:not(.main) .ic{background:#E8F3FE!important;color:#3B9EF5!important}
+html[data-skin="claro"] .brand svg{background:#3B9EF5!important;color:#fff!important}
+html[data-skin="claro"] .tablero .n{background:none!important;-webkit-text-fill-color:#1B2533;color:#1B2533!important}
+html[data-skin="claro"] .chip[aria-pressed="true"],html[data-skin="claro"] .subtabs button[aria-current="true"]{background:#3B9EF5!important;color:#fff!important;border-color:#3B9EF5!important}
+html[data-skin="claro"] .bnav{background:#FFFFFF!important;border:1px solid #E2E8F0!important;box-shadow:0 4px 16px -8px rgba(16,24,40,.18)!important}
+html[data-skin="claro"] .bnav::before{display:none}
+html[data-skin="claro"] .bnav button[aria-current="true"]{background:#E8F3FE!important;color:#3B9EF5!important}
+html[data-skin="claro"] .fab span{color:#3B9EF5!important}
+html[data-skin="claro"] .hero{box-shadow:none}
+html[data-skin="claro"] .hero .hk{background:rgba(59,158,245,.9)}
+html[data-skin="claro"] .pcard::before{background:#BFE0FD}
+html[data-skin="claro"] .pcard .ph{box-shadow:none}
+html[data-skin="claro"] .actbar .cbtn{background:#E8F3FE;color:#3B9EF5}
+html[data-skin="claro"] .pbox{background:#FFFFFF;border:1px solid #E2E8F0;border-left:4px solid #E2E8F0}
+html[data-skin="claro"] .pbox.M{border-left-color:#3B9EF5} html[data-skin="claro"] .pbox.H{border-left-color:#E66A9B}
+html[data-skin="claro"] .pbox.root{background:#E8F3FE;color:#1B2533;border-left-color:#3B9EF5}
+html[data-skin="claro"] .tour,html[data-skin="claro"] .splash,html[data-skin="claro"] .tour .art{background:#FFFFFF}
+html[data-skin="claro"] .splash .bigpig{color:#3B9EF5}
+html[data-skin="claro"] .dots i.on{background:#3B9EF5}
+html[data-skin="claro"] .seg label:has(input:checked){background:#3B9EF5!important;color:#fff!important}
+html[data-skin="claro"] .login{background:#F6F9FC}
+html[data-skin="claro"] .lseg button[aria-pressed="true"]{background:#3B9EF5;color:#fff}
+html[data-skin="claro"] .llogo{background:#3B9EF5}
+html[data-skin="claro"] #acctBtn.in{background:#3B9EF5;color:#fff}
+html[data-skin="claro"] .card .thumb{background:#EEF4FB}
+html[data-skin="claro"] .sexdot{background:#fff;box-shadow:none}
+html[data-skin="claro"] .tag{background:#1B2533}
+html[data-skin="claro"] :focus-visible,html[data-skin="claro"] input:focus-visible,html[data-skin="claro"] select:focus-visible,html[data-skin="claro"] textarea:focus-visible{outline-color:#3B9EF5!important}
 </style>
 <link rel="stylesheet" href="cuenta.css">
 </head>
 <body>
 
-<script>document.documentElement.setAttribute("data-skin","oceano")</script>
+<script>document.documentElement.setAttribute("data-skin","claro")</script>
 
 <header class="top">
   <div class="wrap">
@@ -1350,10 +1391,10 @@ async function pedigreeImage(id){
   try { await document.fonts.ready; } catch(e){}
   const W_ = 1080, H_ = 1350, c = document.createElement("canvas"); c.width = W_; c.height = H_;
   const x = c.getContext("2d"), b = B(id), gens = pedGens(id);
-  const C = {bg:"#EAF4F8", card:"#FFFFFF", ink:"#06141F", muted:"#4F6676", line:"#C7D7E1", acc:"#0E7490", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
+  const C = {bg:"#F6F9FC", card:"#FFFFFF", ink:"#1B2533", muted:"#6A7687", line:"#E2E8F0", acc:"#3B9EF5", sheen:"#7A44B5", band:"#F3B53F", slate:"#0F1513"};
   const DISP = '"Outfit",system-ui,sans-serif', BODY = '"Outfit",system-ui,sans-serif', MONO = '"JetBrains Mono",monospace';
   x.fillStyle = C.bg; x.fillRect(0,0,W_,H_);
-  x.fillStyle = "#06141F"; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#22D3EE"); gr.addColorStop(1,"#3B82F6"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
+  x.fillStyle = "#3B9EF5"; x.fillRect(0,0,W_,232); const gr = x.createLinearGradient(0,0,W_,0); gr.addColorStop(0,"#BFE0FD"); gr.addColorStop(1,"#BFE0FD"); x.fillStyle = gr; x.fillRect(0,232,W_,8);
   x.fillStyle = "#AEBBCD"; x.font = `600 26px ${BODY}`; x.fillText("PEDIGREE", 48, 72);
   x.fillStyle = "#F3F6FA"; x.font = `900 78px ${DISP}`; x.fillText(fitText(x, b.nombre || b.anilla || "Sin nombre", 980), 48, 148);
   x.font = `600 28px ${MONO}`; const bt = b.anilla || "—", bw = x.measureText(bt).width + 32;

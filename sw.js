@@ -1,5 +1,5 @@
 /* Aletazo: guarda la app en el teléfono para que abra rápido y sin internet */
-const CACHE = "aletazo-v4";
+const CACHE = "aletazo-v5";
 const SHELL = ["./", "index.html", "manifest.json", "cuenta.css", "icons/icon-192.png", "icons/icon-512.png",
   "fotos/moro.jpg", "fotos/pinto.jpg", "fotos/tormenta.jpg", "fotos/relampago.jpg", "fotos/guapo.jpg"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting())); });
